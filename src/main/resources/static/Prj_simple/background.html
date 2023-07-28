@@ -519,7 +519,7 @@
             $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+            url: "https://student-information.up.railway.app/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
@@ -536,7 +536,7 @@
         function getNotes(){
           // $.ajax({
           //     type: "GET",
-          //     url: "http://localhost:8081/getFile",
+          //     url: "https://student-information.up.railway.app/getFile",
           //     contentType: 'aaplication/json',
           //     success: function(data) {
           //         console.log(data);
@@ -547,7 +547,7 @@
           // });
 
 
-          const apiUrl = 'http://localhost:8081/getFile';
+          const apiUrl = 'https://student-information.up.railway.app/getFile';
 
           fetch(apiUrl, {
             method: 'GET',
@@ -622,7 +622,7 @@
           formData.append('file', notesFile);
           formData.append('fileext', notesFile.type);
           formData.append('semTxt', semTxt);
-          fetch('http://localhost:8081/uploadNotes', {
+          fetch('https://student-information.up.railway.app/uploadNotes', {
             method: 'POST',
             body: formData,
           })
@@ -653,7 +653,7 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateMarksJson',
+              url: 'https://student-information.up.railway.app/updateMarksJson',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
@@ -768,7 +768,7 @@
             $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignments",
+              url: "https://student-information.up.railway.app/getAssignments",
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
@@ -824,7 +824,7 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
+              url: "https://student-information.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
@@ -856,7 +856,7 @@
               $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                url: "https://student-information.up.railway.app/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
                 contentType: 'aaplication/json',
                 success: function(data) {
                   console.log(data);
@@ -902,7 +902,7 @@
           })
 
           function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
-            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
+            var apiUrl = 'https://student-information.up.railway.app/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
 
             fetch(apiUrl, {
               method: 'GET',
@@ -1002,7 +1002,7 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateAssignment',
+              url: 'https://student-information.up.railway.app/updateAssignment',
               contentType: 'application/json',
               data: JSON.stringify(assignmentObj),
               success: function(data){
@@ -1065,7 +1065,7 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getStudentDetails/" + rollno,
+              url: "https://student-information.up.railway.app/getStudentDetails/" + rollno,
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
