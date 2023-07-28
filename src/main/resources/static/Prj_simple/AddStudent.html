@@ -508,7 +508,7 @@ $(document).ready(function () {
           formData.append('fileext', assgnmntFile.type);
           formData.append('rollno', roll);
           formData.append('code', code);
-          fetch('https://student-information.up.railway.app/updateStudentAssignments', {
+          fetch('https://pr02-student-information-production.up.railway.app/updateStudentAssignments', {
             method: 'POST',
             body: formData
           })
@@ -546,7 +546,7 @@ $(document).ready(function () {
       var rollNo = $('#rollNoInput').val();
       $.ajax({
           type: "GET",
-          url: "https://student-information.up.railway.app/getAssignmentsByRollno/" + rollNo,
+          url: "https://pr02-student-information-production.up.railway.app/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
             debugger
@@ -601,7 +601,7 @@ $(document).ready(function () {
       $.ajax({
           type: "GET",
           dataType: "json",
-          url: "https://student-information.up.railway.app/getStudentDetails/" + rollno,
+          url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rollno,
           contentType: 'aaplication/json',
           success: function(data) {
             debugger
@@ -655,7 +655,7 @@ $(document).ready(function () {
 
           $.ajax({
               type: 'POST',
-              url: 'https://student-information.up.railway.app/student_details',
+              url: 'https://pr02-student-information-production.up.railway.app/student_details',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
@@ -682,7 +682,7 @@ $(document).ready(function () {
             $.ajax({
             type: "GET",
             dataType: "json",
-            url: "https://student-information.up.railway.app/updateAssignmentsToNewlyAddedStudents",
+            url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
