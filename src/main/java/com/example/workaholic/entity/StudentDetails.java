@@ -1,4 +1,4 @@
-package com.example.workaholic.controller;
+package com.example.workaholic.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,6 +59,10 @@ public class StudentDetails {
     @Column(name = "student_submitted_assignments")
     private byte[] studentSubmittedAssignments;
 	
+	
+	public StudentDetails(Integer rollno) {
+		this.rollno = rollno;
+	}
 	
 	public StudentDetails() {
 		super();
@@ -248,10 +252,6 @@ public class StudentDetails {
 		this.fileExt = fileExt;
 		this.studentSubmittedAssignments = studentSubmittedAssignments;
 	}
-
-
-	
-
 
 
 	

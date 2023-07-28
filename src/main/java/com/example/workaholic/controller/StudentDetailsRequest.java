@@ -18,9 +18,29 @@ public class StudentDetailsRequest {
 	private Integer rollno;
 	private String marksJson;
 	private MultipartFile file;
+	private Integer code;
+	private String title;
+	private String content;
 	
 	
-	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public Integer getCode() {
+		return code;
+	}
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 	public MultipartFile getFile() {
 		return file;
 	}
@@ -63,10 +83,12 @@ public class StudentDetailsRequest {
 	public void setMarksJson(String marksJson) {
 		this.marksJson = marksJson;
 	}
+	
 	@Override
 	public String toString() {
 		return "StudentDetailsRequest [assignmentName=" + assignmentName + ", branch=" + branch + ", semester="
-				+ semester + ", queList=" + queList + ", rollno=" + rollno + ", marksJson=" + marksJson + "]";
+				+ semester + ", queList=" + queList + ", rollno=" + rollno + ", marksJson=" + marksJson + ", file="
+				+ file + ", code=" + code + "]";
 	}
 	
 	

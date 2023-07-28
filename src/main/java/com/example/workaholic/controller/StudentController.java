@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +15,24 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.workaholic.entity.AssignmentDetails;
+import com.example.workaholic.entity.AssignmentDetailsDom;
+import com.example.workaholic.entity.StudAssignmentDtl;
+import com.example.workaholic.entity.StudentDetails;
 import com.example.workaholic.entity.StudentSignUp;
+import com.example.workaholic.service.AssignmentDetailsServiceImpl;
 import com.example.workaholic.service.StudentServiceImpl;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5500"})
 public class StudentController {
 	
 	@Autowired
 	private StudentServiceImpl studentServiceImpl;
+	
+	@Autowired
+	private AssignmentDetailsServiceImpl assignmentDetailsServiceImpl;
 	
 	@PostMapping("/student_signup")
 	public StudentSignUp createEmployee(@RequestBody StudentSignUp student) {
@@ -73,6 +80,12 @@ public class StudentController {
 		return studentDetails;
 	}
 	
+	@GetMapping("/getAssignmentsByRollno/{rollno}")
+	public List<AssignmentDetails> getAssignmentsByRollno(@PathVariable("rollno") String rollno) {
+		List<AssignmentDetails> assigments = assignmentDetailsServiceImpl.getAssignmentsByRollno(rollno);
+		return assigments;
+	}
+	
 	@PostMapping("/uploadNotes")
 	public Integer uploadNotes(@RequestPart("file") MultipartFile file, @RequestPart("fileext") String fileext, @RequestPart("semTxt") String semTxt) throws IOException {
 		return studentServiceImpl.uploadNotes(file, fileext, semTxt);
@@ -91,8 +104,41 @@ public class StudentController {
 	}
 	
 	@GetMapping("/getStudSbmtdAssignmentFile/{fileId}")
-	public StudentDetails getStudSbmtdAssignmentFile(@PathVariable("fileId") Integer fileId) {
-		StudentDetails studSbmtdAssgnmtFile = studentServiceImpl.getStudSbmtdAssignmentFile(fileId);
+	public AssignmentDetails getStudSbmtdAssignmentFile(@PathVariable("fileId") Integer fileId) {
+		AssignmentDetails studSbmtdAssgnmtFile = studentServiceImpl.getStudSbmtdAssignmentFile(fileId);
 		return studSbmtdAssgnmtFile;
 	}
+	
+	@PostMapping("/updateStudentAssignments")
+	public Integer uploadAssgnments(@RequestPart("file") MultipartFile file, @RequestPart("fileext") String fileext, @RequestPart("rollno") String rollno,@RequestPart("code") String code) throws IOException {
+		return assignmentDetailsServiceImpl.updateStudentAssignments(file, fileext, rollno, code);
+	}
+	
+	
+	@PostMapping("/getPosts")
+	public String getSome(@RequestBody StudentDetailsRequest student) {
+		return student.getTitle();
+	}
+	
+	
+	@GetMapping("/getAssignmentsDetlsByAssgnName/{assignmentName}")
+	public List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnName(@PathVariable("assignmentName") String assignmentName) {
+		List<AssignmentDetailsDom> studentDetails = studentServiceImpl.getAssignmentsDetlsByAssgnName(assignmentName);
+		return studentDetails;
+	}
+	
+	@GetMapping("/getAssignmentsDetlsByAssgnCode/{assignmentCode}")
+	public List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnCode(@PathVariable("assignmentCode") Integer assignmentCode) {
+		List<AssignmentDetailsDom> studentDetails = assignmentDetailsServiceImpl.getAssignmentsDetlsByAssgnCode(assignmentCode);
+		return studentDetails;
+	}
+	
+	
+	@GetMapping("/updateAssignmentsToNewlyAddedStudents")
+	public List<StudAssignmentDtl> updateAssignmentsToNewlyAddedStudents() {
+		List<StudAssignmentDtl> studentDetails = studentServiceImpl.updateAssignmentsToNewlyAddedStudents();
+		return studentDetails;
+	}
+	
+	
 }

@@ -18,6 +18,12 @@
     font-family: 'Merriweather', serif;
     font-family: 'Roboto Condensed', sans-serif;
   } */
+  .center-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 </style>
 
 <body>
@@ -123,6 +129,9 @@
               <div class="col-md-7">
                 <button id="viewAssignmentBtn" class="btn btn-primary float-right"><i class="fa fa-eye mr-2"></i>View Assignment</button>
               </div>
+              <div class="col-md my-2">
+                <button id="applyAssigntoNewStuds" class="btn btn-link float-right">Apply assignments to newly added students</button>
+              </div>
             </div>
     
             <!-- Bootstrap Form for Adding Assignment -->
@@ -168,6 +177,10 @@
                           <label for="semester">Semester</label>
                           <input type="text" class="form-control" id="semester" placeholder="Enter semester">
                         </div>
+                        <div class="form-group col-md-6">
+                          <label for="code">Code</label>
+                          <input type="text" class="form-control" id="code" placeholder="Enter code">
+                        </div>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -192,26 +205,43 @@
                     </tbody>
                   </table>
                 </div>
+                <div class="container mt-5">
+                  <div class="text-center d-none" id="spinnerContainer">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                  <div class="text-center d-none" id="contentContainer">
+                    <!-- Content will be replaced here -->
+                  </div>
+                </div>
               </div>
               
-              <div class="modal fade" id="myModal">
+              <div class="modal fade" id="myModal" data-backdrop="static">
                 <div class="modal-dialog modal-xl">
                   <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                      <h4 class="modal-title">Student Information</h4>
+                      <h4 class="modal-title">Student Assignment Information</h4>
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
               
                     <!-- Modal Body -->
                     <div class="modal-body">
+                      <div class="form-group">
+                        <label for="assignmentCodeDropdwn">Assignment Code</label>
+                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control">
+                          <option value="0">--SELECT--</option>
+                        </select>
+                      </div>
                       <!-- Bootstrap table -->
                       <table id="submittedAssignmentsTbl" class="table table-bordered table-sm">
                         <thead>
                           <tr>
-                            <th>Sr. No.</th>
+                            <th>Roll No</th>
                             <th>Full Name</th>
-                            <th>Semester</th>
+                            <th>Code</th>
+                            <th>Assignment Status</th>
                             <th>Attachments</th>
                           </tr>
                         </thead>
@@ -451,6 +481,9 @@
 
 
         $('#viewAssignmentBtn').click(function() {
+
+          
+
             viewAssignments();
         })
         
@@ -476,6 +509,29 @@
         $('#getNotes').click(function() {
           getNotes();
         })
+
+        $('#applyAssigntoNewStuds').click(function() {
+          updateAssignmentToNewlyAddedStudents();
+        })
+
+
+        function updateAssignmentToNewlyAddedStudents() {
+            $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+            contentType: 'aaplication/json',
+            success: function(data) {
+                console.log(data);
+                $('#spinnerContainer').addClass('d-none');
+              },
+              error: function (error) {
+                $('#spinnerContainer').addClass('d-none');
+                alert("error " + error);
+                
+              }
+            });
+        }
         
         function getNotes(){
           // $.ajax({
@@ -699,22 +755,34 @@
         
 
         function viewAssignments() {
-          
+          $('#spinnerContainer').removeClass('d-none');
+          // setTimeout(()=> {
+            getCall();
+          // }
+          // ,1500);
 
-          $.ajax({
+
+
+
+          function getCall(){
+            $.ajax({
               type: "GET",
               dataType: "json",
               url: "http://localhost:8081/getAssignments",
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
+                  $('#spinnerContainer').addClass('d-none');
                   fillAssignmentsTable(data);
-              },
-              error: function (error) {
+                },
+                error: function (error) {
+                  $('#spinnerContainer').addClass('d-none');
                   alert("error " + error);
-              }
-          });
-
+                  
+                }
+              });
+              
+            }
         }
 
 
@@ -756,11 +824,12 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getStudentSubmittedAssignmentsByAssignmentName/" + assignmentName,
+              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
+                  fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
               },
               error: function (error) {
@@ -769,7 +838,44 @@
           });
         }
        
+        function fillUpAssignmentCdDropDwn(data){
+          var assignmentCodes = new Set();
+          if(data != null && data !== undefined){
+            data.forEach(e => (e.code !== undefined && e.code != null && e.code!=='')?assignmentCodes.add(e.code): '');
+          }
+          $('#assignmentCodeDropdwn').html('');
+          $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', '0').text('--SELECT--'));
+          assignmentCodes.forEach(element => {
+            $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', element).text(element));
+          })
+          
+          $('#assignmentCodeDropdwn').change(function(){
+            var assignmentCode = $('#assignmentCodeDropdwn option:selected').val();
+            if(assignmentCode !=undefined && assignmentCode !=null && assignmentCode !=='0'){
+
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                contentType: 'aaplication/json',
+                success: function(data) {
+                  console.log(data);
+                  debugger
+                  fillModalStdntSbmttedAssignmnts(data);
+                  // fillUpAssignmentCdDropDwn(data);
+                  $('#myModal').modal();
+                },
+                error: function (error) {
+                  alert("error " + error);
+                }
+              });
+            }
+          })
+
+        }
+
         function fillModalStdntSbmttedAssignmnts(data) {
+          debugger
           var linkEnableDisableHtml;
           $('#submittedAssignmentsTbl>tbody').html('');
           data.forEach(item => {  
@@ -778,13 +884,17 @@
             } else {
               linkEnableDisableHtml = "";
             }
-            
-            if(item.rollno != null && item.fullname != null && item.semester != null){
-              $('#submittedAssignmentsTbl>tbody').append('<tr><td>'+item.rollno+'</td><td>'+item.fullname+'</td><td>'+item.semester+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
+            var greenCircleTick = '<i class="fa fa-check-circle" style="font-size:18px; color:#3FD742;"></i>';
+            var green = '<i class="fa-regular fa-circle-check fa-sm" style="color: #54d24b;"></i>';
+            var redcircleCross = '<i class="fa fa-times-circle" style="font-size:18px; color: #FF0000;"></i>';
+            const submittedStatusStr = 'SUBMITTED';
+            if(item.rollno != null && item.fullname != null){
+              $('#submittedAssignmentsTbl>tbody').append('<tr><td>'+item.rollno+'</td ><td>'+item.fullname+'</td><td>'+item.code+'</td><td class="text-center">'+(item.assignmentStatus===submittedStatusStr?greenCircleTick:redcircleCross)+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
             } 
           });
           
           $('.studSbmtdFileLink').click(function () {
+            debugger
               var fileId = $(this).attr('id');
 
               getStudSbmtdAssignmentFile(fileId);
@@ -868,8 +978,10 @@
         }
 
         function submitAssignment() {
+          debugger
           var branch = $('#branch').val();
           var semester = $('#semester').val();
+          var code = $('#code').val();
 
           var assignmentObj = new Object();
 
@@ -883,6 +995,7 @@
 
           assignmentObj['branch'] = branch;
           assignmentObj['semester'] = semester;
+          assignmentObj['code'] = code;
           assignmentObj['queList'] = queList;
           
           console.log(JSON.stringify(assignmentObj));
@@ -893,11 +1006,13 @@
               contentType: 'application/json',
               data: JSON.stringify(assignmentObj),
               success: function(data){
+
                   console.log(data);
                   $('#addAssignmentModal').modal('hide');
                   $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
                       $("#success-alert2").slideUp(700);
                     });
+                    $('#assignment-title').val('');
                   $('#questionOlList').html('');
                   viewAssignments();
                   

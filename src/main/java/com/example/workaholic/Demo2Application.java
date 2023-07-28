@@ -1,9 +1,13 @@
 package com.example.workaholic;
 
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 public class Demo2Application {
@@ -11,6 +15,20 @@ public class Demo2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Demo2Application.class, args);
 	}
+	
+//	@Bean
+//    public CorsFilter corsFilter() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//        corsConfiguration.setAllowedOrigins(List.of("http://127.0.0.1:5000")); // Allow requests from all domains. You can restrict it to specific domains.
+//        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed HTTP methods
+//        corsConfiguration.setAllowedHeaders(List.of("*")); // Allowed request headers
+//        corsConfiguration.setAllowCredentials(true); // Allow sending credentials like cookies
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfiguration); // Apply the CORS configuration to all paths
+//
+//        return new CorsFilter(source);
+//    }
 	
 	// Bean to configure multipart resolver
 //    @Bean
