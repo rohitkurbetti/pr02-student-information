@@ -25,7 +25,7 @@ import com.example.workaholic.service.StudentServiceImpl;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5500"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5500", "https://student-information.up.railway.app"})
 public class StudentController {
 	
 	@Autowired
