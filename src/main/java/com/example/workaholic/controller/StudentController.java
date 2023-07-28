@@ -104,8 +104,8 @@ public class StudentController {
 	}
 	
 	@GetMapping("/getStudSbmtdAssignmentFile/{fileId}")
-	public AssignmentDetails getStudSbmtdAssignmentFile(@PathVariable("fileId") Integer fileId) {
-		AssignmentDetails studSbmtdAssgnmtFile = studentServiceImpl.getStudSbmtdAssignmentFile(fileId);
+	public AssignmentDetails getStudSbmtdAssignmentFile(@PathVariable("fileId") Integer fileId, @RequestParam("assgmntCode") Integer assgmntCode) {
+		AssignmentDetails studSbmtdAssgnmtFile = studentServiceImpl.getStudSbmtdAssignmentFile(fileId,assgmntCode);
 		return studSbmtdAssgnmtFile;
 	}
 	

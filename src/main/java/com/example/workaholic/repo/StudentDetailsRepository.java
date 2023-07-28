@@ -46,8 +46,8 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	@Query("select sd from StudentDetails sd where sd.assignmentName=:assignmentName")
 	List<StudentDetails> getByAsssignmentName(String assignmentName);
 
-	@Query("select ad from AssignmentDetails ad where ad.rollno=:rollno")
-	AssignmentDetails getStudSbmtdAssignmentFile(@Param("rollno") Integer fileId);
+	@Query("select ad from AssignmentDetails ad where ad.rollno=:rollno and ad.code=:assgmntCode")
+	AssignmentDetails getStudSbmtdAssignmentFile(@Param("rollno") Integer fileId,@Param("assgmntCode") Integer assgmntCode);
 	
 //	@Query("select sd.assignment from StudentDetails sd where sd.rollno=:rollno")
 //	String getAssignmentsByRollno(@Param("rollno") Integer rollno);

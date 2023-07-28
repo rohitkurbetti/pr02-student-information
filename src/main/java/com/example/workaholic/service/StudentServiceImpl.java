@@ -111,8 +111,8 @@ public class StudentServiceImpl {
 		return studentDetailsRepository.getByAsssignmentName(assignmentName);
 	}
 
-	public AssignmentDetails getStudSbmtdAssignmentFile(Integer fileId) {
-		return studentDetailsRepository.getStudSbmtdAssignmentFile(fileId);
+	public AssignmentDetails getStudSbmtdAssignmentFile(Integer fileId, Integer assgmntCode) {
+		return studentDetailsRepository.getStudSbmtdAssignmentFile(fileId,assgmntCode);
 	}
 
 	

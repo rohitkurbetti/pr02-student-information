@@ -880,7 +880,7 @@
           $('#submittedAssignmentsTbl>tbody').html('');
           data.forEach(item => {  
             if(item.studentSubmittedAssignments !== null && item.studentSubmittedAssignments !=""){
-              linkEnableDisableHtml =  "<button type='button' id='"+item.rollno+"' class='btn btn-link studSbmtdFileLink' style='text-decoration: none;'><i class='fa fa-download' aria-hidden='true'></i> Download Submitted Assignment </button>";
+              linkEnableDisableHtml =  "<button type='button' id='"+item.rollno+"' class='btn btn-link studSbmtdFileLink' data-code='"+item.code+"' style='text-decoration: none;'><i class='fa fa-download' aria-hidden='true'></i> Download Submitted Assignment </button>";
             } else {
               linkEnableDisableHtml = "";
             }
@@ -896,13 +896,13 @@
           $('.studSbmtdFileLink').click(function () {
             debugger
               var fileId = $(this).attr('id');
-
-              getStudSbmtdAssignmentFile(fileId);
+              var assgmntCode = $(this).attr('data-code');
+              getStudSbmtdAssignmentFile(fileId,assgmntCode);
 
           })
 
-          function getStudSbmtdAssignmentFile(fileId) {
-            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId;
+          function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
+            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
 
             fetch(apiUrl, {
               method: 'GET',
