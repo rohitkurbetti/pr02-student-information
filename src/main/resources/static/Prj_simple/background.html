@@ -629,7 +629,7 @@
 <script>
     $(document).ready(function () {
 
-      showAlert('It is working now working now is working now ', 'success');
+      //showAlert('It is working now working now is working now ', 'success');
       
       function showAlert(message, type, timeout) {
         const alertContainer = $('.alert-container');
@@ -784,7 +784,7 @@
           
               // Attach click event to the pagination links
               pagination.find("a").on("click", function (e) {
-                debugger  
+                  
                 e.preventDefault();
                   let page = parseInt($(this).data("page"));
                   getAllNotes(page);
@@ -808,7 +808,7 @@
 
 
               $('.downloadNoteFileLink').click(function(){
-                debugger
+                
                 var fileId = $(this).attr('id');
                 const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
 
@@ -964,7 +964,7 @@
         }
 
         function uploadNotes() {
-          debugger
+          
           var semTxt = $('#semTxt').val();
           var subject = $('#subjectTxt').val();
           const notesFile = document.getElementById('notesFile').files[0];
@@ -1016,7 +1016,7 @@
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
-                debugger
+                
                   console.log(data);
                   if(data > 0){
                     resetForm();
@@ -1196,7 +1196,7 @@
               url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
-                debugger
+                
                   console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
                   fillUpAssignmentCdDropDwn(data);
@@ -1216,7 +1216,7 @@
           $('#assignmentCodeDropdwn').html('');
           $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', '0').text('--SELECT--'));
           assignmentCodes.forEach(element => {
-            debugger
+            
             var assName = data.filter(e1 => e1.code === element)[0].assignmentName;
             var codeName = assName+" ("+element+")";
             $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', element).text(codeName));
@@ -1233,7 +1233,7 @@
                 contentType: 'aaplication/json',
                 success: function(data) {
                   console.log(data);
-                  debugger
+                  
                   fillModalStdntSbmttedAssignmnts(data);
                   // fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
@@ -1248,7 +1248,7 @@
         }
 
         function fillModalStdntSbmttedAssignmnts(data) {
-          debugger
+          
           var linkEnableDisableHtml;
           $('#submittedAssignmentsTbl>tbody').html('');
           data.forEach(item => {  
@@ -1267,7 +1267,7 @@
           });
           
           $('.studSbmtdFileLink').click(function () {
-            debugger
+            
               var fileId = $(this).attr('id');
               var assgmntCode = $(this).attr('data-code');
               getStudSbmtdAssignmentFile(fileId,assgmntCode);
@@ -1351,7 +1351,7 @@
         }
 
         function submitAssignment() {
-          debugger
+          
           var branch = $('#branch').val();
           var semester = $('#semester').val();
           var code = $('#code').val();
