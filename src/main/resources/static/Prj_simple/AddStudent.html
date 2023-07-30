@@ -666,7 +666,7 @@ $(document).ready(function () {
       }
       
       function showAlert(message, type,customClz) {
-        debugger
+        
         customClz = customClz =="" || customClz == undefined ? '':customClz;
         $('.alert-container-student'+customClz).html('');
         const alertContainer = $('.alert-container-student'+customClz);
@@ -717,7 +717,7 @@ $(document).ready(function () {
             type: "GET",
             url: "https://pr02-student-information-production.up.railway.app/getTestMarksByRollno/"+rollNoTest,
             success: function(data) {
-              debugger
+              
                 hideSpinnerOverlay();
                 if(data == null || data==="" || data.length==0){
                   showAlert('No data found', 'warning','TestMarks');
@@ -779,7 +779,7 @@ $(document).ready(function () {
               //hideLoadingSpinner();
               hideSpinnerOverlay();
               if(data != null && data.length==0){
-                debugger
+                
                 showAlert('No data found', 'warning');
               } else {
                 fillStudentsNotesTable(data);
