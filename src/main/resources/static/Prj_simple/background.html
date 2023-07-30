@@ -1190,19 +1190,21 @@
         }
 
         function getStudentSubmittedAssignmentByAssignmentName(assignmentName) {
+          showSpinnerOverlay();
           $.ajax({
               type: "GET",
               dataType: "json",
               url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
-                
+                  hideSpinnerOverlay();
                   console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
                   fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
               },
               error: function (error) {
+                  hideSpinnerOverlay();
                   alert("error " + error);
               }
           });
