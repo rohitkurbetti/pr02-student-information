@@ -10,11 +10,20 @@ public class AssignmentDetailsDom {
 
 	private int rollno;
 	private String fullname;
+	private String assignmentName;
 	private int code;
 	private String assignmentStatus;
 	private byte[] studentSubmittedAssignments;
 	
 	
+	public String getAssignmentName() {
+		return assignmentName;
+	}
+
+	public void setAssignmentName(String assignmentName) {
+		this.assignmentName = assignmentName;
+	}
+
 	public int getRollno() {
 		return rollno;
 	}
@@ -59,6 +68,17 @@ public class AssignmentDetailsDom {
 		super();
 	}
 
+	public AssignmentDetailsDom(int rollno, String fullname, String assignmentName, int code, String assignmentStatus,
+			byte[] studentSubmittedAssignments) {
+		super();
+		this.rollno = rollno;
+		this.fullname = fullname;
+		this.assignmentName = assignmentName;
+		this.code = code;
+		this.assignmentStatus = assignmentStatus;
+		this.studentSubmittedAssignments = studentSubmittedAssignments;
+	}
+
 	public AssignmentDetailsDom(int rollno, String fullname, int code, String assignmentStatus,
 			byte[] studentSubmittedAssignments) {
 		super();
@@ -68,6 +88,7 @@ public class AssignmentDetailsDom {
 		this.assignmentStatus = assignmentStatus;
 		this.studentSubmittedAssignments = studentSubmittedAssignments;
 	}
+
 	
 	
 

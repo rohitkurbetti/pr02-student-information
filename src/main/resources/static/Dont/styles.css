@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.loading-overlay {
+  display: show;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  z-index: 9998; /* Ensure it's behind the loading screen but above the main content */
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: large;
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3; /* Increase the border width */
+  border-top: 8px solid #3498db; /* Increase the border width */
+  border-radius: 50%;
+  width: 60px; /* Increase the width */
+  height: 60px; /* Increase the height to maintain a circular shape */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#main-content {
+  display: relative; /* Hide main content until API responds */
+}
+
+#main-content.loading {
+  /* Styles for dimming the main content */
+  pointer-events: none; /* Allow clicks to pass through the loading overlay */
+  opacity: 0.5; /* Dim the main content */
+}

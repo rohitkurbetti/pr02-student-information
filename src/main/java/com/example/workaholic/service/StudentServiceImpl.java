@@ -152,6 +152,10 @@ public class StudentServiceImpl {
 		
 		return studAssgnDtl;
 	}
+
+	public String getTestMarksByRollno(Integer rollNoTest) {
+		return studentDetailsRepository.getTestMarksByRollno(rollNoTest);
+	}
 	
 	
 	

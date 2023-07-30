@@ -62,7 +62,7 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	List<Integer> extractRollNoListByBranchSemester(@Param("branch") String branch,@Param("semester") String semester);
 
 	
-	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,ad.code,ad.assignmentStatus,ad.studentSubmittedAssignments) "
+	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,sd.assignmentName,ad.code,ad.assignmentStatus,ad.studentSubmittedAssignments) "
 			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and ad.branch =sd.branch and ad.semester =sd.semester "
 			+ " where sd.assignmentName =:assignmentName ")
 	List<AssignmentDetailsDom> getByAsssignmentDetailsByAssgnName(@Param("assignmentName") String assignmentName);
@@ -79,6 +79,10 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	@Query("select distinct new com.example.workaholic.entity.SomeMapper(sd.assignment ,sd.branch ,sd.semester ,sd.rollno) from StudentDetails sd left join AssignmentDetails ad on sd.branch =ad.branch and sd.semester =ad.semester and sd.rollno =ad.rollno "
 			+ " where sd.branch =:branch and sd.semester =:semester and not exists (select 1 from AssignmentDetails ad2 where ad2.rollno=sd.rollno) ")
 	List<SomeMapper> addDeltaAssignments(@Param("branch") String branch,@Param("semester") String semester);
+
+	
+	@Query("select sd.marksJson from StudentDetails sd where sd.rollno=:rollNoTest")
+	String getTestMarksByRollno(@Param("rollNoTest") Integer rollNoTest);
 
 	
 

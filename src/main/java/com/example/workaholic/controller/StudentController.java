@@ -20,7 +20,9 @@ import com.example.workaholic.entity.AssignmentDetailsDom;
 import com.example.workaholic.entity.StudAssignmentDtl;
 import com.example.workaholic.entity.StudentDetails;
 import com.example.workaholic.entity.StudentSignUp;
+import com.example.workaholic.entity.UploadNotesEntity;
 import com.example.workaholic.service.AssignmentDetailsServiceImpl;
+import com.example.workaholic.service.NotesServiceImpl;
 import com.example.workaholic.service.StudentServiceImpl;
 
 @RestController
@@ -33,6 +35,9 @@ public class StudentController {
 	
 	@Autowired
 	private AssignmentDetailsServiceImpl assignmentDetailsServiceImpl;
+	
+	@Autowired
+	private NotesServiceImpl notesServiceImpl;
 	
 	@PostMapping("/student_signup")
 	public StudentSignUp createEmployee(@RequestBody StudentSignUp student) {
@@ -87,8 +92,9 @@ public class StudentController {
 	}
 	
 	@PostMapping("/uploadNotes")
-	public Integer uploadNotes(@RequestPart("file") MultipartFile file, @RequestPart("fileext") String fileext, @RequestPart("semTxt") String semTxt) throws IOException {
-		return studentServiceImpl.uploadNotes(file, fileext, semTxt);
+	public UploadNotesEntity uploadNotes(@RequestPart("file") MultipartFile file, @RequestPart("fileext") String fileext, @RequestPart("semTxt") String semTxt,@RequestPart("subject") String subject
+			,@RequestPart("fileName") String fileName) throws IOException {
+		return notesServiceImpl.uploadNotes(file, fileext, semTxt,subject,fileName);
 	}
 	
 	@GetMapping("/getFile")
@@ -138,6 +144,11 @@ public class StudentController {
 	public List<StudAssignmentDtl> updateAssignmentsToNewlyAddedStudents() {
 		List<StudAssignmentDtl> studentDetails = studentServiceImpl.updateAssignmentsToNewlyAddedStudents();
 		return studentDetails;
+	}
+	
+	@GetMapping("/getTestMarksByRollno/{rollNoTest}")
+	public String getTestMarksByRollno(@PathVariable("rollNoTest") Integer rollNoTest) {
+		return studentServiceImpl.getTestMarksByRollno(rollNoTest);
 	}
 	
 	

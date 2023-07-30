@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Screen Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+
+    <!-- spinner overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-screen">
+            <div class="loading-spinner"></div>
+            <p>Loading...</p>
+          </div>
+    </div>
+
+    <!-- Your main content goes here -->
+    <div id="main-content">
+      <!-- Your main content elements -->
+      <ol>
+        <li>1asdsad</li>
+        <li>11asdsad</li>
+        <li>11asdsad</li>
+        <li>11asdsad</li>
+      </ol>
+      <button type="button" id="same" class="btn btn-primary">Clk</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+
+
+  <script>
+    $(document).ready(function(){
+
+        $('#same').click(function(){
+            
+            showSpinnerOverlay();
+
+
+            setTimeout(function(){
+                hideSpinnerOverlay();
+            },5000)
+
+            
+
+        })
+
+
+
+            function showSpinnerOverlay(){
+                $(".loading-overlay").fadeIn();
+                $(".loading-screen").fadeIn();
+                $("#main-content").addClass("loading");
+                //$("#main-content").fadeOut();
+            }
+    
+            function hideSpinnerOverlay(){
+                $(".loading-screen").fadeOut();
+                //$("#main-content").fadeIn();
+                $("#main-content").removeClass("loading");
+                $(".loading-overlay").fadeOut();
+            }
+
+
+
+    })
+
+
+  </script>
+</html>
