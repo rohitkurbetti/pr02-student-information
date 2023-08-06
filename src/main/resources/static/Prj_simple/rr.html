@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto+Condensed&display=swap" rel="stylesheet">
+  </head>
+  <style>
+    .removeUnderLine{
+        text-decoration: none;
+    }
+  </style>
+  <body class="container-fluid">
+    <div>
+        <div id="main-container"></div>
+    </div>
+  
+    <div class="soe d-flex ml-2 mt-3">
+        <a data-route="/" class="removeUnderLine">/</a>
+        <a data-route="/about" class="removeUnderLine">About</a>
+        <a data-route="/contact" class="removeUnderLine">/Contact</a>
+    </div>
+    <br>
+
+    <input id="inputText" type="text" placeholder="Enter your name" class="form-control col-md-2" /><br>
+    <button id="genSha256" class="btn btn-primary" type="button">Generate SHA256</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+  <script>
+
+      // Define routes
+      const routes = {
+        "/": home,
+        "/about": about,
+        "/contact": contact,
+        "/404": notFound,
+      };
+
+      // Route handling functions
+      function home() {
+        
+        $("#main-container").load("background_c.html");
+      }
+
+      function about() {
+        
+        $("#main-container").load("AddStudent_c.html");
+      }
+
+      function contact() {
+        
+        $("#main-container").load("contact.html");
+      }
+
+      function notFound() {
+        $("#main-container").load("404.html");
+      }
+
+      // Handle navigation
+      $(document).ready(() => {
+        // Default route
+        if (window.location.pathname === "/") {
+            
+          home();
+        }
+
+        // Navigation event listeners
+        $("a[data-route]").on("click", function () {
+            
+          const route = $(this).data("route");
+          if (routes[route]) {
+            routes[route]();
+          } else {
+            notFound();
+          }
+        });
+
+
+
+        $('#genSha256').click(function(){
+          generateSHA256();
+        })
+
+
+        function generateSHA256(){
+          const text = $('#inputText').val();
+          const hashedInput = sha256(text);
+
+        }
+
+
+        function sha256(input) {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(input);
+          return crypto.subtle.digest('SHA-256', data)
+              .then(buffer => {
+                  const hashArray = Array.from(new Uint8Array(buffer));
+                  const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+                  return hashHex;
+              }).then(result => {
+
+              });
+        }
+
+      });
+  </script>
+</html>

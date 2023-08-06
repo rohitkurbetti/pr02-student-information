@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dark Theme Navbar</title>
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Add custom CSS for dark theme and positioning -->
+
+</head>
+
+<style>
+    /* Custom styles for the dark theme */
+body {
+    background-color: #333;
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-link {
+    color: #ffffff;
+    transition: color 0.3s;
+  }
+  
+  .dropdown-toggle::after {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    background-color: #222;
+  }
+  
+  .dropdown-item {
+    color: #fff;
+  }
+  
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    background-color: #444;
+  }
+  
+  /* Media query for screen width less than 720px */
+  @media (max-width: 720px) {
+    .dropdown {
+      margin-left: auto;
+    }
+  
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: auto;
+      width: 100%;
+      display: none;
+      background-color: #222;
+      border: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .dropdown-menu.show {
+      display: block;
+    }
+  
+    /* Move the Nav Links to the Right */
+    .navbar-collapse {
+      justify-content: flex-end;
+    }
+  
+    /* Move the Collapse Button to the Extreme Right */
+    .custom-toggler {
+      margin-left: auto;
+      order: 2; /* To ensure it appears after nav-links */
+    }
+  }
+
+  
+  .home {
+    display: flex;
+    background: url("../Prj_simple/img/pexels-element-digital-1370296.jpg") no-repeat
+      center;
+    height: 100vh;
+    color: #fff;
+    min-height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: "Ubuntu", sans-serif;
+  }
+  
+  .home .max-width {
+    width: 100%;
+    display: flex;
+  }
+  
+  .home .max-width .row {
+    margin-right: 0;
+  }
+  
+  .home .home-content .text-1 {
+    font-size: 27px;
+  }
+  
+  .home .home-content .text-2 {
+    font-size: 75px;
+    font-weight: 600;
+    margin-left: -3px;
+  }
+  
+  .home .home-content .text-3 {
+    font-size: 40px;
+    margin: 5px 0;
+  }
+  
+  /* Linear Gradient */
+  .home .home-content .text-3 span {
+    color: #1e3551;
+    background: linear-gradient(135deg, #041d3d, #fff, crimson);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 500;
+  }
+  
+  .home .home-content a {
+    display: inline-block;
+    background: #1e3551;
+    color: #fff;
+    font-size: 25px;
+    padding: 12px 36px;
+    margin-top: 20px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 2px solid #1e3551;
+    transition: all 0.3s ease;
+  }
+  
+  .home .home-content a:hover {
+    color: #1e3551;
+    background: none;
+    animation: pulsate 1s ease-in-out;
+  }
+  
+  /*  About  */
+  .about {
+    background: radial-gradient(#e1efff, white);
+  }
+  .about .title::after {
+    content: "—Who I Am ?—";
+    text-overflow: ellipsis;
+    display: -webkit-inline-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .jumbotron {
+    
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the last value (alpha) for transparency */
+    color: white;
+    text-align: center;
+    padding: 100px;
+    position: relative;
+}
+
+.imgbkg{
+  background: url("../Prj_simple/img/pexels-element-digital-1370296.jpg") no-repeat center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Adjust the alpha value for transparency */
+  opacity: 0; /* Initially hide the overlay */
+  transition: opacity 0.3s ease; /* Add a smooth transition effect */
+}
+</style>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <!-- Branding on the Left -->
+    <a class="navbar-brand" href="#">Your Brand</a>
+
+    <!-- Move the Nav Links to the Right -->
+    <div class="collapse navbar-collapse" id="navbarOptions">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#" data-target="home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-target="about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-target="contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+
+    
+
+    <!-- Move the Collapse Button to the Right -->
+    <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarOptions" aria-controls="navbarOptions" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Three-dot Menu on the Right -->
+    <div class="dropdown" hidden>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+        <i class="fa fa-ellipsis-v"></i>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Option 1</a>
+        <a class="dropdown-item" href="#">Option 2</a>
+        <a class="dropdown-item" href="#">Option 3</a>
+      </div>
+    </div>
+  </nav>
+
+    <div class="content mt-4 text-white ">
+      <div class="imgbkg">
+        <div class="overlay"></div>
+        <div class="jumbotron">
+          <h1>Welcome to Our Website</h1>
+          <p>This is a transparent jumbotron example.</p>
+        </div>
+      </div>
+        <div id="home" class="content-section">
+          <section class="home" id="home">
+            <div class="max-width">
+              <div class="home-content">
+                <div class="text-1">Hello, </div>
+                <div class="text-2">Rohit K</div>
+                <div class="text-3">And I'm a <span class="typing"></span></div>
+                <a href="#">Hire me</a>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div id="about" class="content-section" style="display: none;">
+            <h1>About Section</h1>
+            <p>Learn more about us.</p>
+        </div>
+        <div id="contact" class="content-section" style="display: none;">
+            <h1>Contact Section</h1>
+            <p>Get in touch with us.</p>
+        </div>
+    </div>
+
+  <!-- Add Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<script>
+    $(document).ready(function(){
+        $('.nav-link').click(function(e) {
+            e.preventDefault();
+        
+            // Hide all content sections
+            $('.content-section').hide();
+        
+            // Show the selected content section
+            var target = $(this).data('target');
+            $('#' + target).show();
+          });
+    })
+</script>

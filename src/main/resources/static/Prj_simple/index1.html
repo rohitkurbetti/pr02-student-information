@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+</head>
+<body>
+    <div class="loginBlock">
+        <input type="text" name="emailPhonetxt" placeholder="email/phone" id="emailPhone" required="">
+        <br><br>
+        <input type="password" name="passwordtxt" placeholder="password" id="passwordtxt" required="">
+    </div>
+
+    <br>
+    <div class="signupBlock" hidden>
+        <input type="text" name="" placeholder="name" id="nametxt" required="">
+        <br><br>
+        <input type="text" name="" placeholder="city" id="citytxt" required="">
+        <br><br>
+        <input type="text" name="" placeholder="mobile" id="mobiletxt" required="">
+        <br><br>
+        
+    </div>
+
+    <div>
+        <input type="button" value="submit" name="login" id="loginBtn"></input>
+        <a href="" id="signupLink">Signup here</a>
+    </div>
+
+</body>
+
+
+<script>
+    $(document).ready(function () {
+        
+
+        $('#signupLink').click(function(e){
+            e.preventDefault();
+
+            $('.signupBlock').toggle('hidden');
+            $('#signupLink').hide();
+
+        });
+
+
+        $('#loginBtn').click(function(){
+            debugger;
+            var emailPhone = $('#emailPhone').val();
+            var password = $('#passwordtxt').val();
+
+            var name = $('#nametxt').val();
+            var city = $('#citytxt').val();
+            var mobile = $('#mobiletxt').val();
+
+            var jData = new Object();
+
+            jData['emailPhone'] = emailPhone;
+            jData['password'] = password;
+            jData['name'] = name;
+            jData['city'] = city;
+            jData['mobile'] = mobile;
+
+            if(jData['emailPhone'] !== null && jData['password'] !== null && jData['name'] ==="" &&
+            jData['city'] === "" && jData['mobile'] === "") {
+                getCall(jData);
+            } else {
+
+                postcall(jData);
+            }
+
+
+        });
+
+
+
+        function getCall(jData){
+            var emailPhone = jData['emailPhone'];
+            var password = jData['password'];
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8081/authenticate_user?emailPhone="+emailPhone+"&password="+password+"",
+                success: function (data, status) {
+                    if(data.name != undefined && data.password != undefined){
+                        console.log('success')
+                        window.location="background.html";
+                        alert("validation success")
+                    }else{
+                        console.log('failed')
+                        alert("validation failed")
+                    }
+                },
+                error: function (err) {
+                    alert("Data save failed " + err);
+                },
+            });
+            
+        };
+
+
+
+        function postcall(jData){
+
+            console.log(jData);
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8081/student_signup",
+                contentType: "application/json",
+                data: JSON.stringify(jData),
+                success: function (data, status) {
+                    alert("Data save " + status);
+                    console.log('success')
+                },
+                error: function (err) {
+                    alert("Data save failed " + err);
+                },
+            });
+            
+            
+        }
+
+    });
+</script>
+
+</html>

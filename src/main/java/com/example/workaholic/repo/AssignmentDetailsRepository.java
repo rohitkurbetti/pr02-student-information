@@ -25,7 +25,7 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 	Integer updateStudentAssignments(byte[] studentSubmittedAssignments, String fileExt, Integer rollno, Integer code);
 
 	@Transactional
-	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,ad.code,ad.assignmentStatus,ad.studentSubmittedAssignments) "
+	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,ad.code,ad.assignmentStatus) "
 			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and ad.branch =sd.branch and ad.semester =sd.semester "
 			+ " where ad.code =:assignmentCode ")
 	List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnCode(@Param("assignmentCode") Integer assignmentCode);

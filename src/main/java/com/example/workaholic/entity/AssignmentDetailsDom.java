@@ -13,7 +13,6 @@ public class AssignmentDetailsDom {
 	private String assignmentName;
 	private int code;
 	private String assignmentStatus;
-	private byte[] studentSubmittedAssignments;
 	
 	
 	public String getAssignmentName() {
@@ -56,39 +55,30 @@ public class AssignmentDetailsDom {
 		this.assignmentStatus = assignmentStatus;
 	}
 
-	public byte[] getStudentSubmittedAssignments() {
-		return studentSubmittedAssignments;
-	}
-
-	public void setStudentSubmittedAssignments(byte[] studentSubmittedAssignments) {
-		this.studentSubmittedAssignments = studentSubmittedAssignments;
-	}
-
-	public AssignmentDetailsDom() {
-		super();
-	}
-
-	public AssignmentDetailsDom(int rollno, String fullname, String assignmentName, int code, String assignmentStatus,
-			byte[] studentSubmittedAssignments) {
+	public AssignmentDetailsDom(int rollno, String fullname, String assignmentName, int code, String assignmentStatus) {
 		super();
 		this.rollno = rollno;
 		this.fullname = fullname;
 		this.assignmentName = assignmentName;
 		this.code = code;
 		this.assignmentStatus = assignmentStatus;
-		this.studentSubmittedAssignments = studentSubmittedAssignments;
 	}
 
-	public AssignmentDetailsDom(int rollno, String fullname, int code, String assignmentStatus,
-			byte[] studentSubmittedAssignments) {
+	public AssignmentDetailsDom() {
+		super();
+	}
+
+	public AssignmentDetailsDom(int rollno, String fullname, int code, String assignmentStatus) {
 		super();
 		this.rollno = rollno;
 		this.fullname = fullname;
 		this.code = code;
 		this.assignmentStatus = assignmentStatus;
-		this.studentSubmittedAssignments = studentSubmittedAssignments;
 	}
+	
+	
 
+	
 	
 	
 

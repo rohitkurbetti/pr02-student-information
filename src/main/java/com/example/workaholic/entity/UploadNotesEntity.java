@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "note_details")
@@ -117,6 +120,17 @@ public class UploadNotesEntity {
 
 	public UploadNotesEntity() {
 		super();
+	}
+
+	public UploadNotesEntity(Integer noteDetailsId, String semester, String branch, String subject, String filename,
+			String fileExt) {
+		super();
+		this.noteDetailsId = noteDetailsId;
+		this.semester = semester;
+		this.branch = branch;
+		this.subject = subject;
+		this.filename = filename;
+		this.fileExt = fileExt;
 	}
 	
 	

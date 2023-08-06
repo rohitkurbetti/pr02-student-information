@@ -1,0 +1,1238 @@
+  <style>
+    /* Custom style for input fields */
+    .form-control {
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    .table-sm {
+      font-size: 16px; /* Reduce font size */
+    }
+
+    .table-sm th,
+    .table-sm tr td{
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      padding: 0.1rem; /* Reduce padding */
+    }
+
+    .btn-link {
+      transition: transform 0.3s ease;
+    }
+
+    .btn-link:hover {
+      transform: scale(1.1);
+    }
+
+
+    @keyframes fadeInRow {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    /* Apply the animation to the table rows */
+    .table-fade-in tbody tr {
+      animation: fadeInRow 0.5s ease-in-out;
+    }
+
+
+    /* Loading Spinner Overlay Start*/
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+      z-index: 9998; /* Ensure it's behind the loading screen but above the main content */
+    }
+    
+    .loading-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      font-size: large;
+    }
+    
+    .loading-spinner {
+      border: 8px solid #f3f3f3; /* Increase the border width */
+      border-top: 8px solid #3498db; /* Increase the border width */
+      border-radius: 50%;
+      width: 60px; /* Increase the width */
+      height: 60px; /* Increase the height to maintain a circular shape */
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #main-content {
+      display: relative; /* Hide main content until API responds */
+    }
+    
+    #main-content.loading {
+      /* Styles for dimming the main content */
+      pointer-events: none; /* Allow clicks to pass through the loading overlay */
+      opacity: 0.5; /* Dim the main content */
+    }
+
+    /*Loading Spinner Overlay End*/
+
+
+
+    .keys {
+      font-weight: bold;
+    }
+  </style>
+
+    <!-- spinner overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-screen">
+          <div class="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
+    </div>
+
+    <div id="noticeSection">
+      
+    </div>
+
+    <div id="main-content" class="container mt-5">
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#student-details">Student Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#assignments">Assignments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tests">Tests</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
+      </li>
+    </ul>
+
+    
+    <div class="tab-content mt-4">
+      <!-- Student Details Tab Content -->
+      <div id="student-details" class="tab-pane fade show active">
+        <div class="alert alert-success" id="success-alert3">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Message!</strong>
+          No student details found!
+       </div>
+       <div class="alert alert-danger" id="success-dange3">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Message!</strong>
+        No student details found!
+     </div>
+     <div class="jumbotron jumbotronClz">
+      <h1 class="display-4">Hello, Student!</h1>
+      <p class="lead">This is a student information unit.</p>
+      <hr class="my-4">
+      <p>To get started, create an Enrollment to embed within the system.</p>
+      <button id="studentEnrollFormBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentEnrlmtFormModal">Enroll here</button>
+    </div>
+
+      <!-- Bootstrap Modal for Adding Assignment -->
+      <div class="modal fade" id="studentEnrlmtFormModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalLabel"
+      aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addAssignmentModalLabel">Submit Enrollment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <form class="form">
+                <div class="row">
+                  <div class="col">
+
+                    <div class="form-group mr-2">
+                      <label for="enrollmentId">Enrollment ID:</label>
+                      <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" required>
+                    </div>
+                  </div>
+                  <div class="col">
+
+                    <div class="form-group mr-2">
+                      <label for="branch">Branch:</label>
+                      <input type="text" class="form-control" id="branch" name="branch" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="contactno">Contact Number:</label>
+                      <input type="text" class="form-control" id="contactno" name="contactno" required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="previousSemResult">Previous Semester Result:</label>
+                      <input type="text" class="form-control" id="previousSemResult" name="previousSemResult" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="fullname">Full Name:</label>
+                      <input type="text" class="form-control" id="fullname" name="fullname" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="rollno">Roll Number:</label>
+                      <input type="text" class="form-control" id="rollno" name="rollno" required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="semester">Semester:</label>
+                      <input type="text" class="form-control" id="semester" name="semester" required>
+                    </div>
+                  </div>
+                </div>
+
+
+                <button type="button" id="btnSaveStudent" class="btn btn-primary ml-2">Submit</button>
+                <button type="button" id="getStudentDetails" class="btn btn-primary ml-2">View Student Details</button>
+         
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" id="submitAssignment" class="btn btn-primary">Submit</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- <h3>Student Enrollment Form</h3> -->
+     <!-- <div class="alert alert-success" id="success-alert">
+         <button type="button" class="close" data-dismiss="alert">x</button>
+         <strong>Message!</strong>
+         No student details found!
+      </div> -->
+     
+        <br>
+        <div class="alert alert-danger" id="success-alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Message!</strong>
+          No student details found!
+       </div>
+
+        <div id="studentDetailsBlock" class="studentDetailsBlock">
+          <h3>Student Enrollment Details</h3>
+          <table class="table" id="studentDetailsTbl">
+            
+            <tbody>
+              <tr>
+                <td class="keys">Roll No:</td>
+                <td class="rollnoVal"></td>
+                <td class="keys">Fullname:</td>
+                <td class="fullnameVal"></td>
+                <td class="keys">Contact No:</td>
+                <td class="contactVal"></td>
+                <td class="keys">Enrollment No:</td>
+                <td class="enrNoVal"></td>
+              </tr>
+              <tr>
+                
+                <td class="keys">Semester:</td>
+                <td class="semesterVal"></td>
+                <td class="keys">Branch:</td>
+                <td class="branchVal"></td>
+                <td class="keys">PreviousSemResult:</td>
+                <td class="prevSemResultVal"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Assignments Tab Content -->
+      <div id="assignments" class="tab-pane fade">
+        <h3>Assignments</h3>
+        <div class="row mt-1 mb-1">
+          <div class="col">
+            <div class="alert alert-success" id="success-alert2">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Assignment Update Information!</strong>
+                Assignments have been updated in student details.
+              </div>
+          </div>
+        </div>
+        <div class="row mt-1 mb-1">
+          <div class="col">
+            <div class="alert alert-success" id="success-alertAssign">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Assignment Update Information!</strong>
+                Assignments have been updated in student details.
+              </div>
+          </div>
+        </div>
+        <div class="row mt-1 mb-1">
+          <div class="col">
+            <div class="alert alert-success" id="success-alertAssignCode">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Assignment Update Information!</strong>
+                Assignments codes have been received, Check dropdown box
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            
+            <!-- Add Assignment Button -->
+            <div class="row mb">
+              <div class="col-md">
+                <button id="getAssignmentBtn" class="btn btn-primary float-right"><i class="fa fa-file-text mr-2"></i>Get Assignment</button>
+              </div>
+            </div>
+    
+            <!-- Bootstrap Form for Adding Assignment -->
+            <div class="row">
+              <div class="col-md">
+                <form>
+                  <div class="form-group">
+                    <label for="rollNoInput">Roll No</label>
+                    <input type="text" class="form-control" id="rollNoInput" placeholder="Enter roll no">
+                  </div>
+                  <div class="form-group">
+                    <label for="code">Assignment Code</label>
+                    <!-- <input type="text" class="form-control" id="code" placeholder="Enter roll no"> -->
+                    <select name="assignmentCode" class="form-control" id="assignmentCode">
+                      <option value="--SELECT--">--SELECT--</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="question">Assignment</label>
+                    <textarea disabled class="form-control" readonly id="assignmentsTxt" rows="10" placeholder="Assignments will be diplayed here"></textarea>
+                  </div>
+                  <div class="form-group float-right">
+                    <input type="file" name="submitAssignment" id="submitAssignmentFile">
+                    <button type="button" id="assgnmtSubmitBtn" class="btn btn-primary"><i class="fa fa-share-square" aria-hidden="true"></i> Submit Assignment</button>
+                  </div>
+                </form>
+              </div>
+    
+              <!-- <div class="row mb-3">
+                <div class="col">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addAssignmentModal">Add Assignment</button>
+                </div>
+              </div> -->
+      
+              <!-- Bootstrap Modal for Adding Assignment -->
+              <div class="modal fade" id="addAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalLabel"
+                aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addAssignmentModalLabel">Submit Assignment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="branch">Branch</label>
+                          <input type="text" class="form-control" id="branch" placeholder="Enter branch">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="semester">Semester</label>
+                          <input type="text" class="form-control" id="semester" placeholder="Enter semester">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" id="submitAssignment" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-7">
+                <div class="studentDetailsClz1">
+                  <table class="table table-sm table-striped" id="viewAssignmentTbl">
+                    <thead>
+                      <tr>
+                        <th scope="col">Sr No</th>
+                        <th scope="col">Assignments</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="container mt-5">
+                  <div class="text-center d-none" id="spinnerContainer">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                  <div class="text-center d-none" id="contentContainer">
+                  </div>
+                </div>
+              </div> -->
+              
+              <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Student Information</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                      <!-- Bootstrap table -->
+                      <table id="submittedAssignmentsTbl" class="table table-bordered table-sm">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Full Name</th>
+                            <th>Semester</th>
+                            <th>Attachments</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>5th</td>
+                            <td>file1.pdf</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>3rd</td>
+                            <td>file2.docx</td>
+                          </tr>
+                          <!-- Add more rows as needed -->
+                        </tbody>
+                      </table>
+                    </div>
+              
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ol id="questionOlList">
+              
+            </ol>
+          </div>
+        </div>
+        
+        <!-- End of Bootstrap Form -->
+        <!-- Your content for Assignments tab goes here -->
+        <!-- Add more content as needed -->
+      </div>
+
+      <!-- Tests Tab Content -->
+      <div id="tests" class="tab-pane fade">
+        <h3>Tests</h3>
+        <!-- Your content for Tests tab goes here -->
+        <form class="form-inline">
+
+          <!-- Roll Number Input -->
+          <div class="form-group mr-2">
+            <label for="rollnotest" class="sr-only">Roll Number</label>
+            <input type="text" class="form-control" id="rollnotest" name="rollnotest" placeholder="Enter Roll Number">
+          </div>
+
+          <!-- Submit Button -->
+          <button type="button" id="getMarksBtn" class="btn btn-primary mb-2 mr-3">Get Marks</button>
+          <div class="alert alert-warning" id="success-TestMarks">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Message!</strong>
+            No student details found!
+         </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="alert-container-studentTestMarks" style="z-index: auto;"></div>
+            </div>
+          </div>
+
+          <div class="alert alert-success" id="success-alert1">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Message Update Information!</strong>
+            Marks have been updated in student details.
+          </div>
+          <div class="alert alert-warning" id="warning-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Message Update Information!</strong>
+            No Data found to update in student details.
+          </div>
+
+        </form>
+
+        <div class="row">
+          <div class="col">
+            <p class="marksAddedJson"></p>
+            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <table id="marksAddedtbl" class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Roll No</th>
+                  <th>Subject</th>
+                  <th>Test</th>
+                  <th>Marks</th>
+                  <!-- <th>Action</th> -->
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Notes Tab Content -->
+      <div id="notes" class="tab-pane fade">
+        <h3>Notes</h3>
+        <!-- Your content for Notes tab goes here -->
+        <div class="row">
+          <div id="my-alert" class="alert alert-danger hidden" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">    
+                <span aria-hidden="true">&times;</span>
+            </button> 
+            <strong>Error:</strong> Failed to processing data from the API. Please try again later.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form class="form">
+
+             
+          
+              <!-- Submit Button -->
+              <button type="button" id="getNotes" class="getNotes btn btn-primary mb-2 mr-3">Get Notes</button>
+              <div class="row">
+                <div class="col">
+                  <div class="alert-container-student" style="z-index: auto;"></div>
+                </div>
+              </div>
+              
+            
+              
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="notesDetailsClz">
+              <table class="table table-sm table-striped table-fade-in" id="notesDetailsTbl">
+                <thead>
+                  <tr>
+                    <th scope="col">Sr No</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                <!-- Add more rows as needed -->
+                </tbody>
+              </table>
+              <div class="text-center mt-3" id="loadingSpinner" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="modal fade" id="myModal2">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Student Information</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+          
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- Bootstrap table -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="semTxt">Semester</label>
+                        <input type="text" class="form-control" id="semTxt" placeholder="Enter semester" />
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnUpload">Upload</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+          
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="modal fade" id="myModal3" data-backdrop="static">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Download Notes</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+          
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- Bootstrap table -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="semesterNotes">Semester</label>
+                        <input type="text" class="form-control" id="semesterNotes" placeholder="Enter semester" />
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnGetNotes">
+                          <span class="spinner-border spinner-border-sm spinnerInlineBtn" style="display: none;" role="status" aria-hidden="true"></span>
+                          Fetch Notes</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+          
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    
+
+
+
+<script>
+
+  $(document).ready(function(){
+    debugger
+      var fullname = $('#main-container').attr('data-fullname');
+      fullname = (fullname == undefined) ? "Student":fullname;
+      $('.jumbotron>h1').text('Hello, '+fullname+'!');
+      callgetStudentDetails();
+
+      function callgetStudentDetails(){
+        var rollno = $('#main-container').attr('data-rollno')
+        getStudentDetails(rollno)
+      }
+
+      $('.studentDetailsBlock').hide();
+      $("#success-alert").hide();
+      $("#success-alert1").hide();
+      $("#success-alert2").hide();
+      $("#success-alert3").hide();
+      $("#success-alertAssign").hide();
+      $("#success-dange3").hide();
+      $("#success-alertAssignCode").hide();
+      $("#warning-alert").hide();
+      $("#my-alert").hide();
+      $("#success-TestMarks").hide();
+
+      function showLoadingSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'block';
+      }
+      
+      // Function to hide loading spinner
+      function hideLoadingSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'none';
+      }
+
+      function showSpinnerOverlay(){
+        $(".loading-overlay").fadeIn();
+        $(".loading-screen").fadeIn();
+        $("#main-content").addClass("loading");
+        //$("#main-content").fadeOut();
+      }
+
+      function hideSpinnerOverlay(){
+        $(".loading-screen").fadeOut();
+        //$("#main-content").fadeIn();
+        $("#main-content").removeClass("loading");
+        $(".loading-overlay").fadeOut();
+      }
+      
+      function showAlert(message, type,customClz) {
+        debugger
+        customClz = customClz =="" || customClz == undefined ? '':customClz;
+        $('.alert-container-student'+customClz).html('');
+        const alertContainer = $('.alert-container-student'+customClz);
+        const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
+        alertContainer.append(alertDiv);
+      
+        // Show the alert with fade-in animation
+        alertDiv.fadeIn('slow');
+      
+        // Hide the alert after 3 seconds with fade-out animation
+        setTimeout(function() {
+          alertDiv.fadeOut('slow', function() {
+            $(this).remove();
+          });
+        }, 3000);
+      }
+
+      $('#btnSaveStudent').click(function(){
+          addStudent();
+          updateRollnoToUser();
+      });
+
+      $('#getNotes').click(function(){
+        getNotes();
+      })
+
+
+      $('#getStudentDetails').click(function getStudent() {
+        getStudentDetails();
+      })
+
+      $('#assgnmtSubmitBtn').click(function() {
+        submitAssignment();
+      })
+
+      $('#getMarksBtn').click(function(){
+        getMarksTest();
+      })
+
+      $('#studentEnrollFormBtn').click(function(){
+        studentEnrollFormModal();
+      })
+
+      function studentEnrollFormModal(){
+        
+      }
+      
+      function updateRollnoToUser(){
+        var email = $('#main-container').attr('data-email');
+        var rollno = $('#main-container').attr('data-rollno');
+
+        var obj = new Object();
+        obj['email'] = email;
+        obj['userRollno'] = rollno;
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:8081/updateRollnoToUser',
+          contentType: 'application/json',
+          data: JSON.stringify(obj),
+          success: function(data){
+              console.log(data);
+              
+                //updateAssignmentToNewlyAddedStudents();
+              if(data > 0){
+                alert("updated rollno to user");
+                $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#success-alert").slideUp(700);
+                });
+              } else {
+                $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#warning-alert").slideUp(700);
+                });
+              }
+          },
+          error: function(err){
+              console.log(err);
+          }
+      })
+
+
+      }
+
+      function getMarksTest() {
+        var rollNoTest = $('#rollnotest').val();
+        if(rollNoTest == "" || rollNoTest == undefined || rollNoTest == null){
+          alert("Enter rollno");
+        } else {
+          $('#marksAddedtbl>tbody').html('');
+          showSpinnerOverlay();
+            $.ajax({
+            type: "GET",
+            url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
+            success: function(data) {
+              debugger
+                hideSpinnerOverlay();
+                if(data == null || data==="" || data.length==0){
+                  showAlert('No data found', 'warning','TestMarks');
+                  //$("#success-TestMarks").fadeTo(3000, 500).slideUp(500, function(){
+                  //  $("#success-TestMarks").slideUp(700);
+                  //});
+                } else {
+                  fillTestMarksTable(data);
+                }
+              },
+            error: function (error) {
+              hideSpinnerOverlay();
+              alert("error " + error);
+              }
+            });
+        }
+      }
+
+      function fillTestMarksTable(data) {
+        if(data !=null && data!=="" && data.length>0){
+          data = JSON.parse(data);
+          data.forEach(e => {
+            $('#marksAddedtbl>tbody').append('<tr><td>'+e.rollNoTest+'</td><td>'+e.subject+'</td><td>'+e.test+'</td><td>'+e.marks+'</td><td>'+''+'</td></tr>');
+
+          })
+          $('.marksAddedJson').html('');
+        } else {
+
+        }
+
+      }
+
+      function getNotes() {
+        $('#myModal3').modal();
+      }
+
+      $('#btnGetNotes').click(function() {
+        //$('.spinnerInlineBtn').attr('style', 'display: flex-inline');
+        
+        getNotesGETCall();
+        //$('.spinnerInlineBtn').attr('style', 'display: none');
+      })
+
+      function getNotesGETCall() {
+        showSpinnerOverlay();
+        $('#notesDetailsTbl>tbody').html('');
+        //showLoadingSpinner();
+        
+        var semesterNotes = $('#semesterNotes').val();
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "http://localhost:8081/getNotesBySemester/"+semesterNotes,
+          contentType: 'aaplication/json',
+          success: function(data) {
+              console.log(data);
+              $('#myModal3').modal('hide');
+              $('#spinnerContainer').addClass('d-none');
+              //hideLoadingSpinner();
+              hideSpinnerOverlay();
+              if(data != null && data.length==0){
+                debugger
+                showAlert('No data found', 'warning');
+              } else {
+                fillStudentsNotesTable(data);
+              }
+            },
+            error: function (error) {
+              //hideLoadingSpinner();
+              hideSpinnerOverlay();
+              $('#spinnerContainer').addClass('d-none');
+              alert("error " + error);
+              
+            }
+          });
+
+      }
+
+      function fillStudentsNotesTable(data){
+        
+        $('#notesDetailsTbl>tbody').html('');
+
+              if(data != null && data.length > 0) {
+                data.forEach(e => {
+                  var linkEnableDisableHtml =  "<button id='"+e.noteDetailsId+"' class='btn btn-link downloadNoteFileLink' data-code='"+e.code+"' style=' font-weight:500;margin:0; padding:0; text-align:center; vertical-align:middle; text-decoration:none;'><i class='fa fa-download'></i> Download</button>";
+                  $('#notesDetailsTbl>tbody').append('<tr><td>'+e.noteDetailsId+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
+                    +e.filename+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
+                })
+              } else {
+                $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#success-alert").slideUp(700);
+                });
+              }
+
+
+              $('.downloadNoteFileLink').click(function(){
+                
+                var fileId = $(this).attr('id');
+                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+
+                fetch(apiUrl, {
+                  method: 'GET',
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  var blobFile = data.fileNotes;
+                  const decodedByteArray = decodeBase64ByteArray(blobFile);
+
+                  function decodeBase64ByteArray(base64String) {
+                      const binaryString = atob(base64String);
+                      const byteArray = new Uint8Array(binaryString.length);
+                      for (let i = 0; i < binaryString.length; i++) {
+                          byteArray[i] = binaryString.charCodeAt(i);
+                      }
+                      return byteArray;
+                  }
+
+                  // console.log(blobFile);
+                  // Uint8Array.from(bData, b => b.charCodeAt(0));
+                  // const base64String = btoa(String.fromCharCode(...new BigUint64Array(Uint8Array.from(blobFile, b => b.charCodeAt(0)))));
+                  // console.log(base64String);
+                  const blob = new Blob([decodedByteArray], {type: 'application/octet-stream'});
+                  // var blobFileEx = new Blob([(blobFile)], {type: 'application/pdf'});
+
+                  // Create a download link and set its attributes
+                  const downloadLink = document.createElement('a');
+                  downloadLink.href = URL.createObjectURL(blob);
+                  
+                  // Replace 'filename.ext' with the desired name of the downloaded file
+                  var originalDateTime = new Date();
+
+                  var modifiedDateTimeStr = formatDate(originalDateTime);
+                  function formatDate(dateTime) {
+                    var year = dateTime.getFullYear();
+                    var month = String(dateTime.getMonth() + 1).padStart(2, '0');
+                    var day = String(dateTime.getDate()).padStart(2, '0');
+                    var hours = String(dateTime.getHours()).padStart(2, '0');
+                    var minutes = String(dateTime.getMinutes()).padStart(2, '0');
+                    var seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+                    // Modify the format as needed (e.g., "YYYY-MM-DD HH:mm:ss")
+                    return year + '' + month + '' + day + '' + hours + '' + minutes + '' + seconds;
+                  }
+                  
+                  downloadLink.download = data.filename;
+
+                  // Append the link to the document
+                  document.body.appendChild(downloadLink);
+
+                  // Simulate a click on the link to trigger the download
+                  downloadLink.click();
+
+                  // Remove the link from the document after the download is triggered
+                  document.body.removeChild(downloadLink);
+                  
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+                    $("#my-alert").fadeOut(700);
+                  });
+                });
+
+              })
+
+      }
+
+
+    function submitAssignment(){
+
+      
+      var roll = $('#rollNoInput').val();
+      var code = $('#assignmentCode option:selected').attr('value');
+
+        if(roll !== '' && roll != null && code !== null && code!=='' && code !=='0'){
+
+          const assgnmntFile = document.getElementById('submitAssignmentFile').files[0];
+          
+          if (!assgnmntFile) {
+            alert('Please select a file to upload.');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('file', assgnmntFile);
+          formData.append('fileext', assgnmntFile.type);
+          formData.append('rollno', roll);
+          formData.append('code', code);
+          fetch('http://localhost:8081/updateStudentAssignments', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            if (response.ok) {
+              alert('File uploaded successfully!');
+              showAlert('File uploaded successfully!','success');
+              $("#success-alertAssign").fadeTo(3000, 500).slideUp(500, function(){
+                $("#success-alertAssign").slideUp(700);
+              });
+              $('#myModal2').modal('hide');
+            } else {
+              alert('File upload failed.');
+              //showAlert('File uploaded successfully!','danger');
+              
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#my-alert").fadeOut(700);
+            });
+          });
+          
+        }else{
+          alert("Enter roll no");
+        }
+    }
+
+    $('#getAssignmentBtn').click(function() {
+      if($('#rollNoInput').val() !=='' && $('#rollNoInput').val()!==null ){
+        getAssignmentsByRollno();
+      }else {
+        alert('Enter valid rollno');
+      }
+    })
+
+    function getAssignmentsByRollno() {
+      $('#assignmentCode').html('');
+      $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
+      var rollNo = $('#rollNoInput').val();
+      $.ajax({
+          type: "GET",
+          url: "http://localhost:8081/getAssignmentsByRollno/" + rollNo,
+          contentType: 'aaplication/json',
+          success: function(data) {
+            $("#success-alertAssignCode").fadeTo(3000, 500).slideUp(500, function(){
+              $("#success-alertAssignCode").slideUp(700);
+            });
+              console.log(data);
+              if(data != null){
+                
+                data.forEach(element => {
+                  $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.code));
+                })
+
+                $("#assignmentCode").change(function() {
+                  
+                  var selectedValue = $("#assignmentCode option:selected").val();
+                  var dataValue = $("#assignmentCode option:selected").attr('data-value');
+                  $('#assignmentsTxt').text('');
+                  var resp = '';
+                  
+                  if(dataValue !== undefined){
+                    var data1 = dataValue.split(', ');
+                    data1.forEach(element => {
+                      resp = resp+element+"\n";
+                    })
+                  }
+                  $('#assignmentsTxt').text(resp);
+                  })
+                // $('#assignmentsTxt').text('');
+                // var resp = '';
+                // data = data.replace('[','').replace(']','').split(', ');
+                // data.forEach(element => {
+                //   resp = resp+element+"\n";
+                // })
+                // $('#assignmentsTxt').text(resp);
+              }
+              // fillStudentDetailsTbl(data);
+
+          },
+          error: function (error) {
+            
+              alert("error " + error);
+              $('#assignmentsTxt').text('No Assignments Found');
+              $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#success-dange3").slideUp(700);
+              });
+          }
+      });
+
+    }
+
+    function getStudentDetails(rollno) {
+      var rn = $('#rollno').val();
+      if(rollno !=undefined){
+        rn = rollno;
+      }
+      if(rn != null && rn !=undefined && rn !==""){
+
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "http://localhost:8081/getStudentDetails/" + rn,
+          contentType: 'aaplication/json',
+          success: function(data) {
+            
+              console.log(data);
+              fillStudentDetailsTbl(data);
+          },
+          error: function (error) {
+            
+              alert("error " + error);
+              $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#success-dange3").slideUp(700);
+              });
+            }
+          });
+        }
+    }
+
+    function fillStudentDetailsTbl(data) {
+          $('#studentEnrlmtFormModal').modal('hide');
+          //$('#studentDetailsTbl>tbody').html('');
+          $('.jumbotronClz').hide();
+          $('.studentDetailsBlock').show();
+          if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
+            //$('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
+              //+data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
+
+              $('.rollnoVal').text(data.rollno);
+              $('.fullnameVal').text(data.fullname);
+              $('.contactVal').text(data.contactno);
+              $('.enrNoVal').text(data.enrollmentId);
+              $('.semesterVal').text(data.semester);
+              $('.branchVal').text(data.branch);
+              $('.prevSemResultVal').text(data.previousSemResult);
+          } else {
+            $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#success-alert").slideUp(700);
+            });
+          }
+        }
+
+
+    function addStudent() {
+        
+        var jData = new Object();
+
+        var enrollmentId = $('#enrollmentId').val();
+        var branch = $('#branch').val();
+        var contactno = $('#contactno').val();
+        var fullname = $('#fullname').val();
+        var previousSemResult = $('#previousSemResult').val();
+        var rollno = $('#rollno').val();
+        var semester = $('#semester').val();
+
+        $('#main-container').attr('data-rollno',rollno);
+
+        jData['enrollmentId'] = enrollmentId;
+        jData['branch'] = branch;
+        jData['contactno'] = contactno;
+        jData['fullname'] = fullname;
+        jData['previousSemResult'] = previousSemResult;
+        jData['rollno'] = rollno;
+        jData['semester'] = semester;
+
+          $.ajax({
+              type: 'POST',
+              url: 'http://localhost:8081/student_details',
+              contentType: 'application/json',
+              data: JSON.stringify(jData),
+              success: function(data){
+                  console.log(data);
+                  
+                    updateAssignmentToNewlyAddedStudents();
+                  if(data > 0){
+                    
+                    $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-alert").slideUp(700);
+                    });
+                  } else {
+                    $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#warning-alert").slideUp(700);
+                    });
+                  }
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          })
+
+          
+    }
+
+    function updateAssignmentToNewlyAddedStudents() {
+      debugger
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+      contentType: 'aaplication/json',
+      success: function(data) {
+          console.log(data);
+          callgetStudentDetails();
+          $('#spinnerContainer').addClass('d-none');
+        },
+        error: function (error) {
+          $('#spinnerContainer').addClass('d-none');
+          alert("error " + error);
+          
+        }
+      });
+  }
+
+  })
+</script>

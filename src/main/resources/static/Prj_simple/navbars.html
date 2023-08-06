@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dark Theme Navbar</title>
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Add custom CSS for dark theme and positioning -->
+
+</head>
+
+<style>
+    /* Custom styles for the dark theme */
+body {
+    background-color: #333;
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-link {
+    color: #fff;
+  }
+  
+  .dropdown-toggle::after {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    background-color: #222;
+  }
+  
+  .dropdown-item {
+    color: #fff;
+  }
+  
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    background-color: #444;
+  }
+  
+  /* Media query for screen width less than 720px */
+  @media (max-width: 720px) {
+    .dropdown {
+      margin-left: auto;
+    }
+  
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: auto;
+      width: 100%;
+      display: none;
+      background-color: #222;
+      border: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .dropdown-menu.show {
+      display: block;
+    }
+  
+    /* Move the Nav Links to the Right */
+    .navbar-collapse {
+      justify-content: flex-end;
+    }
+  
+    /* Move the Collapse Button to the Extreme Right */
+    .custom-toggler {
+      margin-left: auto;
+      order: 2; /* To ensure it appears after nav-links */
+    }
+  }
+  
+</style>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <!-- Branding on the Left -->
+    <a class="navbar-brand" href="#">Your Brand</a>
+
+    <!-- Move the Nav Links to the Right -->
+    <div class="collapse navbar-collapse" id="navbarOptions">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Walk Us</a>
+          </li>
+      </ul>
+    </div>
+
+    <!-- Move the Collapse Button to the Right -->
+    <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarOptions" aria-controls="navbarOptions" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Three-dot Menu on the Right -->
+    <div class="dropdown" hidden>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+        <i class="fa fa-ellipsis-v"></i>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Option 1</a>
+        <a class="dropdown-item" href="#">Option 2</a>
+        <a class="dropdown-item" href="#">Option 3</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Add Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

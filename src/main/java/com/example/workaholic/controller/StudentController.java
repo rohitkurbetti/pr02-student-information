@@ -45,7 +45,7 @@ public class StudentController {
 		return student;
 	}
 	
-	@GetMapping("/authenticate_user")
+	@GetMapping("/authenticate_user1")
 	public StudentSignUp authenticateUser(@RequestParam("emailPhone") String emailPhone,
 			@RequestParam("password") String password) {
 		StudentSignUp studentSignUp = studentServiceImpl.authenticateUser(emailPhone,password);

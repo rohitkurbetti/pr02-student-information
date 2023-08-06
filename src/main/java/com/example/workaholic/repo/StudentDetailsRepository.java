@@ -62,7 +62,7 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	List<Integer> extractRollNoListByBranchSemester(@Param("branch") String branch,@Param("semester") String semester);
 
 	
-	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,sd.assignmentName,ad.code,ad.assignmentStatus,ad.studentSubmittedAssignments) "
+	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,sd.assignmentName,ad.code,ad.assignmentStatus) "
 			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and ad.branch =sd.branch and ad.semester =sd.semester "
 			+ " where sd.assignmentName =:assignmentName ")
 	List<AssignmentDetailsDom> getByAsssignmentDetailsByAssgnName(@Param("assignmentName") String assignmentName);

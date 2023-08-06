@@ -104,6 +104,11 @@
 
     /*Loading Spinner Overlay End*/
 
+
+
+    .keys {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -147,46 +152,107 @@
         <strong>Message!</strong>
         No student details found!
      </div>
-       
-     <h3>Student Enrollment Form</h3>
+     <div class="jumbotron jumbotronClz">
+      <h1 class="display-4">Hello, User!</h1>
+      <p class="lead">This is a student information unit.</p>
+      <hr class="my-4">
+      <p>To get started, create an Enrollment to embed within the system.</p>
+      <button id="studentEnrollFormBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentEnrlmtFormModal">Enroll here</button>
+    </div>
+
+      <!-- Bootstrap Modal for Adding Assignment -->
+      <div class="modal fade" id="studentEnrlmtFormModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalLabel"
+      aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addAssignmentModalLabel">Submit Enrollment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <form class="form">
+                <div class="row">
+                  <div class="col">
+
+                    <div class="form-group mr-2">
+                      <label for="enrollmentId">Enrollment ID:</label>
+                      <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" required>
+                    </div>
+                  </div>
+                  <div class="col">
+
+                    <div class="form-group mr-2">
+                      <label for="branch">Branch:</label>
+                      <input type="text" class="form-control" id="branch" name="branch" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="contactno">Contact Number:</label>
+                      <input type="text" class="form-control" id="contactno" name="contactno" required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="previousSemResult">Previous Semester Result:</label>
+                      <input type="text" class="form-control" id="previousSemResult" name="previousSemResult" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="fullname">Full Name:</label>
+                      <input type="text" class="form-control" id="fullname" name="fullname" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="rollno">Roll Number:</label>
+                      <input type="text" class="form-control" id="rollno" name="rollno" required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="semester">Semester:</label>
+                      <input type="text" class="form-control" id="semester" name="semester" required>
+                    </div>
+                  </div>
+                </div>
+
+
+                <button type="button" id="btnSaveStudent" class="btn btn-primary ml-2">Submit</button>
+                <button type="button" id="getStudentDetails" class="btn btn-primary ml-2">View Student Details</button>
+         
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" id="submitAssignment" class="btn btn-primary">Submit</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- <h3>Student Enrollment Form</h3> -->
      <!-- <div class="alert alert-success" id="success-alert">
          <button type="button" class="close" data-dismiss="alert">x</button>
          <strong>Message!</strong>
          No student details found!
       </div> -->
-     <form class="form-inline">
-       <div class="form-group mr-2">
-         <label for="enrollmentId">Enrollment ID:</label>
-         <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" required>
-       </div>
-       <div class="form-group mr-2">
-         <label for="branch">Branch:</label>
-         <input type="text" class="form-control" id="branch" name="branch" required>
-       </div>
-       <div class="form-group mr-2">
-         <label for="contactno">Contact Number:</label>
-         <input type="text" class="form-control" id="contactno" name="contactno" required>
-       </div>
-       <div class="form-group mr-2">
-         <label for="fullname">Full Name:</label>
-         <input type="text" class="form-control" id="fullname" name="fullname" required>
-       </div>
-       <div class="form-group mr-2">
-         <label for="previousSemResult">Previous Semester Result:</label>
-         <input type="text" class="form-control" id="previousSemResult" name="previousSemResult" required>
-       </div>
-       <div class="form-group mr-2">
-         <label for="rollno">Roll Number:</label>
-         <input type="text" class="form-control" id="rollno" name="rollno" required>
-       </div>
-       <div class="form-group">
-         <label for="semester">Semester:</label>
-         <input type="text" class="form-control" id="semester" name="semester" required>
-       </div>
-       <button type="button" id="btnSaveStudent" class="btn btn-primary ml-2">Submit</button>
-       <button type="button" id="getStudentDetails" class="btn btn-primary ml-2">View Student Details</button>
-
-     </form>
+     
         <br>
         <div class="alert alert-danger" id="success-alert">
           <button type="button" class="close" data-dismiss="alert">x</button>
@@ -194,30 +260,30 @@
           No student details found!
        </div>
 
-        <div class="studentDetailsClz">
+        <div id="studentDetailsBlock" class="studentDetailsBlock">
+          <h3>Student Enrollment Details</h3>
           <table class="table" id="studentDetailsTbl">
-            <thead>
-              <tr>
-                <th scope="col">Roll No</th>
-                <th scope="col">Fullname</th>
-                <th scope="col">Contact No</th>
-                <th scope="col">Enrollment No</th>
-                <th scope="col">Semester</th>
-                <th scope="col">Branch</th>
-                <th scope="col">PreviousSemResult</th>
-              </tr>
-            </thead>
+            
             <tbody>
-            <!-- <tr>
-              <th scope="row">1</th>
-              <td>John Doe</td>
-              <td>123-456-7890</td>
-              <td>12345</td>
-              <td>1</td>
-              <td>Computer Science</td>
-              <td>A</td>
-            </tr> -->
-            <!-- Add more rows as needed -->
+              <tr>
+                <td class="keys">Roll No:</td>
+                <td class="rollnoVal"></td>
+                <td class="keys">Fullname:</td>
+                <td class="fullnameVal"></td>
+                <td class="keys">Contact No:</td>
+                <td class="contactVal"></td>
+                <td class="keys">Enrollment No:</td>
+                <td class="enrNoVal"></td>
+              </tr>
+              <tr>
+                
+                <td class="keys">Semester:</td>
+                <td class="semesterVal"></td>
+                <td class="keys">Branch:</td>
+                <td class="branchVal"></td>
+                <td class="keys">PreviousSemResult:</td>
+                <td class="prevSemResultVal"></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -630,7 +696,7 @@
 
 $(document).ready(function () {
 
-
+      $('.studentDetailsBlock').hide();
       $("#success-alert").hide();
       $("#success-alert1").hide();
       $("#success-alert2").hide();
@@ -705,6 +771,14 @@ $(document).ready(function () {
         getMarksTest();
       })
 
+      $('#studentEnrollFormBtn').click(function(){
+        studentEnrollFormModal();
+      })
+
+      function studentEnrollFormModal(){
+        
+      }
+      
 
       function getMarksTest() {
         var rollNoTest = $('#rollnotest').val();
@@ -1030,11 +1104,21 @@ $(document).ready(function () {
     }
 
     function fillStudentDetailsTbl(data) {
-          // console.log(data);
-          $('#studentDetailsTbl>tbody').html('');
+          $('#studentEnrlmtFormModal').modal('hide');
+          //$('#studentDetailsTbl>tbody').html('');
+          $('.jumbotronClz').hide();
+          $('.studentDetailsBlock').show();
           if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
-            $('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
-              +data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
+            //$('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
+              //+data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
+
+              $('.rollnoVal').text(data.rollno);
+              $('.fullnameVal').text(data.fullname);
+              $('.contactVal').text(data.contactno);
+              $('.enrNoVal').text(data.enrollmentId);
+              $('.semesterVal').text(data.semester);
+              $('.branchVal').text(data.branch);
+              $('.prevSemResultVal').text(data.previousSemResult);
           } else {
             $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#success-alert").slideUp(700);

@@ -27,6 +27,7 @@ public class NotesController {
 	@GetMapping("/getAllNotes")
 	public Page<UploadNotesEntity> getAllNotes(@RequestParam("page")int page, @RequestParam("size")int size) {
 		Page<UploadNotesEntity> notesList = notesServiceImpl.getAllNotes(page,size);
+		notesList.forEach(i -> i.setFileNotes(null));
 		return notesList;
 	}
 	
@@ -39,6 +40,7 @@ public class NotesController {
 	@GetMapping("/getNotesBySemester/{semester}")
 	public List<UploadNotesEntity> getNotesBySemester(@PathVariable("semester") String semester) {
 		List<UploadNotesEntity> notesList = notesServiceImpl.getNotesBySemester(semester);
+		notesList.forEach(i -> i.setFileNotes(null));
 		return notesList;
 	}
 	

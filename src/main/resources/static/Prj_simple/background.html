@@ -1190,12 +1190,14 @@
         }
 
         function getStudentSubmittedAssignmentByAssignmentName(assignmentName) {
+          showSpinnerOverlay();
           $.ajax({
               type: "GET",
               dataType: "json",
               url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
+                hideSpinnerOverlay();
                 debugger
                   console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
@@ -1203,6 +1205,7 @@
                   $('#myModal').modal();
               },
               error: function (error) {
+                  hideSpinnerOverlay();
                   alert("error " + error);
               }
           });

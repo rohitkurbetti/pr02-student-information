@@ -1,0 +1,1449 @@
+<style>
+  /* *{
+    font-family: 'Merriweather', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+  } */
+  .center-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .table-sm {
+      font-size: 16px; /* Reduce font size */
+    }
+
+    .table-sm th,
+    .table-sm tr td{
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      padding: 0.1rem; /* Reduce padding */
+    }
+
+    .btn-link {
+      transition: transform 0.3s ease;
+    }
+
+    .btn-link:hover {
+      transform: scale(1.1);
+    }
+
+
+    @keyframes fadeInRow {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    /* Apply the animation to the table rows */
+    .table-fade-in tbody tr {
+      animation: fadeInRow 0.5s ease-in-out;
+    }
+
+
+
+
+
+    /* Loading Spinner Overlay Start*/
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+      z-index: 9998; /* Ensure it's behind the loading screen but above the main content */
+    }
+    
+    .loading-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      font-size: large;
+    }
+    
+    .loading-spinner {
+      border: 8px solid #f3f3f3; /* Increase the border width */
+      border-top: 8px solid #3498db; /* Increase the border width */
+      border-radius: 50%;
+      width: 60px; /* Increase the width */
+      height: 60px; /* Increase the height to maintain a circular shape */
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #main-content {
+      display: relative; /* Hide main content until API responds */
+    }
+    
+    #main-content.loading {
+      /* Styles for dimming the main content */
+      pointer-events: none; /* Allow clicks to pass through the loading overlay */
+      opacity: 0.5; /* Dim the main content */
+    }
+
+    /*Loading Spinner Overlay End*/
+
+
+
+
+
+</style>
+
+
+
+  <!-- spinner overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+  </div>
+
+  <div id="main-content" class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <div class="alert-container"></div>
+      </div>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#student-details">Student Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#assignments">Assignments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tests">Tests</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
+      </li>
+    </ul>
+
+    
+    <div class="tab-content mt-4">
+      <!-- Student Details Tab Content -->
+      <div id="student-details" class="tab-pane fade show active">
+        <h3>Student Details</h3>
+        <div class="alert alert-success" id="success-alert3">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Message!</strong>
+          No student details found!
+       </div>
+       <div class="alert alert-danger" id="success-dange3">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Message!</strong>
+        No student details found!
+     </div>
+       
+        <!-- Input Group for Roll Number -->
+        <form class="form-inline">    
+            <div class="form-group">
+                <label for="rollno" class="form-check-label mr-2">Roll Number: </label>
+                <input type="text" class="form-control" id="rollno" placeholder="Enter your roll number">
+            </div>
+            <div class="form-group mx-2">
+                <button type="button" class="btn btn-primary" id="btnGetStudentDetails">Submit</button>
+            </div>
+            
+        </form>
+        <br>
+        <div class="alert alert-danger" id="success-alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Message!</strong>
+          No student details found!
+       </div>
+        <div class="studentDetailsClz">
+          <table class="table" id="studentDetailsTbl">
+            <thead>
+              <tr>
+                <th scope="col">Roll No</th>
+                <th scope="col">Fullname</th>
+                <th scope="col">Contact No</th>
+                <th scope="col">Enrollment No</th>
+                <th scope="col">Semester</th>
+                <th scope="col">Branch</th>
+                <th scope="col">PreviousSemResult</th>
+              </tr>
+            </thead>
+            <tbody>
+            <!-- <tr>
+              <th scope="row">1</th>
+              <td>John Doe</td>
+              <td>123-456-7890</td>
+              <td>12345</td>
+              <td>1</td>
+              <td>Computer Science</td>
+              <td>A</td>
+            </tr> -->
+            <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Assignments Tab Content -->
+      <div id="assignments" class="tab-pane fade">
+        <h3>Assignments</h3>
+        <div class="row mt-1 mb-1">
+          <div class="col">
+            <div class="alert alert-success" id="success-alert2">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Assignment Update Information!</strong>
+                Assignments have been updated in student details.
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            
+            <!-- Add Assignment Button -->
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <button id="addAssignmentBtn" class="btn btn-primary float-right"><i class="fa fa-plus-circle mr-2"></i>Add Assignment</button>
+              </div>
+              <div class="col-md-7">
+                <button id="viewAssignmentBtn" class="btn btn-primary float-right"><i class="fa fa-eye mr-2"></i>View Assignment</button>
+              </div>
+              <div class="col-md my-2">
+                <button id="applyAssigntoNewStuds" class="btn btn-link float-right">Apply assignments to newly added students</button>
+              </div>
+            </div>
+    
+            <!-- Bootstrap Form for Adding Assignment -->
+            <div class="row">
+              <div class="col-md-5">
+                <form>
+                  <div class="form-group">
+                    <label for="assignment-title">Assignment Title</label>
+                    <input type="text" class="form-control" id="assignment-title" placeholder="Enter assignment title">
+                  </div>
+                  <div class="form-group">
+                    <label for="question">Question</label>
+                    <textarea class="form-control" id="question" rows="4" placeholder="Enter assignment question"></textarea>
+                  </div>
+                  <button type="button" id="questionsSubmitBtn" data-toggle="modal" data-target="#addAssignmentModal" class="btn btn-primary">Submit Assignment</button>
+                </form>
+              </div>
+    
+              <!-- <div class="row mb-3">
+                <div class="col">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addAssignmentModal">Add Assignment</button>
+                </div>
+              </div> -->
+      
+              <!-- Bootstrap Modal for Adding Assignment -->
+              <div class="modal fade" id="addAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalLabel"
+                aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addAssignmentModalLabel">Submit Assignment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="branch">Branch</label>
+                          <input type="text" class="form-control" id="branch" placeholder="Enter branch">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="semester">Semester</label>
+                          <input type="text" class="form-control" id="semester" placeholder="Enter semester">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="code">Code</label>
+                          <input type="text" class="form-control" id="code" placeholder="Enter code">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" id="submitAssignment" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="studentDetailsClz1">
+                  <table class="table table-sm table-striped" id="viewAssignmentTbl">
+                    <thead>
+                      <tr>
+                        <th scope="col">Sr No</th>
+                        <th scope="col">Assignments</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Add more rows as needed -->
+                    </tbody>
+                  </table>
+                </div>
+                <div class="container mt-5">
+                  <div class="text-center d-none" id="spinnerContainer">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                  <div class="text-center d-none" id="contentContainer">
+                    <!-- Content will be replaced here -->
+                  </div>
+                </div>
+              </div>
+              
+              <div class="modal fade" id="myModal" data-backdrop="static">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Student Assignment Information</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="assignmentCodeDropdwn">Assignment Code</label>
+                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control">
+                          <option value="0">--SELECT--</option>
+                        </select>
+                      </div>
+                      <!-- Bootstrap table -->
+                      <table id="submittedAssignmentsTbl" class="table table-bordered table-sm">
+                        <thead>
+                          <tr>
+                            <th>Roll No</th>
+                            <th>Full Name</th>
+                            <th>Code</th>
+                            <th>Assignment Status</th>
+                            <th>Attachments</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>5th</td>
+                            <td>file1.pdf</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>3rd</td>
+                            <td>file2.docx</td>
+                          </tr>
+                          <!-- Add more rows as needed -->
+                        </tbody>
+                      </table>
+                    </div>
+              
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ol id="questionOlList">
+              
+            </ol>
+          </div>
+        </div>
+        
+        <!-- End of Bootstrap Form -->
+        <!-- Your content for Assignments tab goes here -->
+        <!-- Add more content as needed -->
+      </div>
+
+      <!-- Tests Tab Content -->
+      <div id="tests" class="tab-pane fade">
+        <h3>Tests</h3>
+        <!-- Your content for Tests tab goes here -->
+        <form id="tests-form" class="form-inline">
+
+          <!-- Roll Number Input -->
+          <div class="form-group mb-2">
+            <label for="rollnotest" class="sr-only">Roll Number</label>
+            <input type="text" class="form-control" id="rollnotest" name="rollnotest" placeholder="Enter Roll Number">
+          </div>
+      
+          <!-- Subject Dropdown -->
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="subject" class="sr-only">Subject</label>
+            <select class="form-control" id="subject" name="subject">
+              <option value="0">--SELECT--</option>
+              <option value="OOP">OOP</option>
+              <option value="AJP">AJP</option>
+              <option value="STE">STE</option>
+              <!-- Add more options if needed -->
+            </select>
+          </div>
+      
+          <!-- Test Dropdown -->
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="test" class="sr-only">Test</label>
+            <select class="form-control" id="test" name="test">
+              <option value="0">--SELECT--</option>
+              <option value="unitTest1">Unit Test 1</option>
+              <option value="unitTest2">Unit Test 2</option>
+              <!-- Add more options if needed -->
+            </select>
+          </div>
+      
+          <!-- Marks Input -->
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="marks" class="sr-only">Marks</label>
+            <input type="text" class="form-control" id="marks" name="marks" placeholder="Enter Marks">
+          </div>
+      
+          <!-- Submit Button -->
+          <button type="button" id="addMarksBtn" class="btn btn-primary mb-2 mr-3">Add Marks</button>
+          <button type="button" id="updateMarksJson" class="btn btn-outline-success mb-2">Submit Result</button>
+
+          <div class="alert alert-success" id="success-alert1">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Message Update Information!</strong>
+            Marks have been updated in student details.
+         </div>
+         <div class="alert alert-warning" id="warning-alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Message Update Information!</strong>
+          No Data found to update in student details.
+       </div>
+        </form>
+
+        <div class="row">
+          <div class="col">
+            <p class="marksAddedJson"></p>
+            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <table id="marksAddedtbl" class="table">
+              <thead>
+                <tr>
+                  <th>Roll No</th>
+                  <th>Subject</th>
+                  <th>Test</th>
+                  <th>Marks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Notes Tab Content -->
+      <div id="notes" class="tab-pane fade">
+        <h3>Notes</h3>
+        
+        <!-- Your content for Notes tab goes here -->
+        <div class="row">
+          <div id="my-alert" class="alert alert-danger hidden" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">    
+                <span aria-hidden="true">&times;</span>
+            </button> 
+            <strong>Error:</strong> Failed to processing data from the API. Please try again later.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form class="form-inline">
+
+              <!-- Roll Number Input -->
+              <!-- <div class="form-group mb-2 mr-2">
+                <label for="noteFile" class="sr-only">Choose File</label>
+                <input type="file" class="form-control" id="noteFile" name="fileChoose" placeholder="" multiple="multiple">
+              </div> -->
+          
+              <!-- Submit Button -->
+              <button type="button" id="uploadNotes" class="btn btn-primary mb-2 mr-3">Upload Notes</button><br>
+              <button type="button" id="getNotes" class="btn btn-primary mb-2 mr-3">Get Notes</button>
+
+              
+            
+              
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="notesDetailsClz">
+              <table class="table table-sm table-striped table-fade-in" id="notesDetailsTbl">
+                <thead>
+                  <tr>
+                    <th scope="col">Sr No</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                <!-- Add more rows as needed -->
+                </tbody>
+              </table>
+              <div class="text-center mt-3" id="loadingSpinner" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center" id="pagination">
+                  <!-- JavaScript will populate this section -->
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="modal fade" id="myModal2">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Student Information</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+          
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- Bootstrap table -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="semTxt">Semester</label>
+                        <input type="text" class="form-control" id="semTxt" placeholder="Enter semester" />
+                      </div>
+                      
+                      
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subjectTxt" placeholder="Enter subject" />
+                      </div>
+                      
+                      
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="notesFile">File</label>
+                        <input type="file" class="form-control" id="notesFile" />
+                      </div>
+                      
+                      
+                    </div>
+                    
+                  </div>
+                  <div class="row">
+                    <div class="col">
+
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnUpload">Upload</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+<script>
+    
+      
+      function showAlert(message, type, timeout) {
+        const alertContainer = $('.alert-container');
+        const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
+        alertContainer.append(alertDiv);
+      
+        // Show the alert with fade-in animation
+        alertDiv.fadeIn('slow');
+      
+        // Hide the alert after 3 seconds with fade-out animation
+        setTimeout(function() {
+          alertDiv.fadeOut('slow', function() {
+            $(this).remove();
+          });
+        }, 4000);
+      }
+
+      function showLoadingSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'block';
+      }
+      
+      // Function to hide loading spinner
+      function hideLoadingSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'none';
+      }
+      var list = [];
+      $("#success-alert").hide();
+      $("#success-alert1").hide();
+      $("#success-alert2").hide();
+      $("#success-alert3").hide();
+      $("#success-dange3").hide();
+      
+      $("#warning-alert").hide();
+      $("#my-alert").hide();
+
+        $('#btnGetStudentDetails').click(function getStudent() {
+            getStudentDetails();
+        })
+
+        $('#submitAssignment').click(function() {
+            submitAssignment();
+        })
+
+
+        $('#questionsSubmitBtn').click(function() {
+            submitAllQuestions();
+        })
+
+
+        $('#viewAssignmentBtn').click(function() {
+
+          
+
+            viewAssignments();
+        })
+        
+        $('#addMarksBtn').click(function() {
+            addMarksToJson();
+        })
+
+        $('#updateMarksJson').click(function() {
+          updateMarksJson();
+        })
+        
+        $('#uploadNotes').click(function() {
+          $('#myModal2').modal();
+          
+        })
+
+        $('#btnUpload').click(function() {
+          
+          uploadNotes();
+        })
+
+
+        $('#getNotes').click(function() {
+          getAllNotes(0);
+          //getNotes();
+        })
+
+        $('#applyAssigntoNewStuds').click(function() {
+          updateAssignmentToNewlyAddedStudents();
+        })
+
+
+        function showSpinnerOverlay(){
+            $(".loading-overlay").fadeIn();
+            $(".loading-screen").fadeIn();
+            $("#main-content").addClass("loading");
+            //$("#main-content").fadeOut();
+        }
+
+        function hideSpinnerOverlay(){
+            $(".loading-screen").fadeOut();
+            //$("#main-content").fadeIn();
+            $("#main-content").removeClass("loading");
+            $(".loading-overlay").fadeOut();
+        }
+
+
+        function updateAssignmentToNewlyAddedStudents() {
+            $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+            contentType: 'aaplication/json',
+            success: function(data) {
+                console.log(data);
+                $('#spinnerContainer').addClass('d-none');
+              },
+              error: function (error) {
+                $('#spinnerContainer').addClass('d-none');
+                alert("error " + error);
+                
+              }
+            });
+        }
+
+        function getAllNotes(page){
+          //$('#notesDetailsTbl>tbody').html('');
+          //showLoadingSpinner();
+          showSpinnerOverlay();
+          $.ajax({
+            type: "GET",
+            url: "http://localhost:8081/getAllNotes?page="+page+"&size=10",
+            contentType: 'aaplication/json',
+            success: function(data) {
+                console.log(data);
+                //hideLoadingSpinner();
+                hideSpinnerOverlay();
+                populateAllNotesInUITable(data.content);
+                updatePagination(data.totalPages, data.number);
+                $('#spinnerContainer').addClass('d-none');
+              },
+              error: function (error) {
+                //hideLoadingSpinner();
+                hideSpinnerOverlay();
+                $('#spinnerContainer').addClass('d-none');
+                alert("error " + error);
+                
+              }
+            });
+
+            function updatePagination(totalPages, currentPage) {
+              let pagination = $("#pagination");
+              pagination.empty();
+          
+              for (let i = 0; i < totalPages; i++) {
+                  let li = `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i + 1}</a></li>`;
+                  pagination.append(li);
+              }
+          
+              // Attach click event to the pagination links
+              pagination.find("a").on("click", function (e) {
+                  
+                e.preventDefault();
+                  let page = parseInt($(this).data("page"));
+                  getAllNotes(page);
+              });
+          }
+
+            function populateAllNotesInUITable(data) {
+              $('#notesDetailsTbl>tbody').html('');
+
+              if(data != null && data.length > 0) {
+                data.forEach(e => {
+                  var linkEnableDisableHtml =  "<button id='"+e.noteDetailsId+"' class='btn btn-link downloadNoteFileLink' data-code='"+e.code+"' style=' font-weight:500;margin:0; padding:0; text-align:center; vertical-align:middle; text-decoration:none;'><i class='fa fa-download' aria-hidden='true'></i> Download</button>";
+                  $('#notesDetailsTbl>tbody').append('<tr><td>'+e.noteDetailsId+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
+                    +e.filename+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
+                })
+              } else {
+                $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                  $("#success-alert").slideUp(700);
+                });
+              }
+
+
+              $('.downloadNoteFileLink').click(function(){
+                
+                var fileId = $(this).attr('id');
+                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+
+                fetch(apiUrl, {
+                  method: 'GET',
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  var blobFile = data.fileNotes;
+                  const decodedByteArray = decodeBase64ByteArray(blobFile);
+
+                  function decodeBase64ByteArray(base64String) {
+                      const binaryString = atob(base64String);
+                      const byteArray = new Uint8Array(binaryString.length);
+                      for (let i = 0; i < binaryString.length; i++) {
+                          byteArray[i] = binaryString.charCodeAt(i);
+                      }
+                      return byteArray;
+                  }
+
+                  // console.log(blobFile);
+                  // Uint8Array.from(bData, b => b.charCodeAt(0));
+                  // const base64String = btoa(String.fromCharCode(...new BigUint64Array(Uint8Array.from(blobFile, b => b.charCodeAt(0)))));
+                  // console.log(base64String);
+                  const blob = new Blob([decodedByteArray], {type: 'application/octet-stream'});
+                  // var blobFileEx = new Blob([(blobFile)], {type: 'application/pdf'});
+
+                  // Create a download link and set its attributes
+                  const downloadLink = document.createElement('a');
+                  downloadLink.href = URL.createObjectURL(blob);
+                  
+                  // Replace 'filename.ext' with the desired name of the downloaded file
+                  var originalDateTime = new Date();
+
+                  var modifiedDateTimeStr = formatDate(originalDateTime);
+                  function formatDate(dateTime) {
+                    var year = dateTime.getFullYear();
+                    var month = String(dateTime.getMonth() + 1).padStart(2, '0');
+                    var day = String(dateTime.getDate()).padStart(2, '0');
+                    var hours = String(dateTime.getHours()).padStart(2, '0');
+                    var minutes = String(dateTime.getMinutes()).padStart(2, '0');
+                    var seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+                    // Modify the format as needed (e.g., "YYYY-MM-DD HH:mm:ss")
+                    return year + '' + month + '' + day + '' + hours + '' + minutes + '' + seconds;
+                  }
+                  
+                  downloadLink.download = data.filename;
+
+                  // Append the link to the document
+                  document.body.appendChild(downloadLink);
+
+                  // Simulate a click on the link to trigger the download
+                  downloadLink.click();
+
+                  // Remove the link from the document after the download is triggered
+                  document.body.removeChild(downloadLink);
+                  
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+                    $("#my-alert").fadeOut(700);
+                  });
+                });
+
+              })
+
+            }
+
+        }
+        
+        function getNotes(){
+          // $.ajax({
+          //     type: "GET",
+          //     url: "https://localhost:8081/getFile",
+          //     contentType: 'aaplication/json',
+          //     success: function(data) {
+          //         console.log(data);
+          //     },
+          //     error: function (error) {
+          //         alert("error " + error);
+          //     }
+          // });
+
+
+          const apiUrl = 'http://localhost:8081/getFile';
+
+          fetch(apiUrl, {
+            method: 'GET',
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok.');
+            }
+            return response.blob();
+          })
+          .then(blob => {
+            
+            // Create a download link and set its attributes
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            
+            // Replace 'filename.ext' with the desired name of the downloaded file
+            var originalDateTime = new Date();
+            var modifiedDateTimeStr = formatDate(originalDateTime);
+            function formatDate(dateTime) {
+              var year = dateTime.getFullYear();
+              var month = String(dateTime.getMonth() + 1).padStart(2, '0');
+              var day = String(dateTime.getDate()).padStart(2, '0');
+              var hours = String(dateTime.getHours()).padStart(2, '0');
+              var minutes = String(dateTime.getMinutes()).padStart(2, '0');
+              var seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+              // Modify the format as needed (e.g., "YYYY-MM-DD HH:mm:ss")
+              return year + '' + month + '' + day + '' + hours + '' + minutes + '' + seconds;
+            }
+
+            downloadLink.download = 'filename_'+modifiedDateTimeStr+'.pdf';
+
+
+            // Append the link to the document
+            document.body.appendChild(downloadLink);
+
+            // Simulate a click on the link to trigger the download
+            downloadLink.click();
+
+            // Remove the link from the document after the download is triggered
+            document.body.removeChild(downloadLink);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#my-alert").fadeOut(700);
+            });
+          });
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        function uploadNotes() {
+          
+          var semTxt = $('#semTxt').val();
+          var subject = $('#subjectTxt').val();
+          const notesFile = document.getElementById('notesFile').files[0];
+          
+          if (!notesFile) {
+            alert('Please select a file to upload.');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('file', notesFile);
+          formData.append('fileext', notesFile.type);
+          formData.append('fileName', notesFile.name);
+          formData.append('semTxt', semTxt);
+          formData.append('subject', subject);
+          fetch('http://localhost:8081/uploadNotes', {
+            method: 'POST',
+            body: formData,
+          })
+          .then(response => {
+            if (response.ok) {
+              //alert('File uploaded successfully!');
+              getAllNotes(0);
+              $('#myModal2').modal('hide');
+            } else {
+              alert('File upload failed.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#my-alert").fadeOut(700);
+            });
+          });
+        }
+
+        function updateMarksJson(){
+
+          var jData = new Object();
+
+          var rollno = $('#rollnotest').val();
+
+          jData['marksJson'] = JSON.stringify(list);
+          jData['rollno'] = rollno;
+
+          $.ajax({
+              type: 'POST',
+              url: 'http://localhost:8081/updateMarksJson',
+              contentType: 'application/json',
+              data: JSON.stringify(jData),
+              success: function(data){
+                
+                  console.log(data);
+                  if(data > 0){
+                    resetForm();
+                    $('#marksAddedtbl>tbody').html('');
+                    $("#success-alert1").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-alert1").slideUp(700);
+                    });
+
+                  } else {
+                    $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#warning-alert").slideUp(700);
+                    });
+                  }
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          })
+        }
+        
+        function resetForm(){
+          $('#rollnotest').val('');
+          $('#subject').val('0');
+          $('#test').val('0');
+          $('#marks').val('');
+        }
+        
+        function addMarksToJson() {
+
+          var rollNoTest = $('#rollnotest').val();
+          
+          var subject = $('#subject option:selected').val();
+
+          var test = $('#test option:selected').val();
+
+          var marks = $('#marks').val();
+
+          
+          if(validateFields(rollNoTest,subject,test,marks)){
+            var jTestData = new Object();
+
+            jTestData.rollNoTest = rollNoTest;
+            jTestData.subject = subject;
+            jTestData.test = test;
+            jTestData.marks = marks;
+
+            addObject(jTestData);
+
+            $('#rollno_'+jTestData.rollNoTest).click(function(){
+              console.log('cll'+jTestData.rollNoTest)
+              
+              var index = list.findIndex(function(o){
+                return o.rollNoTest === jTestData.rollNoTest;
+              })
+              if (index !== -1) list.splice(index, 1);
+              $(this).parent().closest('tr').remove();
+              console.log(JSON.stringify(list))
+            })
+            
+          }
+
+          function validateFields(rollNoTest,subject,test,marks){
+            var isValid = true;
+            if(rollNoTest ==null || rollNoTest ==undefined || rollNoTest===''){
+              isValid = false;
+              return isValid;
+            }
+            if(subject ==null || subject ==undefined || subject==='' || subject==='0'){
+              isValid = false;
+              return isValid;
+            }
+            if(test ==null || test ==undefined || test==='' || test==='0'){
+              isValid = false;
+              return isValid;
+            }
+            if(marks ==null || marks ==undefined || marks===''){
+              isValid = false;
+            }
+            return isValid;
+          }
+          
+
+          
+          
+          
+          function addObject(jTestData){
+
+            if (list.filter(x => x.rollNoTest === jTestData.rollNoTest && x.subject === jTestData.subject && x.test === jTestData.test && x.marks === jTestData.marks).length === 0) {
+              list.push(jTestData);
+              var closeBtnHtml = '<button type="button" id="rollno_'+jTestData.rollNoTest+'" class="close text-center" data-dismiss="alert">x</button>';
+              $('#marksAddedtbl>tbody').append('<tr><td>'+jTestData.rollNoTest+'</td><td>'+jTestData.subject+'</td><td>'+jTestData.test+'</td><td>'+jTestData.marks+'</td><td>'+closeBtnHtml+'</td></tr>');
+            }
+            $('.marksAddedJson').html('');
+
+            
+
+            // $('.marksAddedJson').text(JSON.stringify(list));
+            // console.log(JSON.stringify(list));
+          }
+
+          
+
+        }
+
+        
+
+        function viewAssignments() {
+          $('#spinnerContainer').removeClass('d-none');
+          // setTimeout(()=> {
+            getCall();
+          // }
+          // ,1500);
+
+
+
+
+          function getCall(){
+            $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: "http://localhost:8081/getAssignments",
+              contentType: 'aaplication/json',
+              success: function(data) {
+                  console.log(data);
+                  $('#spinnerContainer').addClass('d-none');
+                  fillAssignmentsTable(data);
+                },
+                error: function (error) {
+                  $('#spinnerContainer').addClass('d-none');
+                  alert("error " + error);
+                  
+                }
+              });
+              
+            }
+        }
+
+
+        function fillAssignmentsTable(data) {
+          $('#viewAssignmentTbl>tbody').html('');
+          var questionList = "";
+          var submittedAssignmentsStr = "View Submitted Assignments";
+          if(data!=null && data != undefined){
+            var counter = 0;
+            data.forEach(element => {
+              if(element != null)  {
+                // const myArray = element.assignment.split(",");
+                // console.log(myArray);
+                // if(element.assignment != null){
+                //   const qlist = element.assignment.split(",");
+                //   qlist.forEach(function (i,e) {
+                //     questionList = questionList + i +"\n";
+                //   });
+                // }
+                $('#viewAssignmentTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+element.assignmentName+'</td><td><a href="#" style="text-decoration: none;" class="assignments" id="'+element.assignmentName+'">'+submittedAssignmentsStr+'</a></td> </tr>');
+                
+                questionList = "";
+              }
+            });
+          } else {
+            $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#success-alert").slideUp(700);
+            });
+          }
+
+          $('.assignments').click(function (){
+            getStudentSubmittedAssignmentByAssignmentName($(this).attr('id'));
+            
+          });
+
+        }
+
+        function getStudentSubmittedAssignmentByAssignmentName(assignmentName) {
+          showSpinnerOverlay();
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
+              contentType: 'aaplication/json',
+              success: function(data) {
+                hideSpinnerOverlay();
+                
+                  console.log(data);
+                  fillModalStdntSbmttedAssignmnts(data);
+                  fillUpAssignmentCdDropDwn(data);
+                  $('#myModal').modal();
+              },
+              error: function (error) {
+                  hideSpinnerOverlay();
+                  alert("error " + error);
+              }
+          });
+        }
+       
+        function fillUpAssignmentCdDropDwn(data){
+          var assignmentCodes = new Set();
+          if(data != null && data !== undefined){
+            data.forEach(e => (e.code !== undefined && e.code != null && e.code!=='')?assignmentCodes.add(e.code): '');
+          }
+          $('#assignmentCodeDropdwn').html('');
+          $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', '0').text('--SELECT--'));
+          assignmentCodes.forEach(element => {
+            
+            var assName = data.filter(e1 => e1.code === element)[0].assignmentName;
+            var codeName = assName+" ("+element+")";
+            $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', element).text(codeName));
+          })
+          
+          $('#assignmentCodeDropdwn').change(function(){
+            var assignmentCode = $('#assignmentCodeDropdwn option:selected').val();
+            if(assignmentCode !=undefined && assignmentCode !=null && assignmentCode !=='0'){
+
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                contentType: 'aaplication/json',
+                success: function(data) {
+                  console.log(data);
+                  
+                  fillModalStdntSbmttedAssignmnts(data);
+                  // fillUpAssignmentCdDropDwn(data);
+                  $('#myModal').modal();
+                },
+                error: function (error) {
+                  alert("error " + error);
+                }
+              });
+            }
+          })
+
+        }
+
+        function fillModalStdntSbmttedAssignmnts(data) {
+          
+          var linkEnableDisableHtml;
+          $('#submittedAssignmentsTbl>tbody').html('');
+          debugger
+          data.forEach(item => {  
+            
+            if(item.studentSubmittedAssignments !== null && item.studentSubmittedAssignments !="" && item.assignmentStatus == 'SUBMITTED'){
+              linkEnableDisableHtml =  "<button type='button' id='"+item.rollno+"' class='btn btn-link studSbmtdFileLink' data-code='"+item.code+"' style='text-decoration: none;'><i class='fa fa-download' aria-hidden='true'></i> Download Submitted Assignment </button>";
+            } else {
+              linkEnableDisableHtml = "";
+            }
+            var greenCircleTick = '<i class="fa fa-check-circle" style="font-size:18px; color:#3FD742;"></i>';
+            var green = '<i class="fa-regular fa-circle-check fa-sm" style="color: #54d24b;"></i>';
+            var redcircleCross = '<i class="fa fa-times-circle" style="font-size:18px; color: #FF0000;"></i>';
+            const submittedStatusStr = 'SUBMITTED';
+            if(item.rollno != null && item.fullname != null){
+              $('#submittedAssignmentsTbl>tbody').append('<tr><td>'+item.rollno+'</td ><td>'+item.fullname+'</td><td>'+item.code+'</td><td class="text-center">'+(item.assignmentStatus===submittedStatusStr?greenCircleTick:redcircleCross)+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
+            } 
+          });
+          
+          $('.studSbmtdFileLink').click(function () {
+            
+              var fileId = $(this).attr('id');
+              var assgmntCode = $(this).attr('data-code');
+              getStudSbmtdAssignmentFile(fileId,assgmntCode);
+
+          })
+
+          function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
+            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
+
+            fetch(apiUrl, {
+              method: 'GET',
+            })
+            .then(response => {
+              
+              if (!response.ok) {
+                throw new Error('Network response was not ok.');
+              }
+              return response.json();
+            })
+            .then(data => {
+              
+              var blobFile = data.studentSubmittedAssignments;
+              const decodedByteArray = decodeBase64ByteArray(blobFile);
+
+              function decodeBase64ByteArray(base64String) {
+                  const binaryString = atob(base64String);
+                  const byteArray = new Uint8Array(binaryString.length);
+                  for (let i = 0; i < binaryString.length; i++) {
+                      byteArray[i] = binaryString.charCodeAt(i);
+                  }
+                  return byteArray;
+              }
+
+              // console.log(blobFile);
+              // Uint8Array.from(bData, b => b.charCodeAt(0));
+              // const base64String = btoa(String.fromCharCode(...new BigUint64Array(Uint8Array.from(blobFile, b => b.charCodeAt(0)))));
+              // console.log(base64String);
+              const blob = new Blob([decodedByteArray], {type: 'application/octet-stream'});
+              // var blobFileEx = new Blob([(blobFile)], {type: 'application/pdf'});
+
+              // Create a download link and set its attributes
+              const downloadLink = document.createElement('a');
+              downloadLink.href = URL.createObjectURL(blob);
+              
+              // Replace 'filename.ext' with the desired name of the downloaded file
+              var originalDateTime = new Date();
+
+              var modifiedDateTimeStr = formatDate(originalDateTime);
+              function formatDate(dateTime) {
+                var year = dateTime.getFullYear();
+                var month = String(dateTime.getMonth() + 1).padStart(2, '0');
+                var day = String(dateTime.getDate()).padStart(2, '0');
+                var hours = String(dateTime.getHours()).padStart(2, '0');
+                var minutes = String(dateTime.getMinutes()).padStart(2, '0');
+                var seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+                // Modify the format as needed (e.g., "YYYY-MM-DD HH:mm:ss")
+                return year + '' + month + '' + day + '' + hours + '' + minutes + '' + seconds;
+              }
+              
+              downloadLink.download = 'filename_'+modifiedDateTimeStr+'.'+data.fileExt;
+
+              // Append the link to the document
+              document.body.appendChild(downloadLink);
+
+              // Simulate a click on the link to trigger the download
+              downloadLink.click();
+
+              // Remove the link from the document after the download is triggered
+              document.body.removeChild(downloadLink);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+                $("#my-alert").fadeOut(700);
+              });
+            });
+
+          }
+
+        }
+
+        function submitAssignment() {
+          
+          var branch = $('#branch').val();
+          var semester = $('#semester').val();
+          var code = $('#code').val();
+
+          var assignmentObj = new Object();
+
+          var queList = [];
+
+          assignmentObj["assignmentName"] = $('#assignment-title').val();
+
+          $('#questionOlList>li').each(function(i,e) {
+            queList.push($(this).text());
+          });
+
+          assignmentObj['branch'] = branch;
+          assignmentObj['semester'] = semester;
+          assignmentObj['code'] = code;
+          assignmentObj['queList'] = queList;
+          
+          console.log(JSON.stringify(assignmentObj));
+
+          $.ajax({
+              type: 'POST',
+              url: 'http://localhost:8081/updateAssignment',
+              contentType: 'application/json',
+              data: JSON.stringify(assignmentObj),
+              success: function(data){
+
+                  console.log(data);
+                  $('#addAssignmentModal').modal('hide');
+                  $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-alert2").slideUp(700);
+                    });
+                    $('#assignment-title').val('');
+                  $('#questionOlList').html('');
+                  viewAssignments();
+                  
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          })
+
+          
+        }
+        
+        function submitAllQuestions () {
+
+          var assignmentObj = new Object();
+
+          assignmentObj["assignmentName"] = $('#assignment-title').val();
+
+          $('#questionOlList>li').each(function(i,e) {
+            assignmentObj[i] = $(this).text();
+          });
+
+          console.log(assignmentObj.toString());
+
+          
+
+        }
+
+        $('#addAssignmentBtn').click(function addAssignmentQuestion() {
+          addQuestion();
+        })
+
+        function addQuestion() {
+          var title = $('#assignment-title').val();
+          var question = $('#question').val();
+
+          if(title && title != null && question && question != null){
+            
+            $('#questionOlList').append('<li>'+question+'</li>');
+            // $('#questionOlList').append('<li>'+question+'</li>');
+
+            
+          }
+
+          $('#question').val('');
+        }
+
+        function getStudentDetails() {
+          var rollno = $('#rollno').val();
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: "http://localhost:8081/getStudentDetails/" + rollno,
+              contentType: 'aaplication/json',
+              success: function(data) {
+                  console.log(data);
+                  fillStudentDetailsTbl(data);
+              },
+              error: function (error) {
+                  // alert("error " + error);
+                  $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-dange3").slideUp(700);
+                  });
+              }
+          });
+        }
+
+
+        function fillStudentDetailsTbl(data) {
+          // console.log(data);
+          $('#studentDetailsTbl>tbody').html('');
+          if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
+            $('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
+              +data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
+          } else {
+            $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#success-alert").slideUp(700);
+            });
+          }
+        }
+  </script>

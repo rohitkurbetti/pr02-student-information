@@ -1,125 +1,845 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto+Condensed&display=swap" rel="stylesheet">
+
 </head>
+
+<style id="loginCss">
+
+body{
+  margin: auto;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: auto;
+    background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
+    animation: gradient 60s ease infinite;
+    background-size: 400% 400%;
+    background-attachment: fixed;
+	text-align:center;
+	padding-top: 25px;
+	font-size: 30px;
+	font-weight: bold;
+	
+  /*background-image: url('../Prj_simple/img/pexels2.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* This keeps the background fixed when scrolling */
+  
+}
+
+.container{
+  /*border:1px solid white;*/
+  width: 600px;
+  height: 350px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex; 
+}
+.backbox{  
+  background-color: #404040;
+  width: 100%;
+  height: 80%;
+  position: absolute;
+  transform: translate(0,-50%);
+  top:50%;
+  display: inline-flex;
+}
+
+.frontbox{
+  background-color: white;
+  border-radius: 20px;
+  height: 100%;
+  width: 50%;
+  z-index: 10;
+  position: absolute;
+  right:0;
+  margin-right: 0;
+  margin-left: 3%;
+  transition: right .8s ease-in-out;
+}
+
+.moving{
+  right:45%;
+}
+
+.loginMsg, .signupMsg{
+  width: 50%;
+  height: 100%;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.loginMsg .title,
+.signupMsg .title{
+  font-weight: 300;
+  font-size: 23px;
+}
+
+.loginMsg p,
+.signupMsg p {
+  font-weight: 100;
+}
+
+.textcontent{
+  color:white;
+  margin-top:65px;
+  margin-left: 12%;
+}
+
+.loginMsg button,
+.signupMsg button {
+  background-color: #404040;
+  border: 2px solid white;
+  border-radius: 10px;
+  color:white;
+  font-size: 12px;
+  box-sizing: content-box;
+  font-weight: 300;
+  padding:10px;
+  margin-top: 20px;
+}
+
+/* front box content*/
+.login, .signup{
+  padding: 20px;
+  text-align: center;
+}
+
+.login h2,
+.signup h2 {
+  color: #35B729;
+  font-size:22px;
+}
+
+.inputbox{
+  margin-top:30px; 
+}
+.login input[type='text'],[type='password'], 
+.signup input[type='text'],[type='password'] {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background-color: #f2f2f2;
+  border: none;
+  margin-bottom:20px;
+  font-size: 12px;
+}
+
+.login button,
+.signup button{
+  background-color: #35B729;
+  border: none;
+  color:white;
+  font-size: 12px;
+  font-weight: 300;
+  box-sizing: content-box;
+  padding:10px;
+  border-radius: 10px;
+  width: 60px;
+  position: absolute;
+  right:30px;
+  bottom: 30px;
+  cursor: pointer;
+}
+
+/* Fade In & Out*/
+.login p {
+  cursor: pointer;
+  color:#404040;
+  font-size:15px;
+}
+
+.loginMsg, .signupMsg{
+  /*opacity: 1;*/
+  transition: opacity .8s ease-in-out;
+}
+
+.visibility{
+  opacity: 0;
+}
+
+.hide{
+  display: none;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.wave {
+    background: rgb(255 255 255 / 25%);
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 200%;
+    height: 12em;
+    animation: wave 10s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.8;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.wave:nth-of-type(2) {
+    bottom: -1.25em;
+    animation: wave 18s linear reverse infinite;
+    opacity: 0.8;
+}
+
+.wave:nth-of-type(3) {
+    bottom: -2.5em;
+    animation: wave 20s -1s reverse infinite;
+    opacity: 0.9;
+}
+
+@keyframes wave {
+    2% {
+        transform: translateX(1);
+    }
+
+    25% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    75% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(1);
+    }
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.waviy {
+  position: relative;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 30px;
+  
+}
+.waviy span {
+  font-family: 'Alfa Slab One', cursive;
+  position: relative;
+  display: inline-block;
+  color: #ffffff;
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(.1s * var(--i));
+  
+  
+}
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-20px)
+  }
+}
+
+
+
+
+    
+</style>
+
+<style id="homePageCss">
+/* *{
+    font-family: 'Merriweather', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+  } */
+  .center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .table-sm {
+    font-size: 16px; /* Reduce font size */
+  }
+
+  .table-sm th,
+  .table-sm tr td{
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem; /* Reduce padding */
+  }
+
+  .btn-link {
+    transition: transform 0.3s ease;
+  }
+
+  .btn-link:hover {
+    transform: scale(1.1);
+  }
+
+
+  @keyframes fadeInRow {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Apply the animation to the table rows */
+  .table-fade-in tbody tr {
+    animation: fadeInRow 0.5s ease-in-out;
+  }
+
+
+
+
+
+  /* Loading Spinner Overlay Start*/
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    z-index: 9998; /* Ensure it's behind the loading screen but above the main content */
+  }
+  
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: large;
+  }
+  
+  .loading-spinner {
+    border: 8px solid #f3f3f3; /* Increase the border width */
+    border-top: 8px solid #3498db; /* Increase the border width */
+    border-radius: 50%;
+    width: 60px; /* Increase the width */
+    height: 60px; /* Increase the height to maintain a circular shape */
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  #main-content {
+    display: relative; /* Hide main content until API responds */
+  }
+  
+  #main-content.loading {
+    /* Styles for dimming the main content */
+    pointer-events: none; /* Allow clicks to pass through the loading overlay */
+    opacity: 0.5; /* Dim the main content */
+  }
+
+  /*Loading Spinner Overlay End*/
+
+/* Custom style for input fields */
+.form-control {
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.table-sm {
+  font-size: 16px; /* Reduce font size */
+}
+
+.table-sm th,
+.table-sm tr td{
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem; /* Reduce padding */
+}
+
+.btn-link {
+  transition: transform 0.3s ease;
+}
+
+.btn-link:hover {
+  transform: scale(1.1);
+}
+
+
+@keyframes fadeInRow {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Apply the animation to the table rows */
+.table-fade-in tbody tr {
+  animation: fadeInRow 0.5s ease-in-out;
+}
+
+
+/* Loading Spinner Overlay Start*/
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  z-index: 9998; /* Ensure it's behind the loading screen but above the main content */
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: large;
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3; /* Increase the border width */
+  border-top: 8px solid #3498db; /* Increase the border width */
+  border-radius: 50%;
+  width: 60px; /* Increase the width */
+  height: 60px; /* Increase the height to maintain a circular shape */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#main-content {
+  display: relative; /* Hide main content until API responds */
+}
+
+#main-content.loading {
+  /* Styles for dimming the main content */
+  pointer-events: none; /* Allow clicks to pass through the loading overlay */
+  opacity: 0.5; /* Dim the main content */
+}
+
+/*Loading Spinner Overlay End*/
+
+
+
+.keys {
+  font-weight: bold;
+}
+
+
+</style>
+
+<!-- partial:index.partial.html -->
 <body>
-    <div class="loginBlock">
-        <input type="text" name="emailPhonetxt" placeholder="email/phone" id="emailPhone" required="">
-        <br><br>
-        <input type="password" name="passwordtxt" placeholder="password" id="passwordtxt" required="">
-    </div>
 
-    <br>
-    <div class="signupBlock" hidden>
-        <input type="text" name="" placeholder="name" id="nametxt" required="">
-        <br><br>
-        <input type="text" name="" placeholder="city" id="citytxt" required="">
-        <br><br>
-        <input type="text" name="" placeholder="mobile" id="mobiletxt" required="">
-        <br><br>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+  </div>
+
+  <div id="main-content"></div>
+
+  <div id="main-container"></div>
+  <div class="row">
+    <div class="col">
+      <div class="alert-container-student" style="z-index: auto;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="backbox">
+      <div class="loginMsg">
+        <div class="textcontent">
+          <p class="title">Don't have account?</p>
+          <p>Sign Up</p>
+          <button id="switch1">Sign Up</button>
+        </div>
+      </div>
+      <div class="signupMsg visibility">
+        <div class="textcontent">
+          <p class="title">Have an account?</p>
+          <p>Log In</p>
+          <button id="switch2">LOG IN</button>
+        </div>
+      </div>
+    </div>
+    <!-- backbox -->
+
+    <div class="frontbox">
+      <div class="login">
+        <h2>LOG IN</h2>
+        <div class="inputbox">
+          <input type="text" name="user" id ="user" placeholder="  USERNAME">
+          <input type="password" id ="pass" name="pass" placeholder="  PASSWORD">
+          
+
+        </div>
         
-    </div>
+        <p>FORGET PASSWORD?</p>
+        <button id="loginBtn">LOG IN</button>
+      </div>
 
-    <div>
-        <input type="button" value="submit" name="login" id="loginBtn"></input>
-        <a href="" id="signupLink">Signup here</a>
-    </div>
+      <div class="signup hide">
+        <h2>SIGN UP</h2>
+        <div class="inputbox">
+          <input type="text" id="fullname" name="fullname" placeholder="  FULLNAME">
+          <input type="text" id="email" name="email" placeholder="  EMAIL">
+          <input type="password" id="password" name="password" placeholder="  PASSWORD">
+        </div>
+        <!-- <div class="mt-0">
+          <div class="d-flex" style="font-size:12px; justify-content:center;">
+            <div class="mr-3">
+              <input class="userrole" type="radio" value="Teacher" name="userrole" id="teacherRdoBtn" style="vertical-align:middle;">
+              <label class="" for="teacherRdoBtn">Teacher</label>
+            </div>
+            <div class="mb-3">
+              <input class="userrole" type="radio" value="Student" name="userrole" id="studentRdoBtn" style="vertical-align:middle;">
+              <label class="" for="studentRdoBtn">Student</label>
+            </div>
 
+          </div>
+        </div> -->
+        <button id="signupBtn">SIGN UP</button>
+      </div>
+
+    </div>
+    <!-- frontbox -->
+  </div>
+  <div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+  </div>
+  
+  
+
+ <div class="waviy">
+   <span style="--i:1">P</span>
+   <span style="--i:2">R</span>
+   <span style="--i:3">E</span>
+   <span style="--i:4">M</span>
+   <span style="--i:5">A</span>
+   <span style="--i:6">L</span>
+   <span style="--i:7">A</span>
+   <span style="--i:8">T</span>
+   <span style="--i:9">A</span>
+   <span style="--i:10">I</span>
+   <span style="--i:10">    </span>
+   <span style="--i:10">    </span>
+   
+   <span style="--i:1">C</span>
+   <span style="--i:1">H</span>
+   <span style="--i:1">A</span>
+   <span style="--i:1">V</span>
+   <span style="--i:1">A</span>
+   <span style="--i:1">N</span>
+   <span style="--i:10"> </span>
+   <span style="--i:10"> </span>
+   
+   <span style="--i:1">P</span>
+   <span style="--i:2">O</span>
+   <span style="--i:3">Y</span>
+   <span style="--i:4">T</span>
+   <span style="--i:5">E</span>
+   <span style="--i:6">C</span>
+   <span style="--i:7">H</span>
+   <span style="--i:8">T</span>
+   <span style="--i:9">N</span>
+   <span style="--i:10">I</span>
+   <span style="--i:10">C</span>
+   
+
+  </div>
+
+<!-- partial -->
+  <!-- <script  src="./script.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+</html>
 
 
 <script>
-    $(document).ready(function () {
-        
+    $(document).ready(function(){
 
-        $('#signupLink').click(function(e){
-            e.preventDefault();
+      $('#success-alert1').hide();
+      if (window.location.pathname === "/") {
+            
+        $("#main-container").load("background_c.html");
+      }
 
-            $('.signupBlock').toggle('hidden');
-            $('#signupLink').hide();
+      function showSpinnerOverlay(){
+        $(".loading-overlay").fadeIn();
+        $(".loading-screen").fadeIn();
+        $("#main-content").addClass("loading");
+        //$("#main-content").fadeOut();
+      }
 
-        });
+      function hideSpinnerOverlay(){
+        $(".loading-screen").fadeOut();
+        //$("#main-content").fadeIn();
+        $("#main-content").removeClass("loading");
+        $(".loading-overlay").fadeOut();
+      }
+
+        var $loginMsg = $('.loginMsg'),
+  $login = $('.login'),
+  $signupMsg = $('.signupMsg'),
+  $signup = $('.signup'),
+  $frontbox = $('.frontbox');
+
+$('#switch1').on('click', function() {
+  $loginMsg.toggleClass("visibility");
+  $frontbox.addClass("moving");
+  $signupMsg.toggleClass("visibility");
+
+  $signup.toggleClass('hide');
+  $login.toggleClass('hide');
+})
+
+$('#switch2').on('click', function() {
+  $loginMsg.toggleClass("visibility");
+  $frontbox.removeClass("moving");
+  $signupMsg.toggleClass("visibility");
+
+  $signup.toggleClass('hide');
+  $login.toggleClass('hide');
+})
+
+setTimeout(function(){
+  $('#switch1').click()
+},1000)
+
+setTimeout(function(){
+  $('#switch2').click()
+},3000)
 
 
-        $('#loginBtn').click(function(){
-            debugger;
-            var emailPhone = $('#emailPhone').val();
-            var password = $('#passwordtxt').val();
+  $('#loginBtn').click(function(){
+    showSpinnerOverlay();
+    setTimeout(checkUserExists, 1000);
 
-            var name = $('#nametxt').val();
-            var city = $('#citytxt').val();
-            var mobile = $('#mobiletxt').val();
+  })
 
-            var jData = new Object();
+  var userRole = '';
+  $('.userrole').change(function () {
+    debugger
+    userRole = getUserRole();
+  })
 
-            jData['emailPhone'] = emailPhone;
-            jData['password'] = password;
-            jData['name'] = name;
-            jData['city'] = city;
-            jData['mobile'] = mobile;
 
-            if(jData['emailPhone'] !== null && jData['password'] !== null && jData['name'] ==="" &&
-            jData['city'] === "" && jData['mobile'] === "") {
-                getCall(jData);
-            } else {
+  function getUserRole(){
+    debugger
+    var userRole='';
+    $('input[type="radio"]').each(function (e,i) {
+      if($(this).prop('checked')) { 
+       userRole = $(this).val();
+      }
+    })
+    return userRole;
+  }
 
-                postcall(jData);
+  function checkUserExists(){
+    
+    var email = $('#user').val();
+    var password = $('#pass').val();
+    password = btoa(password);
+    
+
+    $.ajax({
+      type: "GET",
+      url: "http://localhost:8081/authenticate_user?email="+email+"&password="+password,
+      contentType: 'aaplication/json',
+      success: function(data) {
+        hideSpinnerOverlay();
+          console.log(data);
+          debugger
+          if(data.isAuthenticated==true){
+
+            //window.location.href = "background.html"; 
+            $('.waviy').hide()
+            $('.wave').hide()
+            $('.container').hide()
+            $('#loginCss').remove();
+            if(data.email !== null && data.password !==null){
+
+              if(data.email==='teacher@gmail.com' && data.password ==='teacher'){
+                $("#main-container").load("background_c.html");
+              } else {
+                $("#main-container").load("AddStudent_c.html");
+                $('#main-container').attr('data-email',data.email);
+                $('#main-container').attr('data-rollno',data.rollno);
+                $('#main-container').attr('data-fullname',data.fullname);
+              } 
             }
-
-
-        });
-
-
-
-        function getCall(jData){
-            var emailPhone = jData['emailPhone'];
-            var password = jData['password'];
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8081/authenticate_user?emailPhone="+emailPhone+"&password="+password+"",
-                success: function (data, status) {
-                    if(data.name != undefined && data.password != undefined){
-                        console.log('success')
-                        window.location="background.html";
-                        alert("validation success")
-                    }else{
-                        console.log('failed')
-                        alert("validation failed")
-                    }
-                },
-                error: function (err) {
-                    alert("Data save failed " + err);
-                },
+            //loadContent('./background.html');
+          } else {
+            hideSpinnerOverlay();
+            alert('invalid creds');
+            window.location.href = "."; 
+            
+          }
+    
+        // Function to load content without full-page reload
+        function loadContent(url) {
+            $('#content').load(url, function(responseText, textStatus, xhr) {
+                if (textStatus === 'error') {
+                    // Handle error, e.g., show a 404 page
+                    hideSpinnerOverlay();
+                    console.log('Error loading page.');
+                }
             });
-            
-        };
-
-
-
-        function postcall(jData){
-
-            console.log(jData);
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:8081/student_signup",
-                contentType: "application/json",
-                data: JSON.stringify(jData),
-                success: function (data, status) {
-                    alert("Data save " + status);
-                    console.log('success')
-                },
-                error: function (err) {
-                    alert("Data save failed " + err);
-                },
-            });
-            
-            
         }
+          //fillAssignmentsTable(data);
+        },
+        error: function (error) {
+          hideSpinnerOverlay();
+          alert("error " + error);
+          window.location.href = "."; 
+          
+        }
+      });
+      
+    }
 
-    });
+  $('#signupBtn').click(function(){
+    signupUser();
+  })
+
+
+
+
+  function signupUser(){
+    
+        var email = $('#email').val();
+        var password = $('#password').val();
+        var fullname = $('#fullname').val();
+  
+        if(isSignUpFormValid(email,password, fullname)){
+
+          var jData = new Object();
+          jData['email'] = email;
+          jData['password'] = password;
+          jData['fullname'] = fullname;
+          jData['userRole'] = userRole;
+          
+          $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8081/createUser',
+            contentType: 'application/json',
+            data: JSON.stringify(jData),
+            success: function(data){
+              debugger
+                console.log(data);
+                if(data != null){
+                  resetSignupFields();
+                  
+
+                  showAlert('Sign-up success', 'success');
+    
+                } else {
+                  alert('Sign Up Failed!')
+                  showAlert('Sign Up Failed', 'danger');
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        })
+      } else {
+        alert("Enter valid values");
+      }
+    }
+
+
+    function isSignUpFormValid(email,password,fullname) {
+      var isValid = true;
+
+      if($.isEmptyObject(email) || $.isEmptyObject(password) || $.isEmptyObject(fullname)){
+        isValid = false;
+      }
+
+      return isValid;
+    }
+  
+    function resetSignupFields() {
+      $('#fullname').val('');
+      $('#email').val('');
+      $('#password').val('');
+    }
+
+
+    
+
+    function showAlert(message, type,customClz) {
+      debugger
+      customClz = customClz =="" || customClz == undefined ? '':customClz;
+      $('.alert-container-student'+customClz).html('');
+      const alertContainer = $('.alert-container-student'+customClz);
+      const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
+      alertContainer.append(alertDiv);
+    
+      // Show the alert with fade-in animation
+      alertDiv.fadeIn('slow');
+    
+      // Hide the alert after 3 seconds with fade-out animation
+      setTimeout(function() {
+        alertDiv.fadeOut('slow', function() {
+          $(this).remove();
+        });
+      }, 3000);
+    }
+
+    })
 </script>
-
-</html>
