@@ -629,7 +629,7 @@
 <script>
     $(document).ready(function () {
 
-      showAlert('It is working now working now is working now ', 'success');
+      //showAlert('It is working now working now is working now ', 'success');
       
       function showAlert(message, type, timeout) {
         const alertContainer = $('.alert-container');
@@ -734,7 +734,7 @@
             $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+            url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
@@ -754,7 +754,7 @@
           showSpinnerOverlay();
           $.ajax({
             type: "GET",
-            url: "http://localhost:8081/getAllNotes?page="+page+"&size=10",
+            url: "https://pr02-student-information-production.up.railway.app/getAllNotes?page="+page+"&size=10",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
@@ -784,7 +784,7 @@
           
               // Attach click event to the pagination links
               pagination.find("a").on("click", function (e) {
-                debugger  
+                  
                 e.preventDefault();
                   let page = parseInt($(this).data("page"));
                   getAllNotes(page);
@@ -808,9 +808,9 @@
 
 
               $('.downloadNoteFileLink').click(function(){
-                debugger
+                
                 var fileId = $(this).attr('id');
-                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -889,7 +889,7 @@
         function getNotes(){
           // $.ajax({
           //     type: "GET",
-          //     url: "https://localhost:8081/getFile",
+          //     url: "https://pr02-student-information-production.up.railway.app/getFile",
           //     contentType: 'aaplication/json',
           //     success: function(data) {
           //         console.log(data);
@@ -900,7 +900,7 @@
           // });
 
 
-          const apiUrl = 'http://localhost:8081/getFile';
+          const apiUrl = 'https://pr02-student-information-production.up.railway.app/getFile';
 
           fetch(apiUrl, {
             method: 'GET',
@@ -964,7 +964,7 @@
         }
 
         function uploadNotes() {
-          debugger
+          
           var semTxt = $('#semTxt').val();
           var subject = $('#subjectTxt').val();
           const notesFile = document.getElementById('notesFile').files[0];
@@ -980,7 +980,7 @@
           formData.append('fileName', notesFile.name);
           formData.append('semTxt', semTxt);
           formData.append('subject', subject);
-          fetch('http://localhost:8081/uploadNotes', {
+          fetch('https://pr02-student-information-production.up.railway.app/uploadNotes', {
             method: 'POST',
             body: formData,
           })
@@ -1012,11 +1012,11 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateMarksJson',
+              url: 'https://pr02-student-information-production.up.railway.app/updateMarksJson',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
-                debugger
+                
                   console.log(data);
                   if(data > 0){
                     resetForm();
@@ -1137,7 +1137,7 @@
             $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignments",
+              url: "https://pr02-student-information-production.up.railway.app/getAssignments",
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
@@ -1194,11 +1194,10 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
+              url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
                 hideSpinnerOverlay();
-                debugger
                   console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
                   fillUpAssignmentCdDropDwn(data);
@@ -1219,7 +1218,7 @@
           $('#assignmentCodeDropdwn').html('');
           $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', '0').text('--SELECT--'));
           assignmentCodes.forEach(element => {
-            debugger
+            
             var assName = data.filter(e1 => e1.code === element)[0].assignmentName;
             var codeName = assName+" ("+element+")";
             $('#assignmentCodeDropdwn').append($('<option></option>').attr('value', element).text(codeName));
@@ -1232,11 +1231,11 @@
               $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
                 contentType: 'aaplication/json',
                 success: function(data) {
                   console.log(data);
-                  debugger
+                  
                   fillModalStdntSbmttedAssignmnts(data);
                   // fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
@@ -1251,7 +1250,7 @@
         }
 
         function fillModalStdntSbmttedAssignmnts(data) {
-          debugger
+          
           var linkEnableDisableHtml;
           $('#submittedAssignmentsTbl>tbody').html('');
           data.forEach(item => {  
@@ -1270,7 +1269,7 @@
           });
           
           $('.studSbmtdFileLink').click(function () {
-            debugger
+            
               var fileId = $(this).attr('id');
               var assgmntCode = $(this).attr('data-code');
               getStudSbmtdAssignmentFile(fileId,assgmntCode);
@@ -1278,7 +1277,7 @@
           })
 
           function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
-            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
+            var apiUrl = 'https://pr02-student-information-production.up.railway.app/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
 
             fetch(apiUrl, {
               method: 'GET',
@@ -1354,7 +1353,7 @@
         }
 
         function submitAssignment() {
-          debugger
+          
           var branch = $('#branch').val();
           var semester = $('#semester').val();
           var code = $('#code').val();
@@ -1378,7 +1377,7 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateAssignment',
+              url: 'https://pr02-student-information-production.up.railway.app/updateAssignment',
               contentType: 'application/json',
               data: JSON.stringify(assignmentObj),
               success: function(data){
@@ -1441,7 +1440,7 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getStudentDetails/" + rollno,
+              url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rollno,
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
