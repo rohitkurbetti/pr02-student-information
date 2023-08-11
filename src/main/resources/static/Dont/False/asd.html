@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<style>
+
+    body{
+        
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../Prj_simple/img/book-with-green-board-background.jpg');
+        background-size: cover;
+        background-attachment: fixed; /* This creates the scrolling effect */
+        color: white;
+    }
+
+    /* Target the input form control */
+.form-control.transparent-input {
+    background-color: transparent;
+    color: rgba(228, 228, 228, 0.781);
+
+    border: 1px solid rgba(132, 144, 145, 0.5); /* White transparent border */
+    border-radius: 5; /* Optional: Remove border-radius if not needed */
+}
+
+/* Optional: Add focus styles */
+.form-control.transparent-input:focus {
+    box-shadow: none;
+    border-color: rgba(10, 145, 39, 0.87);
+}
+
+</style>
+<body>
+
+    <div class="container">
+
+        <div class="form-group mt-3">
+            <input type="text" class="form-control transparent-input" placeholder="Transparent Input">    
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
