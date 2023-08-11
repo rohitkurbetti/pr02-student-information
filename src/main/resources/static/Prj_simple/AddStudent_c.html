@@ -99,6 +99,66 @@
     .keys {
       font-weight: bold;
     }
+
+    .jumbotron {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('../Prj_simple/img/ready-back-school.jpg');
+      background-size: cover;
+      background-attachment: fixed; /* This creates the scrolling effect */
+      color: white;
+    }
+
+    .transparent-btn {
+      background-color: transparent;
+      color: rgba(228, 228, 228, 0.781);
+      border: 1px solid rgba(132, 144, 145, 0.5);
+    }
+
+    .btn-shine{
+      color: #ffffff;
+      background: linear-gradient(to right, #349add 0, rgb(30, 154, 255) 10%, rgb(255, 255, 255) 20%);
+      background-position: 0;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s infinite linear;
+      animation-fill-mode: forwards;
+      -webkit-text-size-adjust: none;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    @keyframes shine {
+    0%{background-position: 0;}
+    60% {background-position: 180px;}
+    100% {background-position: 180px;}
+    }
+  
+    .floating-div {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 900px;
+    }
+
+    .shake-invalid {
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-10px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(10px);
+      }
+    }
+
   </style>
 
     <!-- spinner overlay -->
@@ -114,7 +174,11 @@
     </div>
 
     <div id="main-content" class="container mt-5">
-
+    <div class="row floating-div">
+      <div class="col">
+        <div class="alert-container"></div>
+      </div>
+    </div>
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#student-details">Student Details</a>
@@ -139,17 +203,17 @@
           <strong>Message!</strong>
           No student details found!
        </div>
-       <div class="alert alert-danger" id="success-dange3">
+       <!-- <div class="alert alert-danger" id="success-dange3">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Message!</strong>
         No student details found!
-     </div>
+     </div> -->
      <div class="jumbotron jumbotronClz">
       <h1 class="display-4">Hello, Student!</h1>
       <p class="lead">This is a student information unit.</p>
       <hr class="my-4">
       <p>To get started, create an Enrollment to embed within the system.</p>
-      <button id="studentEnrollFormBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentEnrlmtFormModal">Enroll here</button>
+      <button id="studentEnrollFormBtn" class="btn-shine btn btn-primary btn-lg" data-toggle="modal" data-target="#studentEnrlmtFormModal">Enroll here</button>
     </div>
 
       <!-- Bootstrap Modal for Adding Assignment -->
@@ -225,7 +289,7 @@
 
 
                 <button type="button" id="btnSaveStudent" class="btn btn-primary ml-2">Submit</button>
-                <button type="button" id="getStudentDetails" class="btn btn-primary ml-2">View Student Details</button>
+                <!-- <button type="button" id="getStudentDetails" class="btn btn-primary ml-2">View Student Details</button> -->
          
               </form>
             </div>
@@ -302,7 +366,7 @@
               </div>
           </div>
         </div>
-        <div class="row mt-1 mb-1">
+        <!-- <div class="row mt-1 mb-1">
           <div class="col">
             <div class="alert alert-success" id="success-alertAssignCode">
                 <button type="button" class="close" data-dismiss="alert">x</button>
@@ -310,7 +374,7 @@
                 Assignments codes have been received, Check dropdown box
               </div>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col">
             
@@ -327,7 +391,7 @@
                 <form>
                   <div class="form-group">
                     <label for="rollNoInput">Roll No</label>
-                    <input type="text" class="form-control" id="rollNoInput" placeholder="Enter roll no">
+                    <input type="text" class="form-control" id="rollNoInput" placeholder="Roll no auto visible after Get Assignment Button Click" disabled>
                   </div>
                   <div class="form-group">
                     <label for="code">Assignment Code</label>
@@ -681,7 +745,6 @@
 <script>
 
   $(document).ready(function(){
-    debugger
       var fullname = $('#main-container').attr('data-fullname');
       fullname = (fullname == undefined) ? "Student":fullname;
       $('.jumbotron>h1').text('Hello, '+fullname+'!');
@@ -729,9 +792,7 @@
       
       function showAlert(message, type,customClz) {
         debugger
-        customClz = customClz =="" || customClz == undefined ? '':customClz;
-        $('.alert-container-student'+customClz).html('');
-        const alertContainer = $('.alert-container-student'+customClz);
+        const alertContainer = $('.alert-container');
         const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
         alertContainer.append(alertDiv);
       
@@ -748,7 +809,7 @@
 
       $('#btnSaveStudent').click(function(){
           addStudent();
-          updateRollnoToUser();
+          
       });
 
       $('#getNotes').click(function(){
@@ -794,10 +855,10 @@
               
                 //updateAssignmentToNewlyAddedStudents();
               if(data > 0){
-                alert("updated rollno to user");
-                $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
-                  $("#success-alert").slideUp(700);
-                });
+                //alert("updated rollno to user");
+                //$("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                //  $("#success-alert").slideUp(700);
+                //});
               } else {
                 $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
                   $("#warning-alert").slideUp(700);
@@ -885,7 +946,6 @@
               //hideLoadingSpinner();
               hideSpinnerOverlay();
               if(data != null && data.length==0){
-                debugger
                 showAlert('No data found', 'warning');
               } else {
                 fillStudentsNotesTable(data);
@@ -907,9 +967,10 @@
         $('#notesDetailsTbl>tbody').html('');
 
               if(data != null && data.length > 0) {
+                var ctr = 0;
                 data.forEach(e => {
                   var linkEnableDisableHtml =  "<button id='"+e.noteDetailsId+"' class='btn btn-link downloadNoteFileLink' data-code='"+e.code+"' style=' font-weight:500;margin:0; padding:0; text-align:center; vertical-align:middle; text-decoration:none;'><i class='fa fa-download'></i> Download</button>";
-                  $('#notesDetailsTbl>tbody').append('<tr><td>'+e.noteDetailsId+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
+                  $('#notesDetailsTbl>tbody').append('<tr><td>'+(++ctr)+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
                     +e.filename+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
                 })
               } else {
@@ -1025,10 +1086,11 @@
             if (response.ok) {
               alert('File uploaded successfully!');
               showAlert('File uploaded successfully!','success');
-              $("#success-alertAssign").fadeTo(3000, 500).slideUp(500, function(){
-                $("#success-alertAssign").slideUp(700);
-              });
               $('#myModal2').modal('hide');
+              $('#rollNoInput').val('');
+              $('#assignmentCode').val(0);
+              $('#submitAssignmentFile').val('');
+              $('#assignmentsTxt').val('');
             } else {
               alert('File upload failed.');
               //showAlert('File uploaded successfully!','danger');
@@ -1043,52 +1105,43 @@
           });
           
         }else{
-          alert("Enter roll no");
+          alert("Please enter valid values");
         }
     }
 
     $('#getAssignmentBtn').click(function() {
-      if($('#rollNoInput').val() !=='' && $('#rollNoInput').val()!==null ){
-        getAssignmentsByRollno();
+      var rn = $('#main-container').attr('data-rollno');
+      if($('#rollNoInput').val() !=='' && $('#rollNoInput').val()!==null || rn !=null){
+        getAssignmentsByRollno(rn);
+        $('#rollNoInput').val(rn);
+        $('#rollNoInput').prop('disabled',true);
       }else {
         alert('Enter valid rollno');
       }
     })
 
-    function getAssignmentsByRollno() {
+    function getAssignmentsByRollno(rn) {
+      debugger
       $('#assignmentCode').html('');
       $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
-      var rollNo = $('#rollNoInput').val();
+      var rollNo = rn;
       $.ajax({
           type: "GET",
           url: "http://localhost:8081/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
-            $("#success-alertAssignCode").fadeTo(3000, 500).slideUp(500, function(){
-              $("#success-alertAssignCode").slideUp(700);
-            });
-              console.log(data);
+              if(data.length==0){
+                showAlert("No Assignment Codes Found", "warning");
+              } else {
+                showAlert("Assignment Codes Found", "success");
+              }
               if(data != null){
                 
                 data.forEach(element => {
                   $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.code));
                 })
 
-                $("#assignmentCode").change(function() {
-                  
-                  var selectedValue = $("#assignmentCode option:selected").val();
-                  var dataValue = $("#assignmentCode option:selected").attr('data-value');
-                  $('#assignmentsTxt').text('');
-                  var resp = '';
-                  
-                  if(dataValue !== undefined){
-                    var data1 = dataValue.split(', ');
-                    data1.forEach(element => {
-                      resp = resp+element+"\n";
-                    })
-                  }
-                  $('#assignmentsTxt').text(resp);
-                  })
+                
                 // $('#assignmentsTxt').text('');
                 // var resp = '';
                 // data = data.replace('[','').replace(']','').split(', ');
@@ -1104,11 +1157,27 @@
             
               alert("error " + error);
               $('#assignmentsTxt').text('No Assignments Found');
-              $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
-                  $("#success-dange3").slideUp(700);
-              });
+              //$("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+              //    $("#success-dange3").slideUp(700);
+              //});
           }
       });
+
+      $("#assignmentCode").change(function() {
+                  
+        var selectedValue = $("#assignmentCode option:selected").val();
+        var dataValue = $("#assignmentCode option:selected").attr('data-value');
+        $('#assignmentsTxt').text('');
+        var resp = '';
+        
+        if(dataValue !== undefined){
+          var data1 = dataValue.split(', ');
+          data1.forEach(element => {
+            resp = resp+element+"\n";
+          })
+        }
+        $('#assignmentsTxt').text(resp);
+        })
 
     }
 
@@ -1132,9 +1201,9 @@
           error: function (error) {
             
               alert("error " + error);
-              $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
-                  $("#success-dange3").slideUp(700);
-              });
+              //$("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+                //  $("#success-dange3").slideUp(700);
+              //});
             }
           });
         }
@@ -1176,41 +1245,79 @@
         var rollno = $('#rollno').val();
         var semester = $('#semester').val();
 
-        $('#main-container').attr('data-rollno',rollno);
+        function validateAddStudentFields(enrollmentId,branch,contactno,fullname,previousSemResult,rollno,semester) {
+          var isValid = true;
+          const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+          const alphabetRegex = /^[a-zA-Z]+$/;
+          const numericRegex = /^[0-9]+$/;
 
-        jData['enrollmentId'] = enrollmentId;
-        jData['branch'] = branch;
-        jData['contactno'] = contactno;
-        jData['fullname'] = fullname;
-        jData['previousSemResult'] = previousSemResult;
-        jData['rollno'] = rollno;
-        jData['semester'] = semester;
+          if(enrollmentId == null || $.isEmptyObject(enrollmentId) || !numericRegex.test(enrollmentId)){
+            isValid = false;
+          }
+          if(branch == null || $.isEmptyObject(branch) || !alphabetRegex.test(branch)){
+            isValid = false;
+          }
+          if(contactno == null || $.isEmptyObject(contactno) || !numericRegex.test(contactno)){
+            isValid = false;
+          }
 
-          $.ajax({
-              type: 'POST',
-              url: 'http://localhost:8081/student_details',
-              contentType: 'application/json',
-              data: JSON.stringify(jData),
-              success: function(data){
-                  console.log(data);
-                  
-                    updateAssignmentToNewlyAddedStudents();
-                  if(data > 0){
-                    
-                    $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
-                      $("#success-alert").slideUp(700);
-                    });
-                  } else {
-                    $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
-                      $("#warning-alert").slideUp(700);
-                    });
-                  }
-              },
-              error: function(err){
-                  console.log(err);
-              }
-          })
+          if(fullname == null || $.isEmptyObject(fullname) || !alphabetRegex.test(fullname)){
+            isValid = false;
+          }
 
+          if(previousSemResult == null || $.isEmptyObject(previousSemResult) || !alphabetRegex.test(previousSemResult)){
+            isValid = false;
+          }
+
+          if(rollno == null || $.isEmptyObject(rollno) || !numericRegex.test(rollno)){
+            isValid = false;
+          }
+
+          if(semester == null || $.isEmptyObject(semester) || !numericRegex.test(semester) || semester < 1 || semester > 8){
+            isValid = false;
+          }
+          return isValid;
+        }
+
+        if(validateAddStudentFields(enrollmentId,branch,contactno,fullname,previousSemResult,rollno,semester)){
+          $('#main-container').attr('data-rollno',rollno);
+
+          jData['enrollmentId'] = enrollmentId;
+          jData['branch'] = branch;
+          jData['contactno'] = contactno;
+          jData['fullname'] = fullname;
+          jData['previousSemResult'] = previousSemResult;
+          jData['rollno'] = rollno;
+          jData['semester'] = semester;
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8081/student_details',
+                contentType: 'application/json',
+                data: JSON.stringify(jData),
+                success: function(data){
+                  updateRollnoToUser();
+                    console.log(data);
+                      showAlert("You have been enrolled into the system !","success");
+                      updateAssignmentToNewlyAddedStudents();
+                    if(data > 0){
+                      
+                      $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                        $("#success-alert").slideUp(700);
+                      });
+                    } else {
+                      $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
+                        $("#warning-alert").slideUp(700);
+                      });
+                    }
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            })
+        } else {
+          alert("Please enter valid values");
+        }
           
     }
 

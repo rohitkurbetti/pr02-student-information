@@ -102,8 +102,30 @@
 
     /*Loading Spinner Overlay End*/
 
+    .floating-div {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 900px;
+    }
 
-
+    .shake-invalid {
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-10px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(10px);
+      }
+    }
 
 
 </style>
@@ -119,7 +141,7 @@
   </div>
 
   <div id="main-content" class="container mt-5">
-    <div class="row">
+    <div class="row floating-div">
       <div class="col">
         <div class="alert-container"></div>
       </div>
@@ -149,11 +171,11 @@
           <strong>Message!</strong>
           No student details found!
        </div>
-       <div class="alert alert-danger" id="success-dange3">
+       <!-- <div class="alert alert-danger" id="success-dange3">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Message!</strong>
         No student details found!
-     </div>
+     </div> -->
        
         <!-- Input Group for Roll Number -->
         <form class="form-inline">    
@@ -325,7 +347,7 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="assignmentCodeDropdwn">Assignment Code</label>
-                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control">
+                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control" disabled>
                           <option value="0">--SELECT--</option>
                         </select>
                       </div>
@@ -447,8 +469,8 @@
         </div>
 
         <div class="row">
-          <div class="col">
-            <table id="marksAddedtbl" class="table">
+          <div class="col table-responsive" style="height:500px;">
+            <table id="marksAddedtbl" class="table table-sm table-striped">
               <thead>
                 <tr>
                   <th>Roll No</th>
@@ -725,7 +747,6 @@
 
         function getAllNotes(page){
           //$('#notesDetailsTbl>tbody').html('');
-          //showLoadingSpinner();
           showSpinnerOverlay();
           $.ajax({
             type: "GET",
@@ -733,11 +754,14 @@
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
-                //hideLoadingSpinner();
                 hideSpinnerOverlay();
-                populateAllNotesInUITable(data.content);
-                updatePagination(data.totalPages, data.number);
-                $('#spinnerContainer').addClass('d-none');
+                if(data.empty==true){
+                  showAlert("No Data found","warning");
+                }else {
+                  populateAllNotesInUITable(data.content);
+                  updatePagination(data.totalPages, data.number);
+                  $('#spinnerContainer').addClass('d-none');
+                }
               },
               error: function (error) {
                 //hideLoadingSpinner();
@@ -768,11 +792,11 @@
 
             function populateAllNotesInUITable(data) {
               $('#notesDetailsTbl>tbody').html('');
-
+              var cnt=0;
               if(data != null && data.length > 0) {
                 data.forEach(e => {
                   var linkEnableDisableHtml =  "<button id='"+e.noteDetailsId+"' class='btn btn-link downloadNoteFileLink' data-code='"+e.code+"' style=' font-weight:500;margin:0; padding:0; text-align:center; vertical-align:middle; text-decoration:none;'><i class='fa fa-download' aria-hidden='true'></i> Download</button>";
-                  $('#notesDetailsTbl>tbody').append('<tr><td>'+e.noteDetailsId+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
+                  $('#notesDetailsTbl>tbody').append('<tr><td>'+(++cnt)+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
                     +e.filename+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
                 })
               } else {
@@ -938,6 +962,31 @@
 
         }
 
+        function performValidation(semTxt,subject) {
+          var isValid = true;
+
+          const alphabetRegex = /^[a-zA-Z]+$/;
+          const numericRegex = /^[0-9]+$/;
+
+          if(!alphabetRegex.test(subject)){
+            isValid = false;
+          }
+
+          if(!numericRegex.test(semTxt) || semTxt > 8 || semTxt < 1){
+            isValid = false;
+          }
+          
+          
+          if(semTxt == null || $.isEmptyObject(semTxt)){
+            isValid = false;
+          }
+
+          if(subject == null || $.isEmptyObject(subject)){
+            isValid = false;
+          }
+          return isValid;
+        }
+
         function uploadNotes() {
           
           var semTxt = $('#semTxt').val();
@@ -949,31 +998,41 @@
             return;
           }
 
-          const formData = new FormData();
-          formData.append('file', notesFile);
-          formData.append('fileext', notesFile.type);
-          formData.append('fileName', notesFile.name);
-          formData.append('semTxt', semTxt);
-          formData.append('subject', subject);
-          fetch('http://localhost:8081/uploadNotes', {
-            method: 'POST',
-            body: formData,
-          })
-          .then(response => {
-            if (response.ok) {
-              //alert('File uploaded successfully!');
-              getAllNotes(0);
-              $('#myModal2').modal('hide');
-            } else {
-              alert('File upload failed.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
-              $("#my-alert").fadeOut(700);
+          if(performValidation(semTxt,subject)){
+            const formData = new FormData();
+            formData.append('file', notesFile);
+            formData.append('fileext', notesFile.type);
+            formData.append('fileName', notesFile.name);
+            formData.append('semTxt', semTxt);
+            formData.append('subject', subject);
+            fetch('http://localhost:8081/uploadNotes', {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => {
+              if (response.ok) {
+                //alert('File uploaded successfully!');
+                $('#myModal2').modal('hide');
+                showAlert("File uploaded successfully","success");
+                $('#semTxt').val('');
+                $('#subjectTxt').val('');
+                $('#notesFile').val('');
+                getAllNotes(0);
+
+              } else {
+                //alert('File upload failed.');
+                showAlert("File upload failed.","danger");
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
+                $("#my-alert").fadeOut(700);
+              });
             });
-          });
+          } else {
+              alert("Please enter valid Semester and Subject");
+          }
         }
 
         function updateMarksJson(){
@@ -982,16 +1041,32 @@
 
           var rollno = $('#rollnotest').val();
 
+
+          $('#marksAddedtbl>tbody>tr').each(function (i,n) { 
+            var jTestData = new Object(); 
+            $(n).children().each(function (idx,e) {
+              jTestData[$(e).attr('id')] =  $(e).text();
+            });
+            if (list.filter(x => x.rollNoTest === jTestData.rollNoTest && x.subject === jTestData.subject && x.test === jTestData.test && x.marks === jTestData.marks).length === 0) { 
+              list.push(jTestData);
+            }
+          })
+          console.log(JSON.stringify(list));
+          debugger
+          if(list.length <= 0){
+            showAlert("Please add marks first", "danger");
+            return;
+          }
           jData['marksJson'] = JSON.stringify(list);
           jData['rollno'] = rollno;
-
+          
           $.ajax({
               type: 'POST',
               url: 'http://localhost:8081/updateMarksJson',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
-                
+                list = [];
                   console.log(data);
                   if(data > 0){
                     resetForm();
@@ -1007,6 +1082,7 @@
                   }
               },
               error: function(err){
+                list = [];
                   console.log(err);
               }
           })
@@ -1020,7 +1096,6 @@
         }
         
         function addMarksToJson() {
-
           var rollNoTest = $('#rollnotest').val();
           
           var subject = $('#subject option:selected').val();
@@ -1040,22 +1115,18 @@
 
             addObject(jTestData);
 
-            $('#rollno_'+jTestData.rollNoTest).click(function(){
-              console.log('cll'+jTestData.rollNoTest)
-              
-              var index = list.findIndex(function(o){
-                return o.rollNoTest === jTestData.rollNoTest;
-              })
-              if (index !== -1) list.splice(index, 1);
-              $(this).parent().closest('tr').remove();
-              console.log(JSON.stringify(list))
+            $('.rmRow').click(function(){
+              $(this).closest('tr').remove();
+              console.log(JSON.stringify(list));
             })
             
+          } else {
+            showAlert("Please insert valid values", "danger");
           }
 
           function validateFields(rollNoTest,subject,test,marks){
             var isValid = true;
-            if(rollNoTest ==null || rollNoTest ==undefined || rollNoTest===''){
+            if(rollNoTest ==null || rollNoTest ==undefined || rollNoTest==='' || $.isEmptyObject(rollNoTest) || !$.isNumeric(rollNoTest)){
               isValid = false;
               return isValid;
             }
@@ -1067,7 +1138,7 @@
               isValid = false;
               return isValid;
             }
-            if(marks ==null || marks ==undefined || marks===''){
+            if(marks ==null || marks ==undefined || marks==='' || $.isEmptyObject(marks) || !$.isNumeric(marks)){
               isValid = false;
             }
             return isValid;
@@ -1080,9 +1151,9 @@
           function addObject(jTestData){
 
             if (list.filter(x => x.rollNoTest === jTestData.rollNoTest && x.subject === jTestData.subject && x.test === jTestData.test && x.marks === jTestData.marks).length === 0) {
-              list.push(jTestData);
-              var closeBtnHtml = '<button type="button" id="rollno_'+jTestData.rollNoTest+'" class="close text-center" data-dismiss="alert">x</button>';
-              $('#marksAddedtbl>tbody').append('<tr><td>'+jTestData.rollNoTest+'</td><td>'+jTestData.subject+'</td><td>'+jTestData.test+'</td><td>'+jTestData.marks+'</td><td>'+closeBtnHtml+'</td></tr>');
+              //list.push(jTestData);
+              var closeBtnHtml = '<button type="button" class="rmRow close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button>';
+              $('#marksAddedtbl>tbody').append('<tr><td id="rollNoTest">'+jTestData.rollNoTest+'</td><td id="subject">'+jTestData.subject+'</td><td id="test">'+jTestData.test+'</td><td id="marks">'+jTestData.marks+'</td><td>'+closeBtnHtml+'</td></tr>');
             }
             $('.marksAddedJson').html('');
 
@@ -1093,7 +1164,7 @@
           }
 
           
-
+          console.log(JSON.stringify(list));
         }
 
         
@@ -1336,44 +1407,99 @@
           var semester = $('#semester').val();
           var code = $('#code').val();
 
-          var assignmentObj = new Object();
+          if(validateFields(branch,semester,code)){
 
-          var queList = [];
+            var assignmentObj = new Object();
 
-          assignmentObj["assignmentName"] = $('#assignment-title').val();
+            var queList = [];
 
-          $('#questionOlList>li').each(function(i,e) {
-            queList.push($(this).text());
-          });
+            assignmentObj["assignmentName"] = $('#assignment-title').val();
 
-          assignmentObj['branch'] = branch;
-          assignmentObj['semester'] = semester;
-          assignmentObj['code'] = code;
-          assignmentObj['queList'] = queList;
+            $('#questionOlList>li').each(function(i,e) {
+              queList.push($(this).text());
+            });
+
+            assignmentObj['branch'] = branch;
+            assignmentObj['semester'] = semester;
+            assignmentObj['code'] = code;
+            assignmentObj['queList'] = queList;
+            
+            console.log(JSON.stringify(assignmentObj));
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8081/updateAssignment',
+                contentType: 'application/json',
+                data: JSON.stringify(assignmentObj),
+                success: function(data){
+
+                    console.log(data);
+                    $('#addAssignmentModal').modal('hide');
+                    $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
+                        $("#success-alert2").slideUp(700);
+                      });
+                      $('#assignment-title').val('');
+                    $('#questionOlList').html('');
+                    viewAssignments();
+                    
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            })
+
+          } else {
+            
+          }
+
+          function validateFields(branch,semester,code) {
+            var isValid = true;
+            const alphabetRegex = /^[a-zA-Z]+$/;
+            const numericRegex = /^[0-9]+$/;
+
+            if(!alphabetRegex.test(branch)){
+              isValid = false;
+              $('#branch').addClass('is-invalid');
+              $('#branch').addClass('shake-invalid');
+            }else {
+              $('#branch').removeClass('is-invalid');
+            }
+
+            if(!numericRegex.test(semester)){
+              isValid = false;
+              $('#semester').addClass('is-invalid');
+              $('#semester').addClass('shake-invalid');
+            } else {
+              $('#semester').removeClass('is-invalid');
+            }
+
+            if(branch==null || $.isEmptyObject(branch)){
+              isValid = false;
+              $('#branch').addClass('is-invalid');
+              $('#branch').addClass('shake-invalid');
+            }else {
+              $('#branch').removeClass('is-invalid');
+            }
+
+            if(semester==null || $.isEmptyObject(semester)){
+              isValid = false;
+              $('#semester').addClass('is-invalid');
+              $('#semester').addClass('shake-invalid');
+            } else {
+              $('#semester').removeClass('is-invalid');
+            }
+            if(code==null || $.isEmptyObject(code)){
+              isValid = false;
+              $('#code').addClass('is-invalid');
+              $('#code').addClass('shake-invalid');
+
+            } else {
+              $('#code').removeClass('is-invalid');
+            }
+            return isValid;
+          }
+
           
-          console.log(JSON.stringify(assignmentObj));
-
-          $.ajax({
-              type: 'POST',
-              url: 'http://localhost:8081/updateAssignment',
-              contentType: 'application/json',
-              data: JSON.stringify(assignmentObj),
-              success: function(data){
-
-                  console.log(data);
-                  $('#addAssignmentModal').modal('hide');
-                  $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
-                      $("#success-alert2").slideUp(700);
-                    });
-                    $('#assignment-title').val('');
-                  $('#questionOlList').html('');
-                  viewAssignments();
-                  
-              },
-              error: function(err){
-                  console.log(err);
-              }
-          })
 
           
         }
@@ -1396,41 +1522,64 @@
 
         $('#addAssignmentBtn').click(function addAssignmentQuestion() {
           addQuestion();
+          $('.rmItem').click(function(){
+            $(this).closest('li').remove();
+          })
         })
 
         function addQuestion() {
+          debugger
           var title = $('#assignment-title').val();
           var question = $('#question').val();
 
-          if(title && title != null && question && question != null){
+          if(title && title != null && isAlphanumericTitle(title) && question && question != null){
             
-            $('#questionOlList').append('<li>'+question+'</li>');
+            $('#questionOlList').append('<li>'+question+' <span class="rmItem mx-2"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></span></li>');
             // $('#questionOlList').append('<li>'+question+'</li>');
 
             
+          } else {
+            showAlert("Please enter valid details", "warning");
+          }
+
+          function isAlphanumericTitle(title){
+            var isValid = false;
+            const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+            if(alphanumericRegex.test(title)){
+              isValid = true;
+            }
+            return isValid;
           }
 
           $('#question').val('');
         }
 
+        
+
         function getStudentDetails() {
+          debugger
           var rollno = $('#rollno').val();
-          $.ajax({
-              type: "GET",
-              dataType: "json",
-              url: "http://localhost:8081/getStudentDetails/" + rollno,
-              contentType: 'aaplication/json',
-              success: function(data) {
-                  console.log(data);
-                  fillStudentDetailsTbl(data);
-              },
-              error: function (error) {
-                  // alert("error " + error);
-                  $("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
-                      $("#success-dange3").slideUp(700);
-                  });
-              }
-          });
+          if(rollno !=null && !$.isEmptyObject(rollno) && $.isNumeric(rollno)){
+            //valid
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "http://localhost:8081/getStudentDetails/" + rollno,
+                contentType: 'aaplication/json',
+                success: function(data) {
+                    showAlert('Student details found', 'success');
+                    console.log(data);
+                    fillStudentDetailsTbl(data);
+                },
+                error: function (error) {
+                    // alert("error " + error);
+                    showAlert('No student details found!', 'danger');
+                }
+            });
+          } else {
+            //validations failed
+            showAlert('Please enter valid Roll No', 'warning');
+          }
         }
 
 

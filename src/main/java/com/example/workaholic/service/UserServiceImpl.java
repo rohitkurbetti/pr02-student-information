@@ -1,10 +1,10 @@
 package com.example.workaholic.service;
 
 import java.util.Base64;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.workaholic.entity.LoginResponse;
 import com.example.workaholic.entity.UserEntity;
 import com.example.workaholic.repo.UserRepository;
@@ -16,6 +16,8 @@ public class UserServiceImpl {
 	private UserRepository userRepository;
 
 	public UserEntity createUser(UserEntity userEntity) {
+		String passwordDecrypted = decodeFromBase64(userEntity.getPassword());
+		userEntity.setPassword(passwordDecrypted);
 		return userRepository.save(userEntity);
 	}
 

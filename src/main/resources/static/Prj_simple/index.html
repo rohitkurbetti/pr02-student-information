@@ -271,10 +271,10 @@ body{
 </style>
 
 <style id="homePageCss">
-/* *{
+  *{
     font-family: 'Merriweather', serif;
     font-family: 'Roboto Condensed', sans-serif;
-  } */
+  }
   .center-content {
     display: flex;
     align-items: center;
@@ -657,19 +657,18 @@ $('#switch2').on('click', function() {
   $login.toggleClass('hide');
 })
 
-setTimeout(function(){
+/*setTimeout(function(){
   $('#switch1').click()
 },1000)
 
 setTimeout(function(){
   $('#switch2').click()
 },3000)
-
+*/
 
   $('#loginBtn').click(function(){
     showSpinnerOverlay();
-    setTimeout(checkUserExists, 1000);
-
+    setTimeout(checkUserExists, 500);
   })
 
   var userRole = '';
@@ -680,7 +679,6 @@ setTimeout(function(){
 
 
   function getUserRole(){
-    debugger
     var userRole='';
     $('input[type="radio"]').each(function (e,i) {
       if($(this).prop('checked')) { 
@@ -694,62 +692,83 @@ setTimeout(function(){
     
     var email = $('#user').val();
     var password = $('#pass').val();
-    password = btoa(password);
     
+    function validateLoginFields(email,password) {
+      var isValid = true;
+      const alphabetRegex = /^[a-zA-Z]+$/;
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    $.ajax({
-      type: "GET",
-      url: "http://localhost:8081/authenticate_user?email="+email+"&password="+password,
-      contentType: 'aaplication/json',
-      success: function(data) {
-        hideSpinnerOverlay();
-          console.log(data);
-          debugger
-          if(data.isAuthenticated==true){
+      if($.isEmptyObject(email) || !emailRegex.test(email)){
+        isValid = false;
+      }
 
-            //window.location.href = "background.html"; 
-            $('.waviy').hide()
-            $('.wave').hide()
-            $('.container').hide()
-            $('#loginCss').remove();
-            if(data.email !== null && data.password !==null){
+      if($.isEmptyObject(password)){
+        isValid = false;
+      }
 
-              if(data.email==='teacher@gmail.com' && data.password ==='teacher'){
-                $("#main-container").load("background_c.html");
-              } else {
-                $("#main-container").load("AddStudent_c.html");
-                $('#main-container').attr('data-email',data.email);
-                $('#main-container').attr('data-rollno',data.rollno);
-                $('#main-container').attr('data-fullname',data.fullname);
-              } 
+      return isValid;
+    }
+
+    if(validateLoginFields(email,password)){
+      password = btoa(password);
+      $.ajax({
+        type: "GET",
+        url: "http://localhost:8081/authenticate_user?email="+email+"&password="+password,
+        contentType: 'aaplication/json',
+        success: function(data) {
+          hideSpinnerOverlay();
+            console.log(data);
+            if(data.isAuthenticated==true){
+
+              //window.location.href = "background.html"; 
+              $('.waviy').hide()
+              $('.wave').hide()
+              $('.container').hide()
+              $('#loginCss').remove();
+              if(data.email !== null && data.password !==null){
+
+                if(data.email==='teacher@gmail.com' && data.password ==='teacher'){
+                  $("#main-container").load("background_c.html");
+                } else {
+                  $("#main-container").load("AddStudent_c.html");
+                  $('#main-container').attr('data-email',data.email);
+                  $('#main-container').attr('data-rollno',data.rollno);
+                  $('#main-container').attr('data-fullname',data.fullname);
+                } 
+              }
+              //loadContent('./background.html');
+            } else {
+              hideSpinnerOverlay();
+              //alert('Invalid credentials');
+              showAlert("Invalid credentials", "danger");
+              //window.location.href = "."; 
+              window.location.pathname='/Prj_simple/index.html'
+              
             }
-            //loadContent('./background.html');
-          } else {
+      
+          // Function to load content without full-page reload
+          function loadContent(url) {
+              $('#content').load(url, function(responseText, textStatus, xhr) {
+                  if (textStatus === 'error') {
+                      // Handle error, e.g., show a 404 page
+                      hideSpinnerOverlay();
+                      console.log('Error loading page.');
+                  }
+              });
+          }
+            //fillAssignmentsTable(data);
+          },
+          error: function (error) {
             hideSpinnerOverlay();
-            alert('invalid creds');
+            alert("error " + error);
             window.location.href = "."; 
             
           }
-    
-        // Function to load content without full-page reload
-        function loadContent(url) {
-            $('#content').load(url, function(responseText, textStatus, xhr) {
-                if (textStatus === 'error') {
-                    // Handle error, e.g., show a 404 page
-                    hideSpinnerOverlay();
-                    console.log('Error loading page.');
-                }
-            });
-        }
-          //fillAssignmentsTable(data);
-        },
-        error: function (error) {
-          hideSpinnerOverlay();
-          alert("error " + error);
-          window.location.href = "."; 
-          
-        }
-      });
+        });
+      } else {
+        hideSpinnerOverlay();
+        showAlert("Validations Failed!", "danger");
+      }
       
     }
 
@@ -770,6 +789,7 @@ setTimeout(function(){
 
           var jData = new Object();
           jData['email'] = email;
+          password = btoa(password);
           jData['password'] = password;
           jData['fullname'] = fullname;
           jData['userRole'] = userRole;
@@ -798,13 +818,24 @@ setTimeout(function(){
             }
         })
       } else {
-        alert("Enter valid values");
+        //alert("Enter valid values");
+        showAlert('Please enter valid values', 'warning');
       }
     }
 
 
     function isSignUpFormValid(email,password,fullname) {
       var isValid = true;
+      const alphabetRegex = /^[a-zA-Z]+$/;
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      if(!emailRegex.test(email)){
+        isValid = false;
+      }
+
+      if(!alphabetRegex.test(fullname)){
+        isValid = false;
+      }
 
       if($.isEmptyObject(email) || $.isEmptyObject(password) || $.isEmptyObject(fullname)){
         isValid = false;
