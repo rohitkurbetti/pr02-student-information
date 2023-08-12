@@ -13,6 +13,7 @@ public class AssignmentDetailsDom {
 	private String assignmentName;
 	private int code;
 	private String assignmentStatus;
+	private String assignment;
 	
 	
 	public String getAssignmentName() {
@@ -54,6 +55,14 @@ public class AssignmentDetailsDom {
 	public void setAssignmentStatus(String assignmentStatus) {
 		this.assignmentStatus = assignmentStatus;
 	}
+	
+	public String getAssignment() {
+		return assignment;
+	}
+
+	public void setAssignment(String assignment) {
+		this.assignment = assignment;
+	}
 
 	public AssignmentDetailsDom(int rollno, String fullname, String assignmentName, int code, String assignmentStatus) {
 		super();
@@ -75,9 +84,25 @@ public class AssignmentDetailsDom {
 		this.code = code;
 		this.assignmentStatus = assignmentStatus;
 	}
-	
-	
 
+	public AssignmentDetailsDom(int rollno, String assignmentName, int code) {
+		super();
+		this.rollno = rollno;
+		this.assignmentName = assignmentName;
+		this.code = code;
+	}
+
+	public AssignmentDetailsDom(int rollno, String assignmentName, String assignment, int code) {
+		super();
+		this.rollno = rollno;
+		this.assignmentName = assignmentName;
+		this.assignment = assignment;
+		this.code = code;
+		
+	}
+	
+	
+	
 	
 	
 	

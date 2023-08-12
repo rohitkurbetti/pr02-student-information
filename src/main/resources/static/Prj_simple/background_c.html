@@ -1052,7 +1052,7 @@
             }
           })
           console.log(JSON.stringify(list));
-          debugger
+          
           if(list.length <= 0){
             showAlert("Please add marks first", "danger");
             return;
@@ -1300,7 +1300,7 @@
           
           var linkEnableDisableHtml;
           $('#submittedAssignmentsTbl>tbody').html('');
-          debugger
+          
           data.forEach(item => {  
             
             if(item.studentSubmittedAssignments !== null && item.studentSubmittedAssignments !="" && item.assignmentStatus == 'SUBMITTED'){
@@ -1528,7 +1528,7 @@
         })
 
         function addQuestion() {
-          debugger
+          
           var title = $('#assignment-title').val();
           var question = $('#question').val();
 
@@ -1557,7 +1557,7 @@
         
 
         function getStudentDetails() {
-          debugger
+          
           var rollno = $('#rollno').val();
           if(rollno !=null && !$.isEmptyObject(rollno) && $.isNumeric(rollno)){
             //valid

@@ -86,8 +86,8 @@ public class StudentController {
 	}
 	
 	@GetMapping("/getAssignmentsByRollno/{rollno}")
-	public List<AssignmentDetails> getAssignmentsByRollno(@PathVariable("rollno") String rollno) {
-		List<AssignmentDetails> assigments = assignmentDetailsServiceImpl.getAssignmentsByRollno(rollno);
+	public List<AssignmentDetailsDom> getAssignmentsByRollno(@PathVariable("rollno") String rollno) {
+		List<AssignmentDetailsDom> assigments = assignmentDetailsServiceImpl.getAssignmentsByRollno(rollno);
 		return assigments;
 	}
 	

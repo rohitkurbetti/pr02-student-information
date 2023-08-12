@@ -11,13 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.workaholic.entity.AssignmentDetails;
 import com.example.workaholic.entity.AssignmentDetailsDom;
+import com.example.workaholic.entity.SubmtdAssignmentsDom;
 
 @Repository
 public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDetails, Integer>{
 	
 	
-	@Query("select new com.example.workaholic.entity.AssignmentDetails(ad.code,ad.assignment) from AssignmentDetails ad where ad.rollno=:rollno")
-	List<AssignmentDetails> getAssignmentsByRollno(@Param("rollno") Integer rollno);
+	@Query("select distinct new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno, sd.assignmentName, ad.assignment, ad.code ) "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.branch = sd.branch and ad.semester = sd.semester and ad.rollno = sd.rollno "
+			+ "	where ad.rollno=:rollno ")
+	List<AssignmentDetailsDom> getAssignmentsByRollno(@Param("rollno") Integer rollno);
 
 	@Transactional
 	@Modifying
@@ -32,6 +35,11 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 
 	@Query(" select distinct(ad.code) from AssignmentDetails ad where branch=:branch and semester=:semester ")
 	Integer getASsignmentCode(@Param("branch") String branch,@Param("semester") String semester);
+
+	@Query(" select new com.example.workaholic.entity.SubmtdAssignmentsDom(sd.rollno, sd.assignmentName, ad.code, ad.assignmentStatus) "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.branch = sd.branch and ad.semester = sd.semester and ad.rollno = sd.rollno "
+			+ " where ad.rollno=:rollno and ad.assignmentStatus='SUBMITTED' ")
+	List<SubmtdAssignmentsDom> getSubmittedAssignmentsByRollNo(@Param("rollno") Integer rollNo);
 
 	
 

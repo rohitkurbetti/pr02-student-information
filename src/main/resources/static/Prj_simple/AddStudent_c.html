@@ -36,7 +36,7 @@
     }
     
     /* Apply the animation to the table rows */
-    .table-fade-in tbody tr {
+    .table-fade-in {
       animation: fadeInRow 0.5s ease-in-out;
     }
 
@@ -408,6 +408,9 @@
                     <input type="file" name="submitAssignment" id="submitAssignmentFile">
                     <button type="button" id="assgnmtSubmitBtn" class="btn btn-primary"><i class="fa fa-share-square" aria-hidden="true"></i> Submit Assignment</button>
                   </div>
+                  <div class="form-group float-left">
+                    <button type="button" id="getSubmittedAsgnmnts" class="btn btn-info"><i class="fa fa-check-circle" aria-hidden="true"></i> View Submitted Assignments</button>
+                  </div>
                 </form>
               </div>
     
@@ -519,6 +522,28 @@
                 </div>
               </div>
 
+            </div>
+            <div class="row my-4">
+              <div class="col">
+                <div class="table-responsive applyshadowStyle">
+                  <h3 id="tableheaderTxt" class="text-center" hidden>Submitted Assignment Details</h3>
+                  <table id="studSubmittedAssgnmtsTbl" class="table table-sm table-striped table-fade-in" aria-hidden="true" hidden>
+                    <thead>
+                      <tr>
+                        <th>Roll No</th>
+                        <th>Assignment</th>
+                        <th>Code</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
@@ -791,7 +816,7 @@
       }
       
       function showAlert(message, type,customClz) {
-        debugger
+        
         const alertContainer = $('.alert-container');
         const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
         alertContainer.append(alertDiv);
@@ -832,6 +857,56 @@
       $('#studentEnrollFormBtn').click(function(){
         studentEnrollFormModal();
       })
+
+      $('#getSubmittedAsgnmnts').click(function(){
+        getSubmittedAsgnmnts();
+      })
+
+      function getSubmittedAsgnmnts () {
+        var rollNoGlobal = $('#main-container').attr('data-rollno');
+        if(rollNoGlobal == null || $.isEmptyObject(rollNoGlobal) || !$.isNumeric(rollNoGlobal)){
+          return;
+        }
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "http://localhost:8081/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
+          contentType: 'aaplication/json',
+          success: function(data) {
+              console.log(data);
+              $('#spinnerContainer').addClass('d-none');
+              if(data !=null && data.length>0){
+                fillStudSubmittedAssignmentsTable(data);
+              } else {
+                showAlert("No Data found", "info");
+              }
+            },
+            error: function (error) {
+              $('#spinnerContainer').addClass('d-none');
+              alert("error " + error);
+              
+            }
+          });
+          
+      }
+
+      function fillStudSubmittedAssignmentsTable(data) {
+          $('#studSubmittedAssgnmtsTbl>tbody').html('');
+          $('#studSubmittedAssgnmtsTbl').prop('hidden', false);
+          $('#tableheaderTxt').prop('hidden', false);
+          var borderShadowStyle = 'padding:1rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); border-radius:5px;';
+          $('.applyshadowStyle').prop('style',borderShadowStyle);
+          if(data != null && data.length > 0) {
+            data.forEach(e => {
+              $('#studSubmittedAssgnmtsTbl>tbody').append('<tr><td>'+(e.rollno)+'</td><td>'+e.assignmentName+'</td><td>'+e.code+'</td><td>'+e.assignmentStatus+'</td></tr>');
+            });
+          } else {
+            $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+              $("#success-alert").slideUp(700);
+            });
+          }
+      }
+      
 
       function studentEnrollFormModal(){
         
@@ -884,7 +959,7 @@
             type: "GET",
             url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
             success: function(data) {
-              debugger
+              
                 hideSpinnerOverlay();
                 if(data == null || data==="" || data.length==0){
                   showAlert('No data found', 'warning','TestMarks');
@@ -1086,6 +1161,7 @@
             if (response.ok) {
               alert('File uploaded successfully!');
               showAlert('File uploaded successfully!','success');
+              getSubmittedAsgnmnts();
               $('#myModal2').modal('hide');
               $('#rollNoInput').val('');
               $('#assignmentCode').val(0);
@@ -1121,7 +1197,7 @@
     })
 
     function getAssignmentsByRollno(rn) {
-      debugger
+      
       $('#assignmentCode').html('');
       $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
       var rollNo = rn;
@@ -1138,7 +1214,7 @@
               if(data != null){
                 
                 data.forEach(element => {
-                  $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.code));
+                  $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.assignmentName+" ("+element.code+")"));
                 })
 
                 
@@ -1322,7 +1398,7 @@
     }
 
     function updateAssignmentToNewlyAddedStudents() {
-      debugger
+      
       $.ajax({
       type: "GET",
       dataType: "json",

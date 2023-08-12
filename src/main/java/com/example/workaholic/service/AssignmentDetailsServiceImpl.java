@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.workaholic.entity.AssignmentDetails;
 import com.example.workaholic.entity.AssignmentDetailsDom;
+import com.example.workaholic.entity.SubmtdAssignmentsDom;
 import com.example.workaholic.repo.AssignmentDetailsRepository;
 import com.example.workaholic.repo.StudentDetailsRepository;
 
@@ -21,7 +22,7 @@ public class AssignmentDetailsServiceImpl {
 	@Autowired
 	private StudentDetailsRepository studentDetailsRepository;
 	
-	public List<AssignmentDetails> getAssignmentsByRollno(String rollno) {
+	public List<AssignmentDetailsDom> getAssignmentsByRollno(String rollno) {
 		return assignmentDetailsRepository.getAssignmentsByRollno(Integer.parseInt(rollno));
 	}
 
@@ -33,6 +34,10 @@ public class AssignmentDetailsServiceImpl {
 
 	public List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnCode(Integer assignmentCode) {
 		return assignmentDetailsRepository.getAssignmentsDetlsByAssgnCode(assignmentCode);
+	}
+
+	public List<SubmtdAssignmentsDom> getSubmittedAssignmentsByRollNo(String rollno) {
+		return assignmentDetailsRepository.getSubmittedAssignmentsByRollNo(Integer.parseInt(rollno));
 	}
 	
 }
