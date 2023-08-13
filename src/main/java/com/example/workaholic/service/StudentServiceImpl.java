@@ -1,6 +1,7 @@
 package com.example.workaholic.service;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -155,6 +156,16 @@ public class StudentServiceImpl {
 
 	public String getTestMarksByRollno(Integer rollNoTest) {
 		return studentDetailsRepository.getTestMarksByRollno(rollNoTest);
+	}
+
+	public int assignMentorToRollNos(String rollNos, String mentorName) {
+		String[] nos = rollNos.split(",");
+		Integer[] nosInt = new Integer[nos.length];
+		for (int i = 0; i < nos.length; i++) {
+			Integer rollNoUniq = Integer.parseInt(nos[i]);
+			nosInt[i] = rollNoUniq;
+		}
+		return studentDetailsRepository.assignMentorToRollNos(nosInt, mentorName);
 	}
 	
 	

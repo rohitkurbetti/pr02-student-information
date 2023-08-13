@@ -85,6 +85,12 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	String getTestMarksByRollno(@Param("rollNoTest") Integer rollNoTest);
 
 	
+	@Transactional
+	@Modifying
+	@Query("update StudentDetails sd set sd.mentorName=:mentorName where sd.rollno in (:rollNos) ")
+	int assignMentorToRollNos(@Param("rollNos") Integer[] rollNos,@Param("mentorName") String mentorName);
+
+	
 
 //	@Query(" select distinct new com.example.workaholic.entity.StudAssignmentDtl(sd.assignment, sd.assignmentName) from StudentDetails sd where assignment is not null and assignment_name is not null ")
 //	void getAssignmentAndName(String barnch, String sem);

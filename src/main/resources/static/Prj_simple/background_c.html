@@ -186,8 +186,40 @@
             <div class="form-group mx-2">
                 <button type="button" class="btn btn-primary" id="btnGetStudentDetails">Submit</button>
             </div>
+            <div class="form-group mx-2">
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addMentorModal" id="assignMentorBtn">Assign Mentor</button>
+          </div>
             
         </form>
+        <div class="modal fade" id="addMentorModal" tabindex="-1" role="dialog" 
+                aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addAssignmentModalLabel">Assign Mentor</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="rollno">Roll No</label>
+                          <input type="text" class="form-control" id="rollnoForMentorShip" placeholder="Enter rollno">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="code">Mentor Name</label>
+                          <input type="text" class="form-control" id="mentorname" placeholder="Enter mentor name">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" id="submitMentorBtn" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         <br>
         <div class="alert alert-danger" id="success-alert">
           <button type="button" class="close" data-dismiss="alert">x</button>
@@ -347,7 +379,7 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="assignmentCodeDropdwn">Assignment Code</label>
-                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control" disabled>
+                        <select name="assignmentCodeDropdwn" id="assignmentCodeDropdwn" class="form-control">
                           <option value="0">--SELECT--</option>
                         </select>
                       </div>
@@ -726,6 +758,67 @@
             $(".loading-overlay").fadeOut();
         }
 
+        $('#submitMentorBtn').click(function(){
+          submitMentor();
+        })
+
+        function submitMentor() {
+          var mentorName = $('#mentorname').val();
+          var rollNos = $('#rollnoForMentorShip').val();
+
+          if(validateSubmitMentorFields(rollNos, mentorName)){
+            assignMentorNameToRollNos(rollNos, mentorName);
+          } else {
+            alert("Please enter valid values");
+          }
+
+          function assignMentorNameToRollNos(rollNos, mentorName){
+            $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8081/assignMentorToRollNos?rollNos='+rollNos+"&mentorName="+mentorName,
+              contentType: 'application/json',
+              success: function(data){
+                  $('#addMentorModal').modal('hide');
+                  showAlert("Mentor has been assigned to specified roll numbers", "success");
+                  $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-alert2").slideUp(700);
+                    });
+                    $('#assignment-title').val('');
+                  $('#questionOlList').html('');
+                  viewAssignments();
+                  
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          })
+          }
+
+
+          function validateSubmitMentorFields(rollNos, mentorName){
+            var isValid = true;
+            const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+            const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/; // only alphabets and whitespaces allowed
+            const numericRegex = /^[0-9]+$/;
+
+            if(!numericRegex.test(rollNos)){
+              isValid = false;
+            }
+            if(!alphabetRegex.test(mentorName)){
+              isValid = false;
+            }
+            if(rollNos == null || $.isEmptyObject(rollNos)){
+              isValid = false;
+            }
+
+            if(mentorName == null || $.isEmptyObject(mentorName)){
+              isValid = false;
+            }
+            return isValid;
+          }
+
+
+        }
 
         function updateAssignmentToNewlyAddedStudents() {
             $.ajax({
@@ -965,7 +1058,7 @@
         function performValidation(semTxt,subject) {
           var isValid = true;
 
-          const alphabetRegex = /^[a-zA-Z]+$/;
+          const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
           const numericRegex = /^[0-9]+$/;
 
           if(!alphabetRegex.test(subject)){
@@ -1432,16 +1525,18 @@
                 contentType: 'application/json',
                 data: JSON.stringify(assignmentObj),
                 success: function(data){
-
-                    console.log(data);
-                    $('#addAssignmentModal').modal('hide');
-                    $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
-                        $("#success-alert2").slideUp(700);
-                      });
-                      $('#assignment-title').val('');
-                    $('#questionOlList').html('');
-                    viewAssignments();
-                    
+                  
+                  $('#addAssignmentModal').modal('hide');
+                  $('#branch').val('');
+                  $('#semester').val('');
+                  $('#code').val('');
+                  $("#success-alert2").fadeTo(3000, 500).slideUp(500, function(){
+                      $("#success-alert2").slideUp(700);
+                    });
+                    $('#assignment-title').val('');
+                  $('#questionOlList').html('');
+                  viewAssignments();
+                  
                 },
                 error: function(err){
                     console.log(err);
@@ -1449,12 +1544,12 @@
             })
 
           } else {
-            
+            alert("Validations Failed");
           }
 
           function validateFields(branch,semester,code) {
             var isValid = true;
-            const alphabetRegex = /^[a-zA-Z]+$/;
+            const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
             const numericRegex = /^[0-9]+$/;
 
             if(!alphabetRegex.test(branch)){

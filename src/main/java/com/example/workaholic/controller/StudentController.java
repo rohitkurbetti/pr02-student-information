@@ -151,5 +151,10 @@ public class StudentController {
 		return studentServiceImpl.getTestMarksByRollno(rollNoTest);
 	}
 	
+	@GetMapping("/assignMentorToRollNos")
+	public int assignMentorToRollNos(@RequestParam("rollNos") String rollNos, @RequestParam("mentorName") String mentorName) {
+		return studentServiceImpl.assignMentorToRollNos(rollNos, mentorName);
+	}
+	
 	
 }

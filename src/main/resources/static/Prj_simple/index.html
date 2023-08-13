@@ -699,7 +699,7 @@ setTimeout(function(){
     
     function validateLoginFields(email,password) {
       var isValid = true;
-      const alphabetRegex = /^[a-zA-Z]+$/;
+      const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
       if($.isEmptyObject(email) || !emailRegex.test(email)){
@@ -830,7 +830,7 @@ setTimeout(function(){
 
     function isSignUpFormValid(email,password,fullname) {
       var isValid = true;
-      const alphabetRegex = /^[a-zA-Z]+$/;
+      const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
       if(!emailRegex.test(email)){

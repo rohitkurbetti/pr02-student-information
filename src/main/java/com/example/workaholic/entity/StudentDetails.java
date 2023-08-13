@@ -59,7 +59,19 @@ public class StudentDetails {
     @Column(name = "student_submitted_assignments")
     private byte[] studentSubmittedAssignments;
 	
+	@Column(name = "mentor_name")
+	private String mentorName;
 	
+	
+	
+	public String getMentorName() {
+		return mentorName;
+	}
+
+	public void setMentorName(String mentorName) {
+		this.mentorName = mentorName;
+	}
+
 	public StudentDetails(Integer rollno) {
 		this.rollno = rollno;
 	}

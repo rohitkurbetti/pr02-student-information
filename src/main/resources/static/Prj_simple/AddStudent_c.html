@@ -339,6 +339,8 @@
                 <td class="branchVal"></td>
                 <td class="keys">PreviousSemResult:</td>
                 <td class="prevSemResultVal"></td>
+                <td class="keys">Mentor:</td>
+                <td class="mentorNameVal"></td>
               </tr>
             </tbody>
           </table>
@@ -530,8 +532,9 @@
                   <table id="studSubmittedAssgnmtsTbl" class="table table-sm table-striped table-fade-in" aria-hidden="true" hidden>
                     <thead>
                       <tr>
+                        <th>Sr No</th>
                         <th>Roll No</th>
-                        <th>Assignment</th>
+                        <!-- <th>Assignment</th> -->
                         <th>Code</th>
                         <th>Status</th>
                       </tr>
@@ -569,7 +572,7 @@
           <!-- Roll Number Input -->
           <div class="form-group mr-2">
             <label for="rollnotest" class="sr-only">Roll Number</label>
-            <input type="text" class="form-control" id="rollnotest" name="rollnotest" placeholder="Enter Roll Number">
+            <input type="text" class="form-control" id="rollnotest" name="rollnotest" placeholder="Roll no will auto populate" readonly disabled>
           </div>
 
           <!-- Submit Button -->
@@ -897,8 +900,9 @@
           var borderShadowStyle = 'padding:1rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); border-radius:5px;';
           $('.applyshadowStyle').prop('style',borderShadowStyle);
           if(data != null && data.length > 0) {
+            var counter =0;
             data.forEach(e => {
-              $('#studSubmittedAssgnmtsTbl>tbody').append('<tr><td>'+(e.rollno)+'</td><td>'+e.assignmentName+'</td><td>'+e.code+'</td><td>'+e.assignmentStatus+'</td></tr>');
+              $('#studSubmittedAssgnmtsTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+(e.rollno)+'</td><td>'+e.code+'</td><td>'+e.assignmentStatus+'</td></tr>');
             });
           } else {
             $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
@@ -950,8 +954,11 @@
 
       function getMarksTest() {
         var rollNoTest = $('#rollnotest').val();
+
+        rollNoTest = $('#main-container').attr('data-rollno');
+        $('#rollnotest').val(rollNoTest);
         if(rollNoTest == "" || rollNoTest == undefined || rollNoTest == null){
-          alert("Enter rollno");
+          alert("Unable to get the rollno");
         } else {
           $('#marksAddedtbl>tbody').html('');
           showSpinnerOverlay();
@@ -1004,22 +1011,39 @@
       })
 
       function getNotesGETCall() {
+
+        var semesterInput = $('#semesterNotes').val();
+
+        function validateGetNotesField(semesterInput) {
+          var isValid = true;
+          if(semesterInput == null || $.isEmptyObject(semesterInput) || !$.isNumeric(semesterInput)){
+            isValid = false;
+          }
+
+
+          if(semesterInput < 1 || semesterInput > 8){
+            isValid = false;
+          }
+          return isValid;
+        }
+
+        if(validateGetNotesField(semesterInput)){
+
         showSpinnerOverlay();
         $('#notesDetailsTbl>tbody').html('');
         //showLoadingSpinner();
         
-        var semesterNotes = $('#semesterNotes').val();
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getNotesBySemester/"+semesterNotes,
+          url: "http://localhost:8081/getNotesBySemester/"+semesterInput,
           contentType: 'aaplication/json',
           success: function(data) {
-              console.log(data);
               $('#myModal3').modal('hide');
               $('#spinnerContainer').addClass('d-none');
               //hideLoadingSpinner();
               hideSpinnerOverlay();
+              $('#semesterNotes').val('');
               if(data != null && data.length==0){
                 showAlert('No data found', 'warning');
               } else {
@@ -1034,6 +1058,10 @@
               
             }
           });
+
+        } else {
+          alert("Semester values should between [1-8] ");
+        }
 
       }
 
@@ -1135,7 +1163,7 @@
 
     function submitAssignment(){
 
-      
+      debugger
       var roll = $('#rollNoInput').val();
       var code = $('#assignmentCode option:selected').attr('value');
 
@@ -1197,7 +1225,7 @@
     })
 
     function getAssignmentsByRollno(rn) {
-      
+      debugger
       $('#assignmentCode').html('');
       $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
       var rollNo = rn;
@@ -1214,7 +1242,7 @@
               if(data != null){
                 
                 data.forEach(element => {
-                  $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.assignmentName+" ("+element.code+")"));
+                  $('#assignmentCode').append($('<option></option>').attr('value', element.code).attr('data-value', element.assignment).text(element.code));
                 })
 
                 
@@ -1240,10 +1268,11 @@
       });
 
       $("#assignmentCode").change(function() {
-                  
+        debugger
+        //$('#assignmentsTxt').text('');
         var selectedValue = $("#assignmentCode option:selected").val();
         var dataValue = $("#assignmentCode option:selected").attr('data-value');
-        $('#assignmentsTxt').text('');
+        
         var resp = '';
         
         if(dataValue !== undefined){
@@ -1252,7 +1281,7 @@
             resp = resp+element+"\n";
           })
         }
-        $('#assignmentsTxt').text(resp);
+        $('#assignmentsTxt').val(resp);
         })
 
     }
@@ -1301,6 +1330,7 @@
               $('.semesterVal').text(data.semester);
               $('.branchVal').text(data.branch);
               $('.prevSemResultVal').text(data.previousSemResult);
+              $('.mentorNameVal').text(data.mentorName);
           } else {
             $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#success-alert").slideUp(700);
@@ -1324,7 +1354,7 @@
         function validateAddStudentFields(enrollmentId,branch,contactno,fullname,previousSemResult,rollno,semester) {
           var isValid = true;
           const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
-          const alphabetRegex = /^[a-zA-Z]+$/;
+          const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
           const numericRegex = /^[0-9]+$/;
 
           if(enrollmentId == null || $.isEmptyObject(enrollmentId) || !numericRegex.test(enrollmentId)){
