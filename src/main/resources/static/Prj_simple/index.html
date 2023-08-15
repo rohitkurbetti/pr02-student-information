@@ -746,7 +746,7 @@ setTimeout(function(){
               //alert('Invalid credentials');
               showAlert("Invalid credentials", "danger");
               //window.location.href = "."; 
-              window.location.pathname='/Prj_simple/index.html'
+              //window.location.pathname='/Prj_simple/index.html'
               
             }
       
@@ -784,13 +784,13 @@ setTimeout(function(){
 
 
   function signupUser(){
-    
+        
         var email = $('#email').val();
         var password = $('#password').val();
         var fullname = $('#fullname').val();
   
         if(isSignUpFormValid(email,password, fullname)){
-
+          showSpinnerOverlay();
           var jData = new Object();
           jData['email'] = email;
           password = btoa(password);
@@ -804,13 +804,17 @@ setTimeout(function(){
             contentType: 'application/json',
             data: JSON.stringify(jData),
             success: function(data){
-              
+                hideSpinnerOverlay();
                 console.log(data);
                 if(data != null){
-                  resetSignupFields();
                   
-
-                  showAlert('Sign-up success', 'success');
+                  
+                  if(data.msg !== null && data.msg !== "") {
+                    showAlert('User already exists!', 'warning');
+                  } else {
+                    resetSignupFields();
+                    showAlert('Sign-up success', 'success');
+                  }
     
                 } else {
                   alert('Sign Up Failed!')
@@ -818,11 +822,13 @@ setTimeout(function(){
                 }
             },
             error: function(err){
+              hideSpinnerOverlay();
                 console.log(err);
             }
         })
       } else {
         //alert("Enter valid values");
+        hideSpinnerOverlay();
         showAlert('Please enter valid values', 'warning');
       }
     }

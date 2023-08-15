@@ -21,4 +21,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 	@Query("update UserEntity ue set ue.userRollno= :userRollno where email=:email ")
 	Integer updateRollnoToUser(@Param("email") String email,@Param("userRollno") Integer userRollno);
 
+
+	@Query(" select count(ue) from UserEntity ue where ue.email=:email and ue.password=:password ")
+	Integer checkUserExists(@Param("email") String email,@Param("password") String password);
+
 }

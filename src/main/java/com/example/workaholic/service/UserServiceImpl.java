@@ -18,7 +18,16 @@ public class UserServiceImpl {
 	public UserEntity createUser(UserEntity userEntity) {
 		String passwordDecrypted = decodeFromBase64(userEntity.getPassword());
 		userEntity.setPassword(passwordDecrypted);
-		return userRepository.save(userEntity);
+		UserEntity entity = new UserEntity();
+		Integer userExistsCount = userRepository.checkUserExists(userEntity.getEmail(),userEntity.getPassword());
+		
+		if(userExistsCount > 0) {
+			entity = new UserEntity();
+			entity.setMsg("User already exists!");
+		} else {
+			entity = userRepository.save(userEntity);
+		}
+		return entity;
 	}
 
 	public LoginResponse authenticateUser(String email, String password) {

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user_details")
@@ -28,6 +29,17 @@ public class UserEntity {
 	@Column(name = "user_rollno")
 	private Integer userRollno;
 	
+	@Transient
+	private String msg;
+	
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	public Integer getUserRollno() {
 		return userRollno;
 	}

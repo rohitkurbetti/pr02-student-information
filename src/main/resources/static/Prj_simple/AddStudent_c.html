@@ -870,13 +870,14 @@
         if(rollNoGlobal == null || $.isEmptyObject(rollNoGlobal) || !$.isNumeric(rollNoGlobal)){
           return;
         }
+        showSpinnerOverlay();
         $.ajax({
           type: "GET",
           dataType: "json",
           url: "https://pr02-student-information-production.up.railway.app/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
           contentType: 'aaplication/json',
           success: function(data) {
-              console.log(data);
+              hideSpinnerOverlay();
               $('#spinnerContainer').addClass('d-none');
               if(data !=null && data.length>0){
                 fillStudSubmittedAssignmentsTable(data);
@@ -885,6 +886,7 @@
               }
             },
             error: function (error) {
+              hideSpinnerOverlay();
               $('#spinnerContainer').addClass('d-none');
               alert("error " + error);
               
@@ -1166,7 +1168,7 @@
       
       var roll = $('#rollNoInput').val();
       var code = $('#assignmentCode option:selected').attr('value');
-
+        
         if(roll !== '' && roll != null && code !== null && code!=='' && code !=='0'){
 
           const assgnmntFile = document.getElementById('submitAssignmentFile').files[0];
@@ -1175,7 +1177,7 @@
             alert('Please select a file to upload.');
             return;
           }
-
+          showSpinnerOverlay();
           const formData = new FormData();
           formData.append('file', assgnmntFile);
           formData.append('fileext', assgnmntFile.type);
@@ -1186,8 +1188,8 @@
             body: formData
           })
           .then(response => {
+            hideSpinnerOverlay();
             if (response.ok) {
-              alert('File uploaded successfully!');
               showAlert('File uploaded successfully!','success');
               getSubmittedAsgnmnts();
               $('#myModal2').modal('hide');
@@ -1198,10 +1200,10 @@
             } else {
               alert('File upload failed.');
               //showAlert('File uploaded successfully!','danger');
-              
             }
           })
           .catch(error => {
+            hideSpinnerOverlay();
             console.error('Error:', error);
             $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#my-alert").fadeOut(700);
@@ -1209,6 +1211,7 @@
           });
           
         }else{
+          hideSpinnerOverlay();
           alert("Please enter valid values");
         }
     }
@@ -1220,11 +1223,12 @@
         $('#rollNoInput').val(rn);
         $('#rollNoInput').prop('disabled',true);
       }else {
-        alert('Enter valid rollno');
+        alert('Roll No not found, please check if you have enrolled into the system');
       }
     })
 
     function getAssignmentsByRollno(rn) {
+      showSpinnerOverlay();
       $('#assignmentCode').html('');
       $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
       var rollNo = rn;
@@ -1233,6 +1237,7 @@
           url: "https://pr02-student-information-production.up.railway.app/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
+              hideSpinnerOverlay();
               if(data.length==0){
                 showAlert("No Assignment Codes Found", "warning");
               } else {
@@ -1257,7 +1262,7 @@
 
           },
           error: function (error) {
-            
+              hideSpinnerOverlay();
               alert("error " + error);
               $('#assignmentsTxt').text('No Assignments Found');
               //$("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
