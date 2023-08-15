@@ -235,7 +235,7 @@
 
                     <div class="form-group mr-2">
                       <label for="enrollmentId">Enrollment ID:</label>
-                      <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" required>
+                      <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" required maxlength="10">
                     </div>
                   </div>
                   <div class="col">
@@ -251,7 +251,7 @@
                   <div class="col">
                     <div class="form-group mr-2">
                       <label for="contactno">Contact Number:</label>
-                      <input type="text" class="form-control" id="contactno" name="contactno" required>
+                      <input type="text" class="form-control" id="contactno" name="contactno" required maxlength="10">
                     </div>
                   </div>
                   <div class="col">
@@ -276,13 +276,13 @@
                   <div class="col">
                     <div class="form-group mr-2">
                       <label for="rollno">Roll Number:</label>
-                      <input type="text" class="form-control" id="rollno" name="rollno" required>
+                      <input type="text" class="form-control" id="rollno" name="rollno" required maxlength="4">
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for="semester">Semester:</label>
-                      <input type="text" class="form-control" id="semester" name="semester" required>
+                      <input type="text" class="form-control" id="semester" name="semester" required maxlength="1">
                     </div>
                   </div>
                 </div>
@@ -335,11 +335,11 @@
                 
                 <td class="keys">Semester:</td>
                 <td class="semesterVal"></td>
-                <td class="keys">Branch:</td>
-                <td class="branchVal"></td>
+                <td class="keys">Email:</td>
+                <td class="emailVal"></td>
                 <td class="keys">PreviousSemResult:</td>
                 <td class="prevSemResultVal"></td>
-                <td class="keys">Mentor:</td>
+                <td class="keys">Mentor/Mentee:</td>
                 <td class="mentorNameVal"></td>
               </tr>
             </tbody>
@@ -873,7 +873,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
+          url: "https://pr02-student-information-production.up.railway.app/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
           contentType: 'aaplication/json',
           success: function(data) {
               console.log(data);
@@ -926,7 +926,7 @@
 
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:8081/updateRollnoToUser',
+          url: 'https://pr02-student-information-production.up.railway.app/updateRollnoToUser',
           contentType: 'application/json',
           data: JSON.stringify(obj),
           success: function(data){
@@ -964,7 +964,7 @@
           showSpinnerOverlay();
             $.ajax({
             type: "GET",
-            url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
+            url: "https://pr02-student-information-production.up.railway.app/getTestMarksByRollno/"+rollNoTest,
             success: function(data) {
               
                 hideSpinnerOverlay();
@@ -1036,7 +1036,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getNotesBySemester/"+semesterInput,
+          url: "https://pr02-student-information-production.up.railway.app/getNotesBySemester/"+semesterInput,
           contentType: 'aaplication/json',
           success: function(data) {
               $('#myModal3').modal('hide');
@@ -1084,9 +1084,9 @@
 
 
               $('.downloadNoteFileLink').click(function(){
-                
+                showSpinnerOverlay();
                 var fileId = $(this).attr('id');
-                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -1147,7 +1147,7 @@
 
                   // Remove the link from the document after the download is triggered
                   document.body.removeChild(downloadLink);
-                  
+                  hideSpinnerOverlay();
                 })
                 .catch(error => {
                   console.error('Error:', error);
@@ -1163,7 +1163,7 @@
 
     function submitAssignment(){
 
-      debugger
+      
       var roll = $('#rollNoInput').val();
       var code = $('#assignmentCode option:selected').attr('value');
 
@@ -1181,7 +1181,7 @@
           formData.append('fileext', assgnmntFile.type);
           formData.append('rollno', roll);
           formData.append('code', code);
-          fetch('http://localhost:8081/updateStudentAssignments', {
+          fetch('https://pr02-student-information-production.up.railway.app/updateStudentAssignments', {
             method: 'POST',
             body: formData
           })
@@ -1225,13 +1225,12 @@
     })
 
     function getAssignmentsByRollno(rn) {
-      debugger
       $('#assignmentCode').html('');
       $('#assignmentCode').append($('<option></option>').attr('value', '0').text('--SELECT--'));
       var rollNo = rn;
       $.ajax({
           type: "GET",
-          url: "http://localhost:8081/getAssignmentsByRollno/" + rollNo,
+          url: "https://pr02-student-information-production.up.railway.app/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
               if(data.length==0){
@@ -1268,7 +1267,7 @@
       });
 
       $("#assignmentCode").change(function() {
-        debugger
+        
         //$('#assignmentsTxt').text('');
         var selectedValue = $("#assignmentCode option:selected").val();
         var dataValue = $("#assignmentCode option:selected").attr('data-value');
@@ -1296,7 +1295,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getStudentDetails/" + rn,
+          url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rn,
           contentType: 'aaplication/json',
           success: function(data) {
             
@@ -1328,6 +1327,7 @@
               $('.contactVal').text(data.contactno);
               $('.enrNoVal').text(data.enrollmentId);
               $('.semesterVal').text(data.semester);
+              $('.emailVal').text($('#main-container').attr('data-email'));
               $('.branchVal').text(data.branch);
               $('.prevSemResultVal').text(data.previousSemResult);
               $('.mentorNameVal').text(data.mentorName);
@@ -1398,7 +1398,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8081/student_details',
+                url: 'https://pr02-student-information-production.up.railway.app/student_details',
                 contentType: 'application/json',
                 data: JSON.stringify(jData),
                 success: function(data){
@@ -1432,7 +1432,7 @@
       $.ajax({
       type: "GET",
       dataType: "json",
-      url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+      url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
       contentType: 'aaplication/json',
       success: function(data) {
           console.log(data);

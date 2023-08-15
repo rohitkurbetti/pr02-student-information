@@ -717,7 +717,7 @@ setTimeout(function(){
       password = btoa(password);
       $.ajax({
         type: "GET",
-        url: "http://localhost:8081/authenticate_user?email="+email+"&password="+password,
+        url: "https://pr02-student-information-production.up.railway.app/authenticate_user?email="+email+"&password="+password,
         contentType: 'aaplication/json',
         success: function(data) {
           hideSpinnerOverlay();
@@ -800,7 +800,7 @@ setTimeout(function(){
           
           $.ajax({
             type: 'POST',
-            url: 'http://localhost:8081/createUser',
+            url: 'https://pr02-student-information-production.up.railway.app/createUser',
             contentType: 'application/json',
             data: JSON.stringify(jData),
             success: function(data){

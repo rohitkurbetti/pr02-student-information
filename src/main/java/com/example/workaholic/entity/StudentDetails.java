@@ -22,7 +22,7 @@ public class StudentDetails {
 	private String fullname;
 
 	@Column(name = "enrollmentId")
-	private Integer enrollmentId;
+	private Long enrollmentId;
 	
 	@Column(name = "rollno")
 	private Integer rollno;
@@ -101,12 +101,12 @@ public class StudentDetails {
 	}
 
 
-	public Integer getEnrollmentId() {
+	public Long getEnrollmentId() {
 		return enrollmentId;
 	}
 
 
-	public void setEnrollmentId(Integer enrollmentId) {
+	public void setEnrollmentId(Long enrollmentId) {
 		this.enrollmentId = enrollmentId;
 	}
 
@@ -225,7 +225,7 @@ public class StudentDetails {
 		this.assignmentName = assignmentName;
 	}
 
-	public StudentDetails(Integer studentDetailsId, String fullname, Integer enrollmentId, Integer rollno,
+	public StudentDetails(Integer studentDetailsId, String fullname, Long enrollmentId, Integer rollno,
 			String contactno, String semester, String branch, String previousSemResult, String assignmentName,
 			String assignment, String marksJson, byte[] fileNotes, String fileExt, byte[] studentSubmittedAssignments) {
 		super();
@@ -246,7 +246,7 @@ public class StudentDetails {
 	}
 
 
-	public StudentDetails(String fullname, Integer enrollmentId, Integer rollno, String contactno, String semester,
+	public StudentDetails(String fullname, Long enrollmentId, Integer rollno, String contactno, String semester,
 			String branch, String previousSemResult, String assignmentName, String assignment, String marksJson,
 			byte[] fileNotes, String fileExt, byte[] studentSubmittedAssignments) {
 		super();

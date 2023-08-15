@@ -681,7 +681,7 @@
 <script>
 
   $(document).ready(function(){
-    debugger
+    
       var fullname = $('#main-container').attr('data-fullname');
       fullname = (fullname == undefined) ? "Student":fullname;
       $('.jumbotron>h1').text('Hello, '+fullname+'!');
@@ -728,7 +728,7 @@
       }
       
       function showAlert(message, type,customClz) {
-        debugger
+        
         customClz = customClz =="" || customClz == undefined ? '':customClz;
         $('.alert-container-student'+customClz).html('');
         const alertContainer = $('.alert-container-student'+customClz);
@@ -823,7 +823,7 @@
             type: "GET",
             url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
             success: function(data) {
-              debugger
+              
                 hideSpinnerOverlay();
                 if(data == null || data==="" || data.length==0){
                   showAlert('No data found', 'warning','TestMarks');
@@ -885,7 +885,7 @@
               //hideLoadingSpinner();
               hideSpinnerOverlay();
               if(data != null && data.length==0){
-                debugger
+                
                 showAlert('No data found', 'warning');
               } else {
                 fillStudentsNotesTable(data);
@@ -1215,7 +1215,7 @@
     }
 
     function updateAssignmentToNewlyAddedStudents() {
-      debugger
+      
       $.ajax({
       type: "GET",
       dataType: "json",
