@@ -25,4 +25,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 	@Query(" select count(ue) from UserEntity ue where ue.email=:email and ue.password=:password ")
 	Integer checkUserExists(@Param("email") String email,@Param("password") String password);
 
+
+	@Transactional
+	@Modifying
+	@Query("delete UserEntity ue where ue.userRollno= :userRollno ")
+	int deleteUserDetailsByRollno(@Param("userRollno") Integer userRollno);
+
+
+	@Query(" select distinct ue from UserEntity ue where ue.email=:email")
+	UserEntity getUserDetailsByEmail(@Param("email") String email);
+
 }

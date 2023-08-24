@@ -189,7 +189,9 @@
             <div class="form-group mx-2">
               <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addMentorModal" id="assignMentorBtn">Assign Mentor</button>
           </div>
-            
+          <div class="form-group mx-2">
+            <button type="button" class="btn btn-info" id="getAllStudentsBtn">Get All Students</button>
+        </div>
         </form>
         <div class="modal fade" id="addMentorModal" tabindex="-1" role="dialog" 
                 aria-hidden="true" data-backdrop="static">
@@ -237,6 +239,7 @@
                 <th scope="col">Semester</th>
                 <th scope="col">Branch</th>
                 <th scope="col">PreviousSemResult</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -762,6 +765,25 @@
           submitMentor();
         })
 
+        $('#getAllStudentsBtn').click(function(){
+          getAllStudents();
+        })
+
+        function getAllStudents(){
+          $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8081/getStudentDetails',
+            contentType: 'application/json',
+            success: function(data){
+              fillStudentDetailsTbl(data);
+            },
+            error: function(err){
+              alert("error " + error);
+            }
+          })
+
+        }
+
         function submitMentor() {
           var mentorName = $('#mentorname').val();
           var rollNos = $('#rollnoForMentorShip').val();
@@ -775,7 +797,7 @@
           function assignMentorNameToRollNos(rollNos, mentorName){
             $.ajax({
               type: 'GET',
-              url: 'https://pr02-student-information-production.up.railway.app/assignMentorToRollNos?rollNos='+rollNos+"&mentorName="+mentorName,
+              url: 'http://localhost:8081/assignMentorToRollNos?rollNos='+rollNos+"&mentorName="+mentorName,
               contentType: 'application/json',
               success: function(data){
                 $('#mentorname').val('');
@@ -791,9 +813,9 @@
                   
               },
               error: function(err){
-                  console.log(err);
+                alert("error " + error);
               }
-          })
+            })
           }
 
 
@@ -826,7 +848,7 @@
             $.ajax({
             type: "GET",
             dataType: "json",
-            url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
+            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
@@ -845,7 +867,7 @@
           showSpinnerOverlay();
           $.ajax({
             type: "GET",
-            url: "https://pr02-student-information-production.up.railway.app/getAllNotes?page="+page+"&size=10",
+            url: "http://localhost:8081/getAllNotes?page="+page+"&size=10",
             contentType: 'aaplication/json',
             success: function(data) {
                 console.log(data);
@@ -904,7 +926,7 @@
               $('.downloadNoteFileLink').click(function(){
                 
                 var fileId = $(this).attr('id');
-                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
+                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -983,7 +1005,7 @@
         function getNotes(){
           // $.ajax({
           //     type: "GET",
-          //     url: "https://pr02-student-information-production.up.railway.app/getFile",
+          //     url: "http://localhost:8081/getFile",
           //     contentType: 'aaplication/json',
           //     success: function(data) {
           //         console.log(data);
@@ -994,7 +1016,7 @@
           // });
 
 
-          const apiUrl = 'https://pr02-student-information-production.up.railway.app/getFile';
+          const apiUrl = 'http://localhost:8081/getFile';
 
           fetch(apiUrl, {
             method: 'GET',
@@ -1100,7 +1122,7 @@
             formData.append('fileName', notesFile.name);
             formData.append('semTxt', semTxt);
             formData.append('subject', subject);
-            fetch('https://pr02-student-information-production.up.railway.app/uploadNotes', {
+            fetch('http://localhost:8081/uploadNotes', {
               method: 'POST',
               body: formData,
             })
@@ -1157,7 +1179,7 @@
           
           $.ajax({
               type: 'POST',
-              url: 'https://pr02-student-information-production.up.railway.app/updateMarksJson',
+              url: 'http://localhost:8081/updateMarksJson',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
@@ -1278,7 +1300,7 @@
             $.ajax({
               type: "GET",
               dataType: "json",
-              url: "https://pr02-student-information-production.up.railway.app/getAssignments",
+              url: "http://localhost:8081/getAssignments",
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
@@ -1312,7 +1334,9 @@
                 //     questionList = questionList + i +"\n";
                 //   });
                 // }
-                $('#viewAssignmentTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+element.assignmentName+'</td><td><a href="#" style="text-decoration: none;" class="assignments" id="'+element.assignmentName+'">'+submittedAssignmentsStr+'</a></td> </tr>');
+                if(element.assignmentName !== null && element.assignmentName !==""){
+                  $('#viewAssignmentTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+element.assignmentName+'</td><td><a href="#" style="text-decoration: none;" class="assignments" id="'+element.assignmentName+'">'+submittedAssignmentsStr+'</a></td> </tr>');
+                }
                 
                 questionList = "";
               }
@@ -1335,7 +1359,7 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
+              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
                 hideSpinnerOverlay();
@@ -1373,7 +1397,7 @@
               $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
                 contentType: 'aaplication/json',
                 success: function(data) {
                   console.log(data);
@@ -1421,7 +1445,7 @@
           })
 
           function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
-            var apiUrl = 'https://pr02-student-information-production.up.railway.app/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
+            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
 
             fetch(apiUrl, {
               method: 'GET',
@@ -1523,7 +1547,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'https://pr02-student-information-production.up.railway.app/updateAssignment',
+                url: 'http://localhost:8081/updateAssignment',
                 contentType: 'application/json',
                 data: JSON.stringify(assignmentObj),
                 success: function(data){
@@ -1641,7 +1665,7 @@
 
           function isAlphanumericTitle(title){
             var isValid = false;
-            const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
+            const alphanumericRegex = /^[a-zA-Z ][a-zA-Z0-9 ]*$/;
             if(alphanumericRegex.test(title)){
               isValid = true;
             }
@@ -1661,7 +1685,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rollno,
+                url: "http://localhost:8081/getStudentDetails/" + rollno,
                 contentType: 'aaplication/json',
                 success: function(data) {
                     showAlert('Student details found', 'success');
@@ -1680,16 +1704,61 @@
         }
 
 
-        function fillStudentDetailsTbl(data) {
+        function fillStudentDetailsTbl(dataArr) {
           // console.log(data);
+          
           $('#studentDetailsTbl>tbody').html('');
-          if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
+          dataArr.forEach(data => {
+            if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
             $('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
-              +data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
-          } else {
-            $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
-              $("#success-alert").slideUp(700);
-            });
-          }
+              +data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td><td><button data-rollno='+data.rollno+' data-semester='+data.semester+' type="button" class="deleteStudentBySemesterRollno close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button></td></tr>');
+            } else {
+              $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(700);
+              });
+            }
+          })
+
+          $('.deleteStudentBySemesterRollno').click(function () {
+            console.log("called");
+            
+            cuteAlert({
+              type: "question",
+              title: "Delete Student Details",
+              message: "Confirm delete?",
+              confirmText: "Delete",
+              cancelText: "Cancel"
+            }).then((e)=>{
+              if(e === "confirm"){
+                //delete studentdetails by Semester and rollno
+                var deleteRollNoParam = $(this).attr('data-rollno');
+                var deleteSemesterParam = $(this).attr('data-semester');
+
+                $.ajax({
+                  type: "GET",
+                  url: "http://localhost:8081/deleteStudentBySemesterRollno?semester="+deleteSemesterParam+"&rollno="+deleteRollNoParam,
+                  success: function(data) {
+                    
+                      showAlert('Student details found', 'success');
+                      getAllStudents();
+                      //fillStudentDetailsTbl(data);
+                  },
+                  error: function (error) {
+                      // alert("error " + error);
+                      showAlert('No student details found!', 'danger');
+                  }
+                });
+              } else if("cancel"){
+                
+              } else {
+
+              }
+            })
+
+            
+
+
+
+          });
         }
   </script>

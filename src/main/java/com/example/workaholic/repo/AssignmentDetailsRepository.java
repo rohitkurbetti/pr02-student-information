@@ -33,13 +33,18 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 			+ " where ad.code =:assignmentCode ")
 	List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnCode(@Param("assignmentCode") Integer assignmentCode);
 
-	@Query(" select distinct(ad.code) from AssignmentDetails ad where branch=:branch and semester=:semester ")
-	Integer getASsignmentCode(@Param("branch") String branch,@Param("semester") String semester);
+	@Query(" select distinct(ad.code) from AssignmentDetails ad where lower(branch)=lower(:branch) and semester=:semester ")
+	List<Integer> getASsignmentCode(@Param("branch") String branch,@Param("semester") String semester);
 
 	@Query(" select new com.example.workaholic.entity.SubmtdAssignmentsDom(sd.rollno, sd.assignmentName, ad.code, ad.assignmentStatus) "
 			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.branch = sd.branch and ad.semester = sd.semester and ad.rollno = sd.rollno "
 			+ " where ad.rollno=:rollno and ad.assignmentStatus='SUBMITTED' ")
 	List<SubmtdAssignmentsDom> getSubmittedAssignmentsByRollNo(@Param("rollno") Integer rollNo);
+
+	@Transactional
+	@Modifying
+	@Query("delete from AssignmentDetails ad where ad.semester =:semester and ad.rollno = :rollno")
+	int deleteAssignmentDetailsBySemesterRollno(@Param("semester") String semester,@Param("rollno") Integer rollno);
 
 	
 

@@ -3,6 +3,7 @@ package com.example.workaholic.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,11 @@ public class UserController {
 	@PostMapping("/updateRollnoToUser")
 	public Integer updateRollnoToUser(@RequestBody UserEntity userEntity) {
 		return userServiceImpl.updateRollnoToUser(userEntity);
+	}
+	
+	@GetMapping("/getUserDetailsByEmail/{email}")
+	public UserEntity updateRollnoToUser(@PathVariable("email") String email) {
+		return userServiceImpl.getUserDetailsByEmail(email);
 	}
 	
 }

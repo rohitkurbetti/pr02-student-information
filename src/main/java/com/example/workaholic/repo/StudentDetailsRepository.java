@@ -21,10 +21,10 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 
 	@Transactional
 	@Modifying
-	@Query("update StudentDetails set assignmentName = :assignmentName, assignment = :assignment where branch=:branch and semester=:semester")
+	@Query("update StudentDetails set assignmentName = :assignmentName, assignment = :assignment where lower(branch)=lower(:branch) and semester=:semester")
 	int updateAssignmentByBranchSemester(@Param("assignmentName") String assignmentName, @Param("assignment") String assignment,@Param("branch") String branch, @Param("semester") String semester);
 
-	@Query("select sd from StudentDetails sd where sd.rollno=:rollno")
+	@Query("select distinct sd from StudentDetails sd where sd.rollno=:rollno")
 	StudentDetails findByRollNo(@Param("rollno") Integer rollno);
 
 	@Transactional
@@ -58,12 +58,12 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 //	Integer updateStudentAssignments(byte[] studentSubmittedAssignments, String fileExt, int rollno);
 
 	
-	@Query("select sd.rollno from StudentDetails sd where sd.branch=:branch and sd.semester=:semester")
+	@Query("select sd.rollno from StudentDetails sd where lower(sd.branch)=lower(:branch) and sd.semester=:semester")
 	List<Integer> extractRollNoListByBranchSemester(@Param("branch") String branch,@Param("semester") String semester);
 
 	
 	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,sd.assignmentName,ad.code,ad.assignmentStatus) "
-			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and ad.branch =sd.branch and ad.semester =sd.semester "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and lower(ad.branch) =lower(sd.branch) and ad.semester =sd.semester "
 			+ " where sd.assignmentName =:assignmentName ")
 	List<AssignmentDetailsDom> getByAsssignmentDetailsByAssgnName(@Param("assignmentName") String assignmentName);
 
@@ -72,12 +72,12 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 
 	@Transactional
 	@Modifying
-	@Query("update StudentDetails sd set sd.assignment=:assignment,sd.assignmentName = :assignmentName where sd.branch=:branch and sd.semester=:semester and sd.assignment is null and sd.assignmentName is null ")
+	@Query("update StudentDetails sd set sd.assignment=:assignment,sd.assignmentName = :assignmentName where lower(sd.branch)=lower(:branch) and sd.semester=:semester and sd.assignment is null and sd.assignmentName is null ")
 	int updateASsignToNullPlaces(String branch, String semester, String assignmentName, String assignment);
 
 	
 	@Query("select distinct new com.example.workaholic.entity.SomeMapper(sd.assignment ,sd.branch ,sd.semester ,sd.rollno) from StudentDetails sd left join AssignmentDetails ad on sd.branch =ad.branch and sd.semester =ad.semester and sd.rollno =ad.rollno "
-			+ " where sd.branch =:branch and sd.semester =:semester and not exists (select 1 from AssignmentDetails ad2 where ad2.rollno=sd.rollno) ")
+			+ " where lower(sd.branch) =lower(:branch) and sd.semester =:semester and not exists (select 1 from AssignmentDetails ad2 where ad2.rollno=sd.rollno) ")
 	List<SomeMapper> addDeltaAssignments(@Param("branch") String branch,@Param("semester") String semester);
 
 	
@@ -89,6 +89,15 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	@Modifying
 	@Query("update StudentDetails sd set sd.mentorName=:mentorName where sd.rollno in (:rollNos) ")
 	int assignMentorToRollNos(@Param("rollNos") Integer[] rollNos,@Param("mentorName") String mentorName);
+
+	
+	@Query("select count(sd) from StudentDetails sd where sd.enrollmentId=:enrollmentId")
+	int checkIfEnrlmntExists(@Param("enrollmentId") Long enrollmentId);
+
+	@Transactional
+	@Modifying
+	@Query("delete from StudentDetails sd where sd.semester = :semester and sd.rollno = :rollno")
+	int deleteStudentDetailsBySemesterRollno(@Param("semester") String semester, @Param("rollno") Integer rollno);
 
 	
 

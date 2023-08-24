@@ -64,6 +64,11 @@ public class StudentController {
 	}
 	
 	
+	@GetMapping("/getStudentDetails")
+	public List<StudentDetails> getStudentDetails() {
+		return studentServiceImpl.getAllStudentsList();
+	}
+	
 	@PostMapping("/student_details")
 	public StudentDetails saveStudentDetails(@RequestBody StudentDetails studentDetails) {
 		return studentServiceImpl.saveStudentDetails(studentDetails);
@@ -156,5 +161,14 @@ public class StudentController {
 		return studentServiceImpl.assignMentorToRollNos(rollNos, mentorName);
 	}
 	
+	@GetMapping("/checkIfEnrlmntExists/{enrollmentId}")
+	public int checkIfEnrlmntExists(@PathVariable("enrollmentId") Long enrollmentId) {
+		return studentServiceImpl.checkIfEnrlmntExists(enrollmentId);
+	}
+	
+	@GetMapping("/deleteStudentBySemesterRollno")
+	public String deleteStudentBySemesterRollno(@RequestParam("semester") String semester,@RequestParam("rollno") Integer rollno) {
+		return studentServiceImpl.deleteStudentBySemesterRollno(semester,rollno);
+	}
 	
 }

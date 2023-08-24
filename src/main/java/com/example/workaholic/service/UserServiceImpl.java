@@ -85,6 +85,10 @@ public class UserServiceImpl {
 		return userRepository.updateRollnoToUser(email,userRollno);
 	}
 
+	public UserEntity getUserDetailsByEmail(String email) {
+		return userRepository.getUserDetailsByEmail(email);
+	}
+
 	
 	
 	

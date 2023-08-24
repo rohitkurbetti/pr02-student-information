@@ -159,6 +159,134 @@
       }
     }
 
+
+    /* Style for the student details block */
+    .studentDetailsBlock {
+      margin: 30px;
+      padding: 5px;
+      /* background-color: #b3abae; */
+      border: 2px solid #141414;
+      border-radius: 5px;
+      box-shadow: 10px 10px 5px #b3abae;
+      text-decoration-color: #281684;
+      text-shadow: #b6847b;
+      background-color: #d2d0d0;
+      font-weight: bolder;
+      
+    }
+  
+    .title {
+      color: rgb(21, 1, 46);
+      margin-bottom: 20px;
+    }
+  
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    .keys {
+      font-weight: bold;
+      color: #333;
+    }
+  
+    /* Add more specific styles to individual cells if needed */
+    td {
+      padding: 10px;
+      border: 1px solid #f7f5f5;
+      color: #350101;
+    }
+  
+    body {
+      background-image: url("I1.jpg"); /* Replace with your image URL */
+      background-repeat: no-repeat; /* Prevent image from repeating */
+      background-size: cover; /* Scale the image to cover the entire background */
+      background-position: center center; /* Position the image in the center */
+    }
+
+    #main-content {
+      margin-top: 2rem;
+      padding: 1px 30px;
+      background-image: url("./I7.jpg"); /* Replace with your image URL */
+      background-repeat: no-repeat; /* Prevent image from repeating */
+      background-size: cover; /* Scale the image to cover the entire background */
+      background-position: center center;
+      border-radius: 5px;
+    }
+  
+  input::file-selector-button {
+    background-image: linear-gradient(
+      to right,
+      #ff7a18,
+      #af002d,
+      #319197 100%,
+      #319197 200%
+    );
+    background-position-x: 0%;
+    background-size: 200%;
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    padding: 0.50rem 1rem;
+    text-shadow: 0 1px 1px #333;
+    transition: all 0.25s;
+  }
+  
+  
+
+
+  .nav-tabs {
+    background-color: #333;
+    border-bottom: 2px solid #b6847b;
+  }
+
+  .nav-link {
+    color: #fff;
+    border: none;
+    transition: 0.3s;
+    font-size: 16px; /* Adjust the font size as needed */
+    padding: 16px 30px; 
+   
+  }
+
+  .nav-link.active {
+    background-color: #f3dcb6;
+    border: none;
+    font-weight: bold;
+  }
+
+  .nav-link:hover {
+    background-color: #b5e2f5;
+    color: #03011e;
+    /* box-shadow: 0 5px 35px 0px rgba(252, 34, 34, 0.1); */
+  }
+
+  /* css for marquee */
+  .holder {
+    /* background: #ccc; */
+    background-image:url('board2.webp');
+    padding: 0.1rem;
+    overflow: hidden;
+    background-repeat: no-repeat; /* Prevent image from repeating */
+    background-size: cover;
+    border: 4px solid #490303;
+  }
+  .news {
+    animation: slide 15s linear infinite;
+    font-size: 22px;
+    font-weight: bold;
+    color: rgb(48, 128, 48);
+  }
+  @keyframes slide {
+    0% {
+      transform: translatex(0%);
+    }
+
+    100% {
+      transform: translatex(100%);
+    }
+  }
+
   </style>
 
     <!-- spinner overlay -->
@@ -172,7 +300,25 @@
     <div id="noticeSection">
       
     </div>
-
+    <h1
+    style="
+      color: #e4e9ee;
+      font: 50px;
+      font-family: Raleway;
+      text-align: center;
+      position: center;
+      background-image: url('./img/book-with-green-board-background.jpg');
+      display: flex; 
+      align-items: center;
+      padding-left: 10%;
+      padding-bottom: 15px;
+      padding-top: 15px;"><img src="logo.png" alt="Image" style="width: 100px; height: auto; margin-right: 10px;" >
+    Smt. Premalatai Chavan Polytechnic, Karad
+    <h4 style="text-align: center; color: #1c0122; font-family:Verdana, monospace; font-weight: bolder;">COMPUTER DEPARTMENT</h4></h1>
+  
+  <div class="holder">
+    <div class="news">Welcome to PCPK Computer Department Portal</div>
+  </div>
     <div id="main-content" class="container mt-5">
     <div class="row floating-div">
       <div class="col">
@@ -191,6 +337,15 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" target="_blank" href="https://candidate.speedexam.net/signin.aspx?site=pcpkcomputer">MCQ Exam</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#">Feedback</a>
+      </li> -->
+      <li class="nav-item ml-auto">
+        <a class="nav-link" id="logoutUser" data-toggle="tab" href="#"><i class="fa fa-sign-out"></i></a>
       </li>
     </ul>
 
@@ -317,14 +472,16 @@
        </div>
 
         <div id="studentDetailsBlock" class="studentDetailsBlock">
-          <h3>Student Enrollment Details</h3>
+          <h4 style="color: rgb(20, 2, 42);font-style:unset;font-weight: bolder;font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center;"><img src="stlogo.jpg" alt="Image" style="width: 40px; height: auto; margin-right: 10px;" >
+            STUDENT ENROLLMENT DETAILS <span id="ediStudentEnrDetailsBtn" data-toggle="modal" data-target="#studentEnrlmtFormModal" class="btn btn-link mt-2 mr-2 float-right" style="text-decoration: none;"><i class="fa fa-edit"></i> Edit</span></h4>
+        <br>
           <table class="table" id="studentDetailsTbl">
             
             <tbody>
               <tr>
                 <td class="keys">Roll No:</td>
                 <td class="rollnoVal"></td>
-                <td class="keys">Fullname:</td>
+                <td class="keys">Full Name:</td>
                 <td class="fullnameVal"></td>
                 <td class="keys">Contact No:</td>
                 <td class="contactVal"></td>
@@ -337,7 +494,7 @@
                 <td class="semesterVal"></td>
                 <td class="keys">Email:</td>
                 <td class="emailVal"></td>
-                <td class="keys">PreviousSemResult:</td>
+                <td class="keys">Previous Sem Result:</td>
                 <td class="prevSemResultVal"></td>
                 <td class="keys">Mentor/Mentee:</td>
                 <td class="mentorNameVal"></td>
@@ -865,6 +1022,75 @@
         getSubmittedAsgnmnts();
       })
 
+      $('#enrollmentId').blur(function(){
+        checkIfEnrlmntExists();
+      })
+
+      $('#logoutUser').click(function(){
+        showSpinnerOverlay();
+        window.location.replace(".");
+        hideSpinnerOverlay();
+      })
+
+      $('#ediStudentEnrDetailsBtn').click(function(){
+        var rn = $('#main-container').attr('data-rollno');
+        if(rn != null && rn !=undefined && rn !==""){
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getStudentDetails/" + rn,
+            contentType: 'aaplication/json',
+            success: function(data) {
+                fillModal(data);
+            },
+            error: function (error) {
+              
+                alert("error " + error);
+                //$("#success-dange3").fadeTo(3000, 500).slideUp(500, function(){
+                  //  $("#success-dange3").slideUp(700);
+                //});
+              }
+            });
+          }
+      })
+
+      function fillModal(data) {
+        if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
+          //$('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
+            //+data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
+            $('#rollno').val(data.rollno);
+            $('#fullname').val(data.fullname);
+            $('#contactno').val(data.contactno);
+            $('#enrollmentId').val(data.enrollmentId);
+            $('#semester').val(data.semester);
+            $('#branch').val(data.branch);
+            $('#previousSemResult').val(data.previousSemResult);
+            $('#main-container').attr('data-studentDetailsId',data.studentDetailsId);
+        }
+      }
+
+      function checkIfEnrlmntExists () {
+        var enrId = $('#enrollmentId').val();
+        if(enrId != null && !$.isEmptyObject(enrId) && $.isNumeric(enrId)){
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/checkIfEnrlmntExists/"+enrId,
+            contentType: 'aaplication/json',
+            success: function(data) {
+                if(data !=null && data>0){
+                  //fillStudSubmittedAssignmentsTable(data);
+                  alert("Enrollment already exists!");
+                  $('#enrollmentId').val('');
+                }
+              },
+              error: function (error) {
+                alert("error " + error);
+              }
+            });
+        }
+      }
+
       function getSubmittedAsgnmnts () {
         var rollNoGlobal = $('#main-container').attr('data-rollno');
         if(rollNoGlobal == null || $.isEmptyObject(rollNoGlobal) || !$.isNumeric(rollNoGlobal)){
@@ -874,7 +1100,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "https://pr02-student-information-production.up.railway.app/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
+          url: "http://localhost:8081/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
           contentType: 'aaplication/json',
           success: function(data) {
               hideSpinnerOverlay();
@@ -903,8 +1129,9 @@
           $('.applyshadowStyle').prop('style',borderShadowStyle);
           if(data != null && data.length > 0) {
             var counter =0;
+            var tick ="<i class='fa fa-check' style='color:#44bf22'></i>"
             data.forEach(e => {
-              $('#studSubmittedAssgnmtsTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+(e.rollno)+'</td><td>'+e.code+'</td><td>'+e.assignmentStatus+'</td></tr>');
+              $('#studSubmittedAssgnmtsTbl>tbody').append('<tr><td>'+(++counter)+'</td><td>'+(e.rollno)+'</td><td>'+e.code+'</td><td>'+tick+' '+e.assignmentStatus+'</td></tr>');
             });
           } else {
             $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
@@ -928,7 +1155,7 @@
 
         $.ajax({
           type: 'POST',
-          url: 'https://pr02-student-information-production.up.railway.app/updateRollnoToUser',
+          url: 'http://localhost:8081/updateRollnoToUser',
           contentType: 'application/json',
           data: JSON.stringify(obj),
           success: function(data){
@@ -966,7 +1193,7 @@
           showSpinnerOverlay();
             $.ajax({
             type: "GET",
-            url: "https://pr02-student-information-production.up.railway.app/getTestMarksByRollno/"+rollNoTest,
+            url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
             success: function(data) {
               
                 hideSpinnerOverlay();
@@ -1038,7 +1265,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "https://pr02-student-information-production.up.railway.app/getNotesBySemester/"+semesterInput,
+          url: "http://localhost:8081/getNotesBySemester/"+semesterInput,
           contentType: 'aaplication/json',
           success: function(data) {
               $('#myModal3').modal('hide');
@@ -1088,7 +1315,7 @@
               $('.downloadNoteFileLink').click(function(){
                 showSpinnerOverlay();
                 var fileId = $(this).attr('id');
-                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
+                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -1183,7 +1410,7 @@
           formData.append('fileext', assgnmntFile.type);
           formData.append('rollno', roll);
           formData.append('code', code);
-          fetch('https://pr02-student-information-production.up.railway.app/updateStudentAssignments', {
+          fetch('http://localhost:8081/updateStudentAssignments', {
             method: 'POST',
             body: formData
           })
@@ -1193,7 +1420,7 @@
               showAlert('File uploaded successfully!','success');
               getSubmittedAsgnmnts();
               $('#myModal2').modal('hide');
-              $('#rollNoInput').val('');
+              //$('#rollNoInput').val('');
               $('#assignmentCode').val(0);
               $('#submitAssignmentFile').val('');
               $('#assignmentsTxt').val('');
@@ -1234,7 +1461,7 @@
       var rollNo = rn;
       $.ajax({
           type: "GET",
-          url: "https://pr02-student-information-production.up.railway.app/getAssignmentsByRollno/" + rollNo,
+          url: "http://localhost:8081/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
               hideSpinnerOverlay();
@@ -1300,7 +1527,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rn,
+          url: "http://localhost:8081/getStudentDetails/" + rn,
           contentType: 'aaplication/json',
           success: function(data) {
             
@@ -1356,13 +1583,17 @@
         var rollno = $('#rollno').val();
         var semester = $('#semester').val();
 
+        var studentDetailsId = $('#main-container').attr('data-studentDetailsId');
+
+        
+
         function validateAddStudentFields(enrollmentId,branch,contactno,fullname,previousSemResult,rollno,semester) {
           var isValid = true;
           const alphanumericRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
           const alphabetRegex = /^(?!^\s+$)[A-Za-z\s]+$/;
           const numericRegex = /^[0-9]+$/;
 
-          if(enrollmentId == null || $.isEmptyObject(enrollmentId) || !numericRegex.test(enrollmentId)){
+          if(enrollmentId !="" && !numericRegex.test(enrollmentId)){
             isValid = false;
           }
           if(branch == null || $.isEmptyObject(branch) || !alphabetRegex.test(branch)){
@@ -1400,17 +1631,19 @@
           jData['previousSemResult'] = previousSemResult;
           jData['rollno'] = rollno;
           jData['semester'] = semester;
-
+          if(studentDetailsId != undefined){
+            jData['studentDetailsId'] = studentDetailsId;
+          }
             $.ajax({
                 type: 'POST',
-                url: 'https://pr02-student-information-production.up.railway.app/student_details',
+                url: 'http://localhost:8081/student_details',
                 contentType: 'application/json',
                 data: JSON.stringify(jData),
                 success: function(data){
-                  updateRollnoToUser();
-                    console.log(data);
-                      showAlert("You have been enrolled into the system !","success");
-                      updateAssignmentToNewlyAddedStudents();
+                  if(studentDetailsId != undefined){
+                    showAlert("Student Enrollment Updated Successfully","success");
+                    updateRollnoToUser();
+                    updateAssignmentToNewlyAddedStudents();
                     if(data > 0){
                       
                       $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
@@ -1421,6 +1654,22 @@
                         $("#warning-alert").slideUp(700);
                       });
                     }
+                  } else {
+
+                    updateRollnoToUser();
+                    showAlert("You have been enrolled into the system !","success");
+                    updateAssignmentToNewlyAddedStudents();
+                    if(data > 0){
+                      
+                      $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+                        $("#success-alert").slideUp(700);
+                      });
+                    } else {
+                      $("#warning-alert").fadeTo(3000, 500).slideUp(500, function(){
+                        $("#warning-alert").slideUp(700);
+                      });
+                    }
+                  }
                 },
                 error: function(err){
                     console.log(err);
@@ -1437,10 +1686,9 @@
       $.ajax({
       type: "GET",
       dataType: "json",
-      url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
+      url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
       contentType: 'aaplication/json',
       success: function(data) {
-          console.log(data);
           callgetStudentDetails();
           $('#spinnerContainer').addClass('d-none');
         },

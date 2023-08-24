@@ -19,6 +19,7 @@ import com.example.workaholic.entity.StudentSignUp;
 import com.example.workaholic.repo.AssignmentDetailsRepository;
 import com.example.workaholic.repo.StudentDetailsRepository;
 import com.example.workaholic.repo.StudentSignupRepo;
+import com.example.workaholic.repo.UserRepository;
 
 @Service
 public class StudentServiceImpl {
@@ -31,6 +32,9 @@ public class StudentServiceImpl {
 	
 	@Autowired
 	private AssignmentDetailsRepository assignmentDetailsRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	
@@ -135,16 +139,18 @@ public class StudentServiceImpl {
 			
 			List<SomeMapper> mapper=  studentDetailsRepository.addDeltaAssignments(barnch, sem);
 			mapper.forEach(element -> {
-				AssignmentDetails assignmentDetails = new AssignmentDetails();
 				
-				Integer code = assignmentDetailsRepository.getASsignmentCode(barnch, sem);
-				assignmentDetails.setCode(code);
-				assignmentDetails.setAssignment(element.getAssignment());
-				assignmentDetails.setAssignmentStatus("NOTSUBMITTED");
-				assignmentDetails.setBranch(element.getBranch());
-				assignmentDetails.setRollno(element.getRollno());
-				assignmentDetails.setSemester(element.getSemester());
-				assignmentDetailsRepository.save(assignmentDetails);
+				List<Integer> code = assignmentDetailsRepository.getASsignmentCode(barnch, sem);
+				code.forEach(i -> {					
+					AssignmentDetails assignmentDetails = new AssignmentDetails();
+					assignmentDetails.setCode(i);
+					assignmentDetails.setAssignment(element.getAssignment());
+					assignmentDetails.setAssignmentStatus("NOTSUBMITTED");
+					assignmentDetails.setBranch(element.getBranch());
+					assignmentDetails.setRollno(element.getRollno());
+					assignmentDetails.setSemester(element.getSemester());
+					assignmentDetailsRepository.save(assignmentDetails);
+				});
 			});
 			System.out.println(mapper);
 		});
@@ -166,6 +172,39 @@ public class StudentServiceImpl {
 			nosInt[i] = rollNoUniq;
 		}
 		return studentDetailsRepository.assignMentorToRollNos(nosInt, mentorName);
+	}
+
+	public int checkIfEnrlmntExists(Long enrollmentId) {
+		return studentDetailsRepository.checkIfEnrlmntExists(enrollmentId);
+	}
+
+	public List<StudentDetails> getAllStudentsList() {
+		return studentDetailsRepository.findAll();
+	}
+
+	public String deleteStudentBySemesterRollno(String semester, Integer rollno) {
+		
+		
+		int rowsDeletedStudentDetails = studentDetailsRepository.deleteStudentDetailsBySemesterRollno(semester, rollno);
+		
+		int rowsDeletedAssignmentDetails = assignmentDetailsRepository.deleteAssignmentDetailsBySemesterRollno(semester, rollno);
+		
+		//optional
+		
+		int rowsDeletedUserDetails = userRepository.deleteUserDetailsByRollno(rollno);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("studentDetiails: ");
+		sb.append(rowsDeletedStudentDetails);
+		sb.append(",");
+		sb.append("assignment details: ");
+		sb.append(rowsDeletedAssignmentDetails);
+		sb.append(",");
+		sb.append("user details: ");
+		sb.append(rowsDeletedUserDetails);
+		
+		return sb.toString();
 	}
 	
 	
