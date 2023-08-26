@@ -162,8 +162,13 @@ public class StudentController {
 	}
 	
 	@GetMapping("/checkIfEnrlmntExists/{enrollmentId}")
-	public int checkIfEnrlmntExists(@PathVariable("enrollmentId") Long enrollmentId) {
+	public int checkIfEnrlmntExists(@PathVariable("enrollmentId") String enrollmentId) {
 		return studentServiceImpl.checkIfEnrlmntExists(enrollmentId);
+	}
+	
+	@GetMapping("/checkIfRollNoExists/{rollNo}")
+	public int checkIfRollNoExists(@PathVariable("rollNo") String rollNo) {
+		return studentServiceImpl.checkIfRollNoExists(rollNo);
 	}
 	
 	@GetMapping("/deleteStudentBySemesterRollno")

@@ -35,4 +35,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 	@Query(" select distinct ue from UserEntity ue where ue.email=:email")
 	UserEntity getUserDetailsByEmail(@Param("email") String email);
 
+
+	@Query(" select distinct ue.email from UserEntity ue where ue.userRollno=:userRollno")
+	String getEmailByRollNo(@Param("userRollno") Integer userRollno);
+
 }

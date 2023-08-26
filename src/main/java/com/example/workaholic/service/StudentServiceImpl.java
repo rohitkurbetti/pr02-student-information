@@ -174,12 +174,20 @@ public class StudentServiceImpl {
 		return studentDetailsRepository.assignMentorToRollNos(nosInt, mentorName);
 	}
 
-	public int checkIfEnrlmntExists(Long enrollmentId) {
+	public int checkIfEnrlmntExists(String enrollmentId) {
 		return studentDetailsRepository.checkIfEnrlmntExists(enrollmentId);
 	}
 
 	public List<StudentDetails> getAllStudentsList() {
-		return studentDetailsRepository.findAll();
+		List<StudentDetails> studentList = studentDetailsRepository.getAllStudents();
+		
+		if(studentList !=null && studentList.size()>0) {
+			studentList.forEach(student -> {
+				String email = userRepository.getEmailByRollNo(student.getRollno());
+				student.setEmail(email);
+			});
+		}
+		return studentList;
 	}
 
 	public String deleteStudentBySemesterRollno(String semester, Integer rollno) {
@@ -205,6 +213,10 @@ public class StudentServiceImpl {
 		sb.append(rowsDeletedUserDetails);
 		
 		return sb.toString();
+	}
+
+	public int checkIfRollNoExists(String rollNo) {
+		return studentDetailsRepository.checkIfRollNoExists(Integer.parseInt(rollNo));
 	}
 	
 	

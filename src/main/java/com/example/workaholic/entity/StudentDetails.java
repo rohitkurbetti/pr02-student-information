@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "student_details")
@@ -22,7 +23,7 @@ public class StudentDetails {
 	private String fullname;
 
 	@Column(name = "enrollmentId")
-	private Long enrollmentId;
+	private String enrollmentId;
 	
 	@Column(name = "rollno")
 	private Integer rollno;
@@ -45,7 +46,7 @@ public class StudentDetails {
 	@Column(name = "assignment")
 	private String assignment;
 	
-	@Column(name = "marks_json")
+	@Column(name = "marks_json", columnDefinition="TEXT", length = 2048)
 	private String marksJson;
 	
 	@Lob
@@ -62,8 +63,17 @@ public class StudentDetails {
 	@Column(name = "mentor_name")
 	private String mentorName;
 	
+	@Transient
+	private String email;
 	
-	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getMentorName() {
 		return mentorName;
 	}
@@ -101,12 +111,12 @@ public class StudentDetails {
 	}
 
 
-	public Long getEnrollmentId() {
+	public String getEnrollmentId() {
 		return enrollmentId;
 	}
 
 
-	public void setEnrollmentId(Long enrollmentId) {
+	public void setEnrollmentId(String enrollmentId) {
 		this.enrollmentId = enrollmentId;
 	}
 
@@ -225,7 +235,7 @@ public class StudentDetails {
 		this.assignmentName = assignmentName;
 	}
 
-	public StudentDetails(Integer studentDetailsId, String fullname, Long enrollmentId, Integer rollno,
+	public StudentDetails(Integer studentDetailsId, String fullname, String enrollmentId, Integer rollno,
 			String contactno, String semester, String branch, String previousSemResult, String assignmentName,
 			String assignment, String marksJson, byte[] fileNotes, String fileExt, byte[] studentSubmittedAssignments) {
 		super();
@@ -246,7 +256,7 @@ public class StudentDetails {
 	}
 
 
-	public StudentDetails(String fullname, Long enrollmentId, Integer rollno, String contactno, String semester,
+	public StudentDetails(String fullname, String enrollmentId, Integer rollno, String contactno, String semester,
 			String branch, String previousSemResult, String assignmentName, String assignment, String marksJson,
 			byte[] fileNotes, String fileExt, byte[] studentSubmittedAssignments) {
 		super();

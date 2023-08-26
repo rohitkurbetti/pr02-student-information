@@ -76,7 +76,7 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	int updateASsignToNullPlaces(String branch, String semester, String assignmentName, String assignment);
 
 	
-	@Query("select distinct new com.example.workaholic.entity.SomeMapper(sd.assignment ,sd.branch ,sd.semester ,sd.rollno) from StudentDetails sd left join AssignmentDetails ad on sd.branch =ad.branch and sd.semester =ad.semester and sd.rollno =ad.rollno "
+	@Query("select distinct new com.example.workaholic.entity.SomeMapper(sd.assignment ,sd.branch ,sd.semester ,sd.rollno) from StudentDetails sd left join AssignmentDetails ad on lower(sd.branch) = lower(ad.branch) and sd.semester =ad.semester and sd.rollno =ad.rollno "
 			+ " where lower(sd.branch) =lower(:branch) and sd.semester =:semester and not exists (select 1 from AssignmentDetails ad2 where ad2.rollno=sd.rollno) ")
 	List<SomeMapper> addDeltaAssignments(@Param("branch") String branch,@Param("semester") String semester);
 
@@ -92,12 +92,21 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 
 	
 	@Query("select count(sd) from StudentDetails sd where sd.enrollmentId=:enrollmentId")
-	int checkIfEnrlmntExists(@Param("enrollmentId") Long enrollmentId);
+	int checkIfEnrlmntExists(@Param("enrollmentId") String enrollmentId);
 
 	@Transactional
 	@Modifying
 	@Query("delete from StudentDetails sd where sd.semester = :semester and sd.rollno = :rollno")
 	int deleteStudentDetailsBySemesterRollno(@Param("semester") String semester, @Param("rollno") Integer rollno);
+
+	
+	@Query("select sd from StudentDetails sd ")
+	List<StudentDetails> getAllStudents();
+
+	
+	
+	@Query("select count(sd) from StudentDetails sd where sd.rollno=:rollno")
+	int checkIfRollNoExists(@Param("rollno") Integer rollno);
 
 	
 

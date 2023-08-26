@@ -237,7 +237,7 @@
                 <th scope="col">Contact No</th>
                 <th scope="col">Enrollment No</th>
                 <th scope="col">Semester</th>
-                <th scope="col">Branch</th>
+                <th scope="col">Email</th>
                 <th scope="col">PreviousSemResult</th>
                 <th scope="col">Action</th>
               </tr>
@@ -1217,7 +1217,7 @@
           
           var subject = $('#subject option:selected').val();
 
-          var test = $('#test option:selected').val();
+          var test = $('#test option:selected').text();
 
           var marks = $('#marks').val();
 
@@ -1711,7 +1711,7 @@
           dataArr.forEach(data => {
             if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
             $('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
-              +data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td><td><button data-rollno='+data.rollno+' data-semester='+data.semester+' type="button" class="deleteStudentBySemesterRollno close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button></td></tr>');
+              +data.semester+'</td><td>'+data.email+'</td><td>'+data.previousSemResult+'</td><td><button data-rollno='+data.rollno+' data-semester='+data.semester+' type="button" class="deleteStudentBySemesterRollno close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button></td></tr>');
             } else {
               $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(700);

@@ -18,7 +18,7 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 	
 	
 	@Query("select distinct new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno, sd.assignmentName, ad.assignment, ad.code ) "
-			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.branch = sd.branch and ad.semester = sd.semester and ad.rollno = sd.rollno "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on lower(ad.branch) = lower(sd.branch) and ad.semester = sd.semester and ad.rollno = sd.rollno "
 			+ "	where ad.rollno=:rollno ")
 	List<AssignmentDetailsDom> getAssignmentsByRollno(@Param("rollno") Integer rollno);
 
@@ -29,7 +29,7 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 
 	@Transactional
 	@Query(" select new com.example.workaholic.entity.AssignmentDetailsDom(sd.rollno,sd.fullname,ad.code,ad.assignmentStatus) "
-			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and ad.branch =sd.branch and ad.semester =sd.semester "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.rollno = sd.rollno and lower(ad.branch) = lower(sd.branch) and ad.semester =sd.semester "
 			+ " where ad.code =:assignmentCode ")
 	List<AssignmentDetailsDom> getAssignmentsDetlsByAssgnCode(@Param("assignmentCode") Integer assignmentCode);
 
@@ -37,7 +37,7 @@ public interface AssignmentDetailsRepository extends JpaRepository<AssignmentDet
 	List<Integer> getASsignmentCode(@Param("branch") String branch,@Param("semester") String semester);
 
 	@Query(" select new com.example.workaholic.entity.SubmtdAssignmentsDom(sd.rollno, sd.assignmentName, ad.code, ad.assignmentStatus) "
-			+ " from AssignmentDetails ad inner join StudentDetails sd on ad.branch = sd.branch and ad.semester = sd.semester and ad.rollno = sd.rollno "
+			+ " from AssignmentDetails ad inner join StudentDetails sd on lower(ad.branch) = lower(sd.branch) and ad.semester = sd.semester and ad.rollno = sd.rollno "
 			+ " where ad.rollno=:rollno and ad.assignmentStatus='SUBMITTED' ")
 	List<SubmtdAssignmentsDom> getSubmittedAssignmentsByRollNo(@Param("rollno") Integer rollNo);
 
