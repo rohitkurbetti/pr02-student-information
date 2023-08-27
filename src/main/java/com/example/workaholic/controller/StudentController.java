@@ -1,6 +1,7 @@
 package com.example.workaholic.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +57,8 @@ public class StudentController {
 	public StudentDetails getStudentDetails(@PathVariable("rollno") String rollno) {
 //		String jsonString = "{\"fullname\":\"asd\",\"contactno\":\"password\",\"rollno\":\"city\",\"semester\":\"emailPhone\",\"branch\":\"mobile\",\"previousSemResult\":\"PASS/ATKT\"}";
 //		String listStr = "[{\"name\":\"asd\",\"password\":\"password\",\"city\":\"city\",\"emailPhone\":\"emailPhone\",\"mobile\":\"mobile\"},{\"name\":\"asd\",\"password\":\"password\",\"city\":\"city\",\"emailPhone\":\"emailPhone\",\"mobile\":\"mobile\"},{\"name\":\"asd\",\"password\":\"password\",\"city\":\"city\",\"emailPhone\":\"emailPhone\",\"mobile\":\"mobile\"}]";
-		
 		StudentDetails studentDetails = new StudentDetails();
 		studentDetails = studentServiceImpl.getStudentDetailsByRollNo(rollno);
-		
 		return studentDetails;
 	}
 	

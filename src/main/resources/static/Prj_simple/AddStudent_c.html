@@ -1217,7 +1217,7 @@
           showSpinnerOverlay();
             $.ajax({
             type: "GET",
-            url: "http://localhost:8081/getTestMarksByRollno/"+rollNoTest,
+            url: "http://localhost:8081/getStudentMarksByRollNo/"+rollNoTest,
             success: function(data) {
               
                 hideSpinnerOverlay();
@@ -1240,9 +1240,9 @@
 
       function fillTestMarksTable(data) {
         if(data !=null && data!=="" && data.length>0){
-          data = JSON.parse(data);
+          //data = JSON.parse(data);
           data.forEach(e => {
-            $('#marksAddedtbl>tbody').append('<tr><td>'+e.rollNoTest+'</td><td>'+e.subject+'</td><td>'+e.test+'</td><td>'+e.marks+'</td><td>'+''+'</td></tr>');
+            $('#marksAddedtbl>tbody').append('<tr><td>'+e.rollno+'</td><td>'+e.subject+'</td><td>'+e.test+'</td><td>'+e.marks+'</td><td>'+''+'</td></tr>');
 
           })
           $('.marksAddedJson').html('');

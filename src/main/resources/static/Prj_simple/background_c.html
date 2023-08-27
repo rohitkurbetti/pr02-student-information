@@ -41,7 +41,7 @@
     }
     
     /* Apply the animation to the table rows */
-    .table-fade-in tbody tr {
+    .table-fade-in {
       animation: fadeInRow 0.5s ease-in-out;
     }
 
@@ -505,7 +505,7 @@
 
         <div class="row">
           <div class="col table-responsive" style="height:500px;">
-            <table id="marksAddedtbl" class="table table-sm table-striped">
+            <table id="marksAddedtbl" class="table table-sm table-striped table-fade-in">
               <thead>
                 <tr>
                   <th>Roll No</th>
@@ -768,6 +768,62 @@
         $('#getAllStudentsBtn').click(function(){
           getAllStudents();
         })
+
+
+        $('#rollnotest').blur(function(){
+          showSpinnerOverlay();
+          fetchStudentMarksByRollNo();
+          hideSpinnerOverlay();
+        });
+
+        function fetchStudentMarksByRollNo(testMarksRemoveId){
+          var rollNoTest = $('#rollnotest').val();
+          if(rollNoTest==undefined){
+            rollNoTest = testMarksRemoveId;
+          }
+          if(!$.isEmptyObject(rollNoTest) && $.isNumeric(rollNoTest)){
+            $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8081/getStudentMarksByRollNo/'+rollNoTest,
+              contentType: 'application/json',
+              success: function(dataArr){
+                hideSpinnerOverlay();
+                $('#marksAddedtbl>tbody').html('');
+                dataArr.forEach(jTestData => {
+                  var closeBtnHtml = '<button type="button" class="delMrks close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button>';
+                  $('#marksAddedtbl>tbody').append('<tr id="'+jTestData.testMarksId+'"><td id="rollNoTest" data-idno="'+jTestData.testMarksId+'">'+jTestData.rollno+'</td><td id="subject">'+jTestData.subject+'</td><td id="test">'+jTestData.test+'</td><td id="marks">'+jTestData.marks+'</td><td>'+closeBtnHtml+'</td></tr>');
+                })
+                //add remove listerner jquery
+                addRemoveTrListener();
+              },
+              error: function(err){
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            })
+          }
+        }
+
+        function addRemoveTrListener(){
+          $('.delMrks').click(function () {
+            
+              var testMarksRemoveId = $(this).closest('tr').attr('id');
+              $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8081/deleteStudMarksById?testRemoveId='+testMarksRemoveId,
+                contentType: 'application/json',
+                success: function(data){
+                  
+                  console.log(data);
+                  //fillStudentDetailsTbl(data);
+                  fetchStudentMarksByRollNo(testMarksRemoveId);
+                },
+                error: function(err){
+                  alert("error " + error);
+                }
+              })
+          })
+        }
 
         function getAllStudents(){
           $.ajax({
@@ -1153,7 +1209,7 @@
         }
 
         function updateMarksJson(){
-
+          ;
           var jData = new Object();
 
           var rollno = $('#rollnotest').val();
@@ -1163,6 +1219,9 @@
             var jTestData = new Object(); 
             $(n).children().each(function (idx,e) {
               jTestData[$(e).attr('id')] =  $(e).text();
+              if(idx==0){
+                jTestData['testMarksId'] =  $(e).attr('data-idno');
+              }
             });
             if (list.filter(x => x.rollNoTest === jTestData.rollNoTest && x.subject === jTestData.subject && x.test === jTestData.test && x.marks === jTestData.marks).length === 0) { 
               list.push(jTestData);
@@ -1174,15 +1233,16 @@
             showAlert("Please add marks first", "danger");
             return;
           }
-          jData['marksJson'] = JSON.stringify(list);
+          jData['marksJson'] = list;
           jData['rollno'] = rollno;
           
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateMarksJson',
+              url: 'http://localhost:8081/saveStudentMarks',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
+                ;
                 list = [];
                   console.log(data);
                   if(data > 0){
@@ -1445,20 +1505,20 @@
           })
 
           function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
+            showSpinnerOverlay();
             var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
-
             fetch(apiUrl, {
               method: 'GET',
             })
             .then(response => {
-              
+              hideSpinnerOverlay();
               if (!response.ok) {
                 throw new Error('Network response was not ok.');
               }
               return response.json();
             })
             .then(data => {
-              
+              hideSpinnerOverlay();
               var blobFile = data.studentSubmittedAssignments;
               const decodedByteArray = decodeBase64ByteArray(blobFile);
 
@@ -1510,6 +1570,7 @@
               document.body.removeChild(downloadLink);
             })
             .catch(error => {
+              hideSpinnerOverlay();
               console.error('Error:', error);
               $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
                 $("#my-alert").fadeOut(700);
@@ -1706,7 +1767,6 @@
 
         function fillStudentDetailsTbl(dataArr) {
           // console.log(data);
-          
           $('#studentDetailsTbl>tbody').html('');
           dataArr.forEach(data => {
             if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){

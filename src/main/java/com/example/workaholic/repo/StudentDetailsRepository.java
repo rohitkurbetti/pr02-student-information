@@ -91,7 +91,7 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	int assignMentorToRollNos(@Param("rollNos") Integer[] rollNos,@Param("mentorName") String mentorName);
 
 	
-	@Query("select count(sd) from StudentDetails sd where sd.enrollmentId=:enrollmentId")
+	@Query("select count(sd) from StudentDetails sd where cast(sd.enrollmentId as string)=:enrollmentId")
 	int checkIfEnrlmntExists(@Param("enrollmentId") String enrollmentId);
 
 	@Transactional
