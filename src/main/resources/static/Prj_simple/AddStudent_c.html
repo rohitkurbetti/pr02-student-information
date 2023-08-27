@@ -1078,7 +1078,6 @@
         if(rollNo != null && !$.isEmptyObject(rollNo) && $.isNumeric(rollNo)){
           $.ajax({
             type: "GET",
-            dataType: "json",
             url: "http://localhost:8081/checkIfRollNoExists/"+rollNo,
             contentType: 'aaplication/json',
             success: function(data) {
@@ -1100,7 +1099,6 @@
         if(enrId != null && !$.isEmptyObject(enrId) && $.isNumeric(enrId)){
           $.ajax({
             type: "GET",
-            dataType: "json",
             url: "http://localhost:8081/checkIfEnrlmntExists/"+enrId,
             contentType: 'aaplication/json',
             success: function(data) {
