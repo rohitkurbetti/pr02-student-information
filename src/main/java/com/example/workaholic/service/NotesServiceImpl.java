@@ -46,5 +46,9 @@ public class NotesServiceImpl {
 	public List<UploadNotesEntity> getNotesBySemester(String semester) {
 		return notesRepository.getNotesBySemester(semester);
 	}
+
+	public int deleteNotesById(Integer deleteNoteId) {
+		return notesRepository.deleteNotesById(deleteNoteId);
+	}
 	
 }

@@ -19,6 +19,7 @@ import com.example.workaholic.entity.StudentSignUp;
 import com.example.workaholic.repo.AssignmentDetailsRepository;
 import com.example.workaholic.repo.StudentDetailsRepository;
 import com.example.workaholic.repo.StudentSignupRepo;
+import com.example.workaholic.repo.TestMarksRepository;
 import com.example.workaholic.repo.UserRepository;
 
 @Service
@@ -35,6 +36,9 @@ public class StudentServiceImpl {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TestMarksRepository testMarksRepository;
 	
 	
 	
@@ -197,9 +201,9 @@ public class StudentServiceImpl {
 		
 		int rowsDeletedAssignmentDetails = assignmentDetailsRepository.deleteAssignmentDetailsBySemesterRollno(semester, rollno);
 		
-		//optional
-		
 		int rowsDeletedUserDetails = userRepository.deleteUserDetailsByRollno(rollno);
+
+		int rowsTestMarkDetails = testMarksRepository.deleteTestMarkDetailsByRollno(rollno);
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -211,6 +215,9 @@ public class StudentServiceImpl {
 		sb.append(",");
 		sb.append("user details: ");
 		sb.append(rowsDeletedUserDetails);
+		sb.append(",");
+		sb.append("testmarks details: ");
+		sb.append(rowsTestMarkDetails);
 		
 		return sb.toString();
 	}

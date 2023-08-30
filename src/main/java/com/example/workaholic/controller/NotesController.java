@@ -44,4 +44,10 @@ public class NotesController {
 		return notesList;
 	}
 	
+	@GetMapping("/deleteNotesById")
+	public int deleteNotesById(@RequestParam("deleteNoteId") Integer deleteNoteId) {
+		return notesServiceImpl.deleteNotesById(deleteNoteId);
+	}
+	
+	
 }

@@ -572,6 +572,7 @@
                     <th scope="col">Subject</th>
                     <th scope="col">File Name</th>
                     <th scope="col">Notes</th>
+                    <th scope="col">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -665,7 +666,7 @@
       
       function showAlert(message, type, timeout) {
         const alertContainer = $('.alert-container');
-        const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
+        const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show" style="font-weight: bold;">${message} <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
         alertContainer.append(alertDiv);
       
         // Show the alert with fade-in animation
@@ -831,7 +832,11 @@
             url: 'http://localhost:8081/getStudentDetails',
             contentType: 'application/json',
             success: function(data){
-              fillStudentDetailsTbl(data);
+              if(data.length==0){
+                showAlert("No Student records Found", "danger");
+              } else {
+                fillStudentDetailsTbl(data);
+              }
             },
             error: function(err){
               alert("error " + error);
@@ -969,8 +974,9 @@
               if(data != null && data.length > 0) {
                 data.forEach(e => {
                   var linkEnableDisableHtml =  "<button id='"+e.noteDetailsId+"' class='btn btn-link downloadNoteFileLink' data-code='"+e.code+"' style=' font-weight:500;margin:0; padding:0; text-align:center; vertical-align:middle; text-decoration:none;'><i class='fa fa-download' aria-hidden='true'></i> Download</button>";
+                  var closeBtnHtml = '<button type="button" id="'+e.noteDetailsId+'" class="delNote close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button>';
                   $('#notesDetailsTbl>tbody').append('<tr><td>'+(++cnt)+'</td><td>'+e.branch+'</td><td>'+e.semester+'</td><td>'+e.subject+'</td><td>'
-                    +e.filename+'</td><td>'+linkEnableDisableHtml+'</td></tr>');
+                    +e.filename+'</td><td>'+linkEnableDisableHtml+'</td><td>'+closeBtnHtml+'</td></tr>');
                 })
               } else {
                 $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
@@ -978,6 +984,27 @@
                 });
               }
 
+              $('.delNote').click(function () {
+                  var deleteNoteId = $(this).attr('id');
+                  
+                  if($.isEmptyObject(deleteNoteId) || deleteNoteId == undefined){
+                    return;
+                  }
+
+
+                  $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8081/deleteNotesById?deleteNoteId='+deleteNoteId,
+                    contentType: 'application/json',
+                    success: function(data){
+                      getAllNotes(0);
+                    },
+                    error: function(err){
+                      alert("error " + error);
+                    }
+                  })
+
+              });
 
               $('.downloadNoteFileLink').click(function(){
                 
@@ -1161,11 +1188,16 @@
         }
 
         function uploadNotes() {
-          
           var semTxt = $('#semTxt').val();
           var subject = $('#subjectTxt').val();
           const notesFile = document.getElementById('notesFile').files[0];
           
+          var fileSize = notesFile.size/1024/1024; //Filesize in MB
+          if(fileSize > 10){
+            alert('File size limit exceeds! (Max 10MB allowed)');
+            return;
+          }
+
           if (!notesFile) {
             alert('Please select a file to upload.');
             return;

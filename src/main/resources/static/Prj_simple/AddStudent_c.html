@@ -340,16 +340,17 @@
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="https://candidate.speedexam.net/signin.aspx?site=pcpkcomputer">MCQ Exam</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#">Feedback</a>
-      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" target="_blank" href="https://forms.gle/m2gVuNJsrBANwE76A">Feedback</a>
+      </li>
       <li class="nav-item ml-auto">
-        <a class="nav-link" id="logoutUser" data-toggle="tab" href="#"><i class="fa fa-sign-out"></i></a>
+        <a class="nav-link" id="logoutUser" data-toggle="tab" href="#" title="Log Out"><i class="fa fa-sign-out"></i></a>
+        <div></div>
       </li>
     </ul>
 
     
-    <div class="tab-content mt-4">
+    <div class="tab-content">
       <!-- Student Details Tab Content -->
       <div id="student-details" class="tab-pane fade show active">
         <div class="alert alert-success" id="success-alert3">
@@ -364,7 +365,7 @@
      </div> -->
      <div class="jumbotron jumbotronClz">
       <h1 class="display-4">Hello, Student!</h1>
-      <p class="lead">This is a student information unit.</p>
+      <p class="lead">This is a Student Academic Unit.</p>
       <hr class="my-4">
       <p>To get started, create an Enrollment to embed within the system.</p>
       <button id="studentEnrollFormBtn" class="btn-shine btn btn-primary btn-lg" data-toggle="modal" data-target="#studentEnrlmtFormModal">Enroll here</button>
@@ -1424,6 +1425,12 @@
 
           const assgnmntFile = document.getElementById('submitAssignmentFile').files[0];
           
+          var fileSize = assgnmntFile.size/1024/1024; //Filesize in MB
+          if(fileSize > 10){
+            alert('File size limit exceeds! (Max 10MB allowed)');
+            return;
+          }
+
           if (!assgnmntFile) {
             alert('Please select a file to upload.');
             return;

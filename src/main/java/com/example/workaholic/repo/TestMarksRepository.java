@@ -27,6 +27,12 @@ public interface TestMarksRepository extends JpaRepository<TestMarksEntity, Long
 	@Query("delete from TestMarksEntity tm where tm.testMarksId = :testMarksId")
 	int deleteStudMarksById(@Param("testMarksId") Long testMarksId);
 
+
+	@Transactional
+	@Modifying
+	@Query("delete TestMarksEntity tm where tm.rollno= :rollno ")
+	int deleteTestMarkDetailsByRollno(@Param("rollno") Integer rollno);
+
 	
 	
 	
