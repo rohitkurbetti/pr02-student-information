@@ -1130,7 +1130,7 @@
           $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getAttendanceAvg/"+rn,
+            url: "https://pr02-student-information-production.up.railway.app/getAttendanceAvg/"+rn,
             contentType: 'aaplication/json',
             success: function(data) {
               
@@ -1297,7 +1297,7 @@
             formData.append('fileext', prjFile.type);
             formData.append('rollno', roll);
             formData.append('subject', prjSubject.substring(0, 3));
-            fetch('http://localhost:8081/uploadPrjFile', {
+            fetch('https://pr02-student-information-production.up.railway.app/uploadPrjFile', {
               method: 'POST',
               body: formData
             })
@@ -1343,7 +1343,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getIsProjectLeader/" + rn,
+            url: "https://pr02-student-information-production.up.railway.app/getIsProjectLeader/" + rn,
             contentType: 'aaplication/json',
             async: false,
             success: function(data) {
@@ -1395,7 +1395,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getMiniProjectDetails/" + rn,
+            url: "https://pr02-student-information-production.up.railway.app/getMiniProjectDetails/" + rn,
             contentType: 'aaplication/json',
             async: true,
             success: function(dataArr) {
@@ -1511,7 +1511,7 @@
           $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getProjectMembersList/" + rn,
+            url: "https://pr02-student-information-production.up.railway.app/getProjectMembersList/" + rn,
             contentType: 'aaplication/json',
             async: true,
             success: function(dataArr) {
@@ -1575,7 +1575,7 @@
 
         $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8081/submitMiniProjectDetails',
+                url: 'https://pr02-student-information-production.up.railway.app/submitMiniProjectDetails',
                 contentType: 'application/json',
                 data: JSON.stringify(jData),
                 success: function(data){
@@ -1600,7 +1600,7 @@
           $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getAttendanceDetails/" + rn,
+            url: "https://pr02-student-information-production.up.railway.app/getAttendanceDetails/" + rn,
             contentType: 'aaplication/json',
             success: function(data) {
               hideLoadingSpinner();
@@ -1645,7 +1645,7 @@
           $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/getStudentDetails/" + rn,
+            url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rn,
             contentType: 'aaplication/json',
             success: function(data) {
                 $('#main-container').attr('data-mentorname', data.mentorName);
@@ -1687,7 +1687,7 @@
         if(rollNo != null && !$.isEmptyObject(rollNo) && $.isNumeric(rollNo)){
           $.ajax({
             type: "GET",
-            url: "http://localhost:8081/checkIfRollNoExists/"+rollNo,
+            url: "https://pr02-student-information-production.up.railway.app/checkIfRollNoExists/"+rollNo,
             contentType: 'aaplication/json',
             success: function(data) {
                 if(data !=null && data>0){
@@ -1708,7 +1708,7 @@
         if(enrId != null && !$.isEmptyObject(enrId) && $.isNumeric(enrId)){
           $.ajax({
             type: "GET",
-            url: "http://localhost:8081/checkIfEnrlmntExists/"+enrId,
+            url: "https://pr02-student-information-production.up.railway.app/checkIfEnrlmntExists/"+enrId,
             contentType: 'aaplication/json',
             success: function(data) {
                 if(data !=null && data>0){
@@ -1733,7 +1733,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
+          url: "https://pr02-student-information-production.up.railway.app/getSubmittedAssignmentsByRollNo/"+rollNoGlobal,
           contentType: 'aaplication/json',
           success: function(data) {
               hideSpinnerOverlay();
@@ -1788,7 +1788,7 @@
 
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:8081/updateRollnoToUser',
+          url: 'https://pr02-student-information-production.up.railway.app/updateRollnoToUser',
           contentType: 'application/json',
           data: JSON.stringify(obj),
           success: function(data){
@@ -1824,7 +1824,7 @@
           showSpinnerOverlay();
             $.ajax({
             type: "GET",
-            url: "http://localhost:8081/getStudentMarksByRollNo/"+rollNoTest,
+            url: "https://pr02-student-information-production.up.railway.app/getStudentMarksByRollNo/"+rollNoTest,
             success: function(data) {
               
                 hideSpinnerOverlay();
@@ -1896,7 +1896,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getNotesBySemester/"+semesterInput,
+          url: "https://pr02-student-information-production.up.railway.app/getNotesBySemester/"+semesterInput,
           contentType: 'aaplication/json',
           success: function(data) {
               $('#myModal3').modal('hide');
@@ -1946,7 +1946,7 @@
               $('.downloadNoteFileLink').click(function(){
                 showSpinnerOverlay();
                 var fileId = $(this).attr('id');
-                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -2046,7 +2046,7 @@
           formData.append('fileext', assgnmntFile.type);
           formData.append('rollno', roll);
           formData.append('code', code);
-          fetch('http://localhost:8081/updateStudentAssignments', {
+          fetch('https://pr02-student-information-production.up.railway.app/updateStudentAssignments', {
             method: 'POST',
             body: formData
           })
@@ -2096,7 +2096,7 @@
       var rollNo = rn;
       $.ajax({
           type: "GET",
-          url: "http://localhost:8081/getAssignmentsByRollno/" + rollNo,
+          url: "https://pr02-student-information-production.up.railway.app/getAssignmentsByRollno/" + rollNo,
           contentType: 'aaplication/json',
           success: function(data) {
               hideSpinnerOverlay();
@@ -2162,7 +2162,7 @@
         $.ajax({
           type: "GET",
           dataType: "json",
-          url: "http://localhost:8081/getStudentDetails/" + rn,
+          url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rn,
           contentType: 'aaplication/json',
           success: function(data) {
               fillStudentDetailsTbl(data);
@@ -2271,7 +2271,7 @@
           }
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8081/student_details',
+                url: 'https://pr02-student-information-production.up.railway.app/student_details',
                 contentType: 'application/json',
                 data: JSON.stringify(jData),
                 success: function(data){
@@ -2321,7 +2321,7 @@
       $.ajax({
       type: "GET",
       dataType: "json",
-      url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+      url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
       contentType: 'aaplication/json',
       success: function(data) {
           callgetStudentDetails();
