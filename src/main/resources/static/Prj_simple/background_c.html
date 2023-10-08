@@ -988,7 +988,7 @@
 
         function createDataBackup(){
           showSpinnerOverlay();
-          var apiUrl = 'http://localhost:8081/createDataBackup';
+          var apiUrl = 'https://pr02-student-information-production.up.railway.app/createDataBackup';
             fetch(apiUrl, {
             method: 'GET',
           })
@@ -1074,7 +1074,7 @@
         function asd(){
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:8081/asd',
+              url: 'https://pr02-student-information-production.up.railway.app/asd',
               contentType: 'application/json',
               success: function(dataArr){
                 // $('.mainCont').html('');
@@ -1251,7 +1251,7 @@
         function getAttendanceList(){
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:8081/getAttendanceList',
+              url: 'https://pr02-student-information-production.up.railway.app/getAttendanceList',
               contentType: 'application/json',
               success: function(dataArr){
                 hideSpinnerOverlay();
@@ -1346,7 +1346,7 @@
               
               $.ajax({
                   type: 'POST',
-                  url: 'http://localhost:8081/saveAttendance',
+                  url: 'https://pr02-student-information-production.up.railway.app/saveAttendance',
                   contentType: 'application/json',
                   data: JSON.stringify(obj),
                   success: function(data){
@@ -1403,7 +1403,7 @@
             var attendanceId= $(this).closest('tr').attr('id');
             $.ajax({
               type: 'GET',
-              url: 'http://localhost:8081/delAttendanceById?attendanceId='+attendanceId,
+              url: 'https://pr02-student-information-production.up.railway.app/delAttendanceById?attendanceId='+attendanceId,
               contentType: 'application/json',
               success: function(data){
                 //fillStudentDetailsTbl(data);
@@ -1468,7 +1468,7 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/saveAttendance',
+              url: 'https://pr02-student-information-production.up.railway.app/saveAttendance',
               contentType: 'application/json',
               data: JSON.stringify(attendanceObj),
               success: function(data){
@@ -1521,7 +1521,7 @@
           if(!$.isEmptyObject(rollNoTest) && $.isNumeric(rollNoTest)){
             $.ajax({
               type: 'GET',
-              url: 'http://localhost:8081/getStudentMarksByRollNo/'+rollNoTest,
+              url: 'https://pr02-student-information-production.up.railway.app/getStudentMarksByRollNo/'+rollNoTest,
               contentType: 'application/json',
               success: function(dataArr){
                 hideSpinnerOverlay();
@@ -1547,7 +1547,7 @@
               var testMarksRemoveId = $(this).closest('tr').attr('id');
               $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8081/deleteStudMarksById?testRemoveId='+testMarksRemoveId,
+                url: 'https://pr02-student-information-production.up.railway.app/deleteStudMarksById?testRemoveId='+testMarksRemoveId,
                 contentType: 'application/json',
                 success: function(data){
                   //fillStudentDetailsTbl(data);
@@ -1564,7 +1564,7 @@
           showSpinnerOverlay();
           $.ajax({
             type: 'GET',
-            url: 'http://localhost:8081/getStudentDetails',
+            url: 'https://pr02-student-information-production.up.railway.app/getStudentDetails',
             contentType: 'application/json',
             success: function(data){
               hideSpinnerOverlay();
@@ -1595,7 +1595,7 @@
           function assignMentorNameToRollNos(rollNos, mentorName){
             $.ajax({
               type: 'GET',
-              url: 'http://localhost:8081/assignMentorToRollNos?rollNos='+rollNos+"&mentorName="+mentorName,
+              url: 'https://pr02-student-information-production.up.railway.app/assignMentorToRollNos?rollNos='+rollNos+"&mentorName="+mentorName,
               contentType: 'application/json',
               success: function(data){
                 $('#mentorname').val('');
@@ -1646,7 +1646,7 @@
             $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
+            url: "https://pr02-student-information-production.up.railway.app/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
                 $('#spinnerContainer').addClass('d-none');
@@ -1664,7 +1664,7 @@
           showSpinnerOverlay();
           $.ajax({
             type: "GET",
-            url: "http://localhost:8081/getAllNotes?page="+page+"&size=10",
+            url: "https://pr02-student-information-production.up.railway.app/getAllNotes?page="+page+"&size=10",
             contentType: 'aaplication/json',
             success: function(data) {
                 hideSpinnerOverlay();
@@ -1729,7 +1729,7 @@
 
                   $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8081/deleteNotesById?deleteNoteId='+deleteNoteId,
+                    url: 'https://pr02-student-information-production.up.railway.app/deleteNotesById?deleteNoteId='+deleteNoteId,
                     contentType: 'application/json',
                     success: function(data){
                       getAllNotes(0);
@@ -1744,7 +1744,7 @@
               $('.downloadNoteFileLink').click(function(){
                 
                 var fileId = $(this).attr('id');
-                const apiUrl = 'http://localhost:8081/getNote/'+fileId;
+                const apiUrl = 'https://pr02-student-information-production.up.railway.app/getNote/'+fileId;
 
                 fetch(apiUrl, {
                   method: 'GET',
@@ -1823,7 +1823,7 @@
         function getNotes(){
           // $.ajax({
           //     type: "GET",
-          //     url: "http://localhost:8081/getFile",
+          //     url: "https://pr02-student-information-production.up.railway.app/getFile",
           //     contentType: 'aaplication/json',
           //     success: function(data) {
           //         console.log(data);
@@ -1834,7 +1834,7 @@
           // });
 
 
-          const apiUrl = 'http://localhost:8081/getFile';
+          const apiUrl = 'https://pr02-student-information-production.up.railway.app/getFile';
 
           fetch(apiUrl, {
             method: 'GET',
@@ -1945,7 +1945,7 @@
             formData.append('fileName', notesFile.name);
             formData.append('semTxt', semTxt);
             formData.append('subject', subject);
-            fetch('http://localhost:8081/uploadNotes', {
+            fetch('https://pr02-student-information-production.up.railway.app/uploadNotes', {
               method: 'POST',
               body: formData,
             })
@@ -2004,7 +2004,7 @@
           
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/saveStudentMarks',
+              url: 'https://pr02-student-information-production.up.railway.app/saveStudentMarks',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
@@ -2109,7 +2109,7 @@
             $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignments",
+              url: "https://pr02-student-information-production.up.railway.app/getAssignments",
               contentType: 'aaplication/json',
               success: function(data) {
                   console.log(data);
@@ -2168,7 +2168,7 @@
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: "http://localhost:8081/getAssignmentsDetlsByAssgnName/" + assignmentName,
+              url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnName/" + assignmentName,
               contentType: 'aaplication/json',
               success: function(data) {
                 hideSpinnerOverlay();
@@ -2204,7 +2204,7 @@
               $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
+                url: "https://pr02-student-information-production.up.railway.app/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
                 contentType: 'aaplication/json',
                 success: function(data) {
                   fillModalStdntSbmttedAssignmnts(data);
@@ -2251,7 +2251,7 @@
 
           function getStudSbmtdAssignmentFile(fileId,assgmntCode) {
             showSpinnerOverlay();
-            var apiUrl = 'http://localhost:8081/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
+            var apiUrl = 'https://pr02-student-information-production.up.railway.app/getStudSbmtdAssignmentFile/'+fileId+'?assgmntCode='+assgmntCode;
             fetch(apiUrl, {
               method: 'GET',
             })
@@ -2351,7 +2351,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8081/updateAssignment',
+                url: 'https://pr02-student-information-production.up.railway.app/updateAssignment',
                 contentType: 'application/json',
                 data: JSON.stringify(assignmentObj),
                 success: function(data){
@@ -2481,7 +2481,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://localhost:8081/getStudentDetails/" + rollno,
+                url: "https://pr02-student-information-production.up.railway.app/getStudentDetails/" + rollno,
                 contentType: 'aaplication/json',
                 success: function(data) {
                     hideSpinnerOverlay();
@@ -2541,7 +2541,7 @@
 
                 $.ajax({
                   type: "GET",
-                  url: "http://localhost:8081/deleteStudentBySemesterRollno?semester="+deleteSemesterParam+"&rollno="+deleteRollNoParam,
+                  url: "https://pr02-student-information-production.up.railway.app/deleteStudentBySemesterRollno?semester="+deleteSemesterParam+"&rollno="+deleteRollNoParam,
                   success: function(data) {
                     
                       showAlert('Student details found', 'success');
@@ -2575,7 +2575,7 @@
           showSpinnerOverlay();
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:8081/updateIsPrjectLeaderStatus',
+              url: 'https://pr02-student-information-production.up.railway.app/updateIsPrjectLeaderStatus',
               contentType: 'application/json',
               data: JSON.stringify(jData),
               success: function(data){
