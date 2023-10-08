@@ -1,4 +1,25 @@
   <style>
+
+    @media screen and (max-width: 768px) {
+      
+      /* Style for the student details block */
+      .studentDetailsBlock {
+        /* margin: 30px; */
+        padding: 5px;
+        display: inline;
+        font-size: 8px;
+        /* background-color: #b3abae; */
+        border: 2px solid #15d32b;
+        border-radius: 5px;
+        box-shadow: 10px 10px 5px #b3abae;
+        text-decoration-color: #841616;
+        text-shadow: #b6847b;
+        background-color: #d2d0d0;
+        font-weight: bolder;
+        margin-bottom: 3rem;
+      }
+    }
+
     /* Custom style for input fields */
     .form-control {
       margin-bottom: 10px;
@@ -160,20 +181,7 @@
     }
 
 
-    /* Style for the student details block */
-    .studentDetailsBlock {
-      margin: 30px;
-      padding: 5px;
-      /* background-color: #b3abae; */
-      border: 2px solid #141414;
-      border-radius: 5px;
-      box-shadow: 10px 10px 5px #b3abae;
-      text-decoration-color: #281684;
-      text-shadow: #b6847b;
-      background-color: #d2d0d0;
-      font-weight: bolder;
-      
-    }
+    
   
     .title {
       color: rgb(21, 1, 46);
@@ -286,6 +294,35 @@
     }
   }
 
+  /* CSS to show floating notice msg on top right of screen */
+  .floating-notice{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 300px;
+  }
+
+  .refreshIconStyle{
+    transition: all 0.3s ease-in-out;
+  }
+
+  .refreshIconStyle:hover{
+    color: #00a486;
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  .uploadPrjFile{
+    transition: all 0.3s ease-in-out;
+  }
+
+  .uploadPrjFile:hover{
+    color: #007bff;
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
   </style>
 
     <!-- spinner overlay -->
@@ -338,8 +375,11 @@
         <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" target="_blank" href="https://candidate.speedexam.net/signin.aspx?site=pcpkcomputer">MCQ Exam</a>
+        <a class="nav-link" data-toggle="tab" href="#attendance">Attendance</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" target="_blank" href="https://candidate.speedexam.net/signin.aspx?site=pcpkcomputer">MCQ Exam</a>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="https://forms.gle/m2gVuNJsrBANwE76A">Feedback</a>
       </li>
@@ -349,6 +389,8 @@
       </li>
     </ul>
 
+    <div class="msgNotice">
+    </div>
     
     <div class="tab-content">
       <!-- Student Details Tab Content -->
@@ -474,6 +516,9 @@
         <div id="studentDetailsBlock" class="studentDetailsBlock">
           <h4 style="color: rgb(20, 2, 42);font-style:unset;font-weight: bolder;font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center;"><img src="stlogo.jpg" alt="Image" style="width: 40px; height: auto; margin-right: 10px;" >
             STUDENT ENROLLMENT DETAILS <span id="ediStudentEnrDetailsBtn" data-toggle="modal" data-target="#studentEnrlmtFormModal" class="btn btn-link mt-2 mr-2 float-right" style="text-decoration: none;"><i class="fa fa-edit"></i> Edit</span></h4>
+            <div class="float-left my-2">
+              <button id="submitMiniPrj" style="text-decoration: none;" data-target="#sumitMiniPrjModal" class="btn btn-info">Micro Project</button>
+            </div>
         <br>
           <table class="table" id="studentDetailsTbl">
             
@@ -502,7 +547,116 @@
             </tbody>
           </table>
         </div>
+
+
+        
+
       </div>
+
+      <div class="modal fade" id="sumitMiniPrjModal" tabindex="-1" role="dialog"
+      aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Submit Micro Project Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="firstform">
+              <form class="form">
+                <div class="row">
+                  <div class="col">
+
+                    <div class="form-group mr-2">
+                      <label for="prjGrpId">Project/Group ID:</label>
+                      <input type="text" class="form-control" id="prjGrpId" name="prjGrpId" required maxlength="8">
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="prjLeader">Project Leader:</label>
+                      <input type="text" class="form-control" id="prjLeader" name="prjLeader" required disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="prjTitle">Project Title:</label>
+                      <input type="text" class="form-control" id="prjTitle" name="prjTitle" required>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mr-2">
+                      <label for="prjSubject">Subject:</label>
+                      <select name="prjSubject" id="prjSubject" class="form-control">
+                        <option value="0" disabled selected>--SELECT--</option>
+                        <option value="STE">STE</option>
+                        <option value="AJP">AJP</option>
+                        <option value="OOP">OOP</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="prjMembersDrpDwnDiv form-group mr-2">
+                      <label for="prjMembers">Select Project Members:</label>
+                      <div class="someCl d-flex" style="align-items: center;">
+                        <select name="prjMembers" placeholder="-----SELECT PROJECT MEMBERS-----" style="width: 100%; 
+                        border-radius: 3px; 
+                        min-height: 100px;
+                        border-radius: 3px;
+                        border: 1px solid #444;
+                        padding: 10px;
+                        color: #444444;
+                        font-size: 14px;" id="prjMembers" class="form-control" multiple data-allow-clear="1">
+                        </select>
+                        <span class="refreshIconStyle"><i title="Update Project Members List" class="refreshPrjMembersList fa fa-refresh ml-2"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                
+
+                <div class="row">
+                  <div class="col mr-2">
+                    <button type="button" id="submitMiniPrjDetails" class="btn btn-block btn-info">Submit</button>
+                  </div>
+                </div>
+         
+              </form>
+            </div>
+
+            <div class="secondForm mt-4">
+              <h4>Micro Project List</h4>
+              <form>
+                <div class="row mt-3">
+                  <div class="col">
+                    <div class="accordion" id="accordionExample">
+                    </div>
+                  </div>
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" id="submitAssignment" class="btn btn-primary">Submit</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
 
       <!-- Assignments Tab Content -->
       <div id="assignments" class="tab-pane fade">
@@ -787,7 +941,32 @@
 
       </div>
 
-      <!-- Notes Tab Content -->
+      <!-- Attendance Tab Content -->
+      <div id="attendance" class="tab-pane fade">
+        <h3>Attendance</h3>
+        <div class="row">
+          <div class="col">
+                
+            <form class="form">
+              <!-- Submit Button -->
+              <button type="button" id="getAttendance" class="getAttendance btn btn-primary mb-2 mr-3">Get Attendance</button>
+              <div class="row">
+                <div class="col">
+                  <ul class="attendDetails list-group" style="z-index: auto;"></ul>
+                </div>
+              </div>
+              <div class="text-center mt-3" id="loadingSpinner1" style="display: none; z-index: 9999; ">
+                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <br><br>
+            </form>
+          </div>
+        </div>
+        
+      </div>
+
       <div id="notes" class="tab-pane fade">
         <h3>Notes</h3>
         <!-- Your content for Notes tab goes here -->
@@ -920,6 +1099,7 @@
         </div>
 
       </div>
+
     </div>
   </div>
 
@@ -940,6 +1120,36 @@
         getStudentDetails(rollno)
       }
 
+      var attendanceMsg = 'Your average attendence is below 75%. Please attend lectures regularly, otherwise strict action will be taken against you.';
+
+      getAttendanceAvg();
+
+      function getAttendanceAvg(){
+        var rn = $('#main-container').attr('data-rollno');
+        if(rn!= undefined){
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getAttendanceAvg/"+rn,
+            contentType: 'aaplication/json',
+            success: function(data) {
+              
+                if(data==true){
+                  var noticeHtml = '<div class="noticeMsgContent alert alert-danger mt-3" role="alert" style="font-weight:bold;">'+attendanceMsg+'</div>'
+                  $('.msgNotice').append(noticeHtml);
+                } else {
+                  $('.noticeMsgContent').remove();
+                }
+            },
+            error: function (error) {
+              alert("error " + error);
+            }
+          });
+        }
+      }
+
+
+
       $('.studentDetailsBlock').hide();
       $("#success-alert").hide();
       $("#success-alert1").hide();
@@ -954,11 +1164,13 @@
 
       function showLoadingSpinner() {
         document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('loadingSpinner1').style.display = 'block';
       }
       
       // Function to hide loading spinner
       function hideLoadingSpinner() {
         document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingSpinner1').style.display = 'none';
       }
 
       function showSpinnerOverlay(){
@@ -1000,7 +1212,14 @@
       $('#getNotes').click(function(){
         getNotes();
       })
+      $('#getAttendance').click(function(){
+        showLoadingSpinner();
+        setTimeout(() => {
+          getAttendance();  
+        }, 0);
 
+        
+      })
 
       $('#getStudentDetails').click(function getStudent() {
         getStudentDetails();
@@ -1036,7 +1255,391 @@
         hideSpinnerOverlay();
       })
 
+      $('#submitMiniPrj').click(function(){
+        //get updated project members list in dropdown
+        submitMiniPrjDetails();
+
+        getProjectLeader();
+
+        getMiniProjectDetails();
+
+        
+      })
+
+      $('.refreshPrjMembersList').click(function(){
+        submitMiniPrjDetails();
+      })
+
+      $('#submitMiniPrjDetails').click(function(){
+        submitMiniPrjDetailsPostCall();
+      })
+
+
+      function uploadPrjFile(prjSubject){
+        var roll = $('#main-container').attr('data-rollno');
+
+
+        if(roll !== '' && roll != null){
+            const prjFile = $('.submitPrjFiles'+prjSubject).prop('files')[0];
+            if (!prjFile) {
+              alert('Please select a file to upload.');
+              return;
+            }
+            var fileSize = prjFile.size/1024/1024; //Filesize in MB
+            if(fileSize > 20){
+              alert('File size limit exceeds! (Max 10MB allowed)');
+              return;
+            }
+            
+            showSpinnerOverlay();
+            const formData = new FormData();
+            formData.append('file', prjFile);
+            formData.append('fileext', prjFile.type);
+            formData.append('rollno', roll);
+            formData.append('subject', prjSubject.substring(0, 3));
+            fetch('http://localhost:8081/uploadPrjFile', {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => {
+              hideSpinnerOverlay();
+              $('.uploadPrjFile#'+prjSubject).removeClass('fa fa-upload');
+              $('.uploadPrjFile#'+prjSubject).addClass('fa fa-check');
+              $('.uploadPrjFile#'+prjSubject).attr('style', 'color: #11df59;transition: all 0.3s ease-in-out;');
+                setTimeout(() => {
+                  $('.uploadPrjFile#'+prjSubject).removeClass('fa fa-check');
+                  $('.uploadPrjFile#'+prjSubject).attr('style', 'transition: all 0.3s ease-in-out;');
+                  $('.uploadPrjFile#'+prjSubject).addClass('fa fa-upload');
+
+                }, 4000);
+              if (response.ok) {
+                showAlert('File uploaded successfully!','success');
+              } else {
+                alert('File upload failed.');
+              }
+            })
+            .catch(error => {
+              hideSpinnerOverlay();
+              $('.uploadPrjFile#'+prjSubject).removeClass('fa fa-upload');
+              $('.uploadPrjFile#'+prjSubject).addClass('fa fa-close');
+              $('.uploadPrjFile#'+prjSubject).attr('style', 'color:#ff0000; transition: all 0.3s ease-in-out;');
+                setTimeout(() => {
+                  $('.uploadPrjFile#'+prjSubject).removeClass('fa fa-close');
+                  $('.uploadPrjFile#'+prjSubject).attr('style', 'transition: all 0.3s ease-in-out;');
+                  $('.uploadPrjFile#'+prjSubject).addClass('fa fa-upload');
+
+                }, 4000);
+            });
+
+            }else{
+              hideSpinnerOverlay();
+              alert("Please enter valid values");
+            }       
+      }
+
+      function getProjectLeader(){
+        
+        var rn = $('#main-container').attr('data-rollno');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getIsProjectLeader/" + rn,
+            contentType: 'aaplication/json',
+            async: false,
+            success: function(data) {
+              hideSpinnerOverlay();
+              if(data.length>0){
+                debugger
+                if(data[0][0]==false){
+                  $('.firstform').hide();
+                  $('.chooseUploadFileDiv').hide();
+                  $('#main-container').attr('data-isProjectLeader', data[0][0]);
+                }
+                if(data[0][0]==true){
+                  $('.firstform').show();
+                  $('.chooseUploadFileDiv').show();
+                  $('#main-container').attr('data-isProjectLeader', data[0][0]);
+                }
+                if(data[0][1]!=null){
+                  $('#prjLeader').val(data[0][1]);
+                }
+                if(data[0][2]!=null){
+                  showHideProjectMembersDropDown(data[0][2]);
+                }
+              }
+            },
+            error: function (error) {
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            });
+      }
+
+      function showHideProjectMembersDropDown(semester) {
+        if(!$.isEmptyObject(semester) && $.isNumeric(semester)){
+          if(Number(semester)===3){
+            //show dropdown
+            $('.prjMembersDrpDwnDiv').show();
+            $("#prjSubject option[value='STE']").remove();
+            $("#prjSubject option[value='AJP']").remove();
+          } else if(Number(semester) === 5) {
+            //hide dropdown
+            $('.prjMembersDrpDwnDiv').hide();
+            $("#prjSubject option[value='OOP']").remove();
+          }
+        }
+      }
+
+      function getMiniProjectDetails(){
+        var rn = $('#main-container').attr('data-rollno');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getMiniProjectDetails/" + rn,
+            contentType: 'aaplication/json',
+            async: true,
+            success: function(dataArr) {
+              hideSpinnerOverlay();
+              var rowCounter = 1;
+              if(dataArr!=null && dataArr.length>0){
+                $('#accordionExample>.card').remove();
+                var map = {
+                  1: "one",
+                  2: "two",
+                  3: "three",
+                  4: "four",
+                  5: "five"
+                }
+                
+                var liHtml='';
+                var prjTitle = '';
+                var prjSubject = '';
+                var semester = '';
+                var membersCounter = 1;
+                dataArr.forEach(data0 => {
+                    data1 = data0.miniProjectDetails;
+                    if(data1 && data1.length>0){
+                      $('#sumitMiniPrjModal').modal('show');
+                      var grpPrjId = '';
+                        data1.forEach(data => {
+                        prjTitle = data.prjTitle;
+                        prjSubject = data.projectSubject;
+                        semester = data.semester;
+                        grpPrjId = data.grpPrjId;
+                        liHtml += '<li class="list-group-item"><strong>'+membersCounter+'. '+data.projectMemberName+'</strong> '+
+                          (data.isProjectLeader==true?'(Project Leader) <i class="fa fa-star" style="color: #f7df40;"></i>' :'')
+                          + '<span class="float-right">Roll No. '+data.rollno+'</span>'
+                          + '</li>';
+                          membersCounter++;
+                        })
+                      
+                    var bodyText = '<ul id="prjMembersList" class="list-group">'+liHtml+'</ul>';
+                    liHtml='';
+                    prjTitle += '<span class="float-right">'+'<span class="chooseUploadFileDiv" style="margin-right:5rem;"><input style="font-size:10px;" type="file" class="submitPrjFiles'+prjSubject+grpPrjId+'"></input>&nbsp;&nbsp;<i id="'+prjSubject+grpPrjId+'" data-subject="'+prjSubject+'" class="uploadPrjFile fa fa-upload" title="Upload File"></i></span><span class="float-right">&nbsp;&nbsp;'+prjSubject+'&nbsp;&nbsp; Sem ['+semester+']</span></span>';
+                    var filledCardHtml = getCardHtmlTemplate(map[rowCounter], rowCounter+'. '+prjTitle, bodyText);
+                    $('#accordionExample').append(filledCardHtml);
+                    
+                    bodyText='';
+                    prjTitle='';
+                    rowCounter++;
+                    membersCounter=1;
+                  }
+                })
+                debugger
+                var isPrjLeader = $('#main-container').attr('data-isProjectLeader');
+                if(isPrjLeader==='true'){
+                  $('.chooseUploadFileDiv').show();
+                } else {
+                  $('.chooseUploadFileDiv').hide();
+                  $('#sumitMiniPrjModal').find('.modal-title').text('Micro Project Details');
+                }
+                initEvents();
+              } else {
+                debugger
+                var sem = $('#main-container').attr('data-semester');
+                if(Number(sem)=== 5){
+                  $('#sumitMiniPrjModal').modal('show');
+                } else if(Number(sem) == 3){
+                  $('#sumitMiniPrjModal').modal('show');
+                } else {
+                  showAlert("No micro project details found, please verify if you assigned in any of the projects", 'info');
+                  $('#sumitMiniPrjModal').modal('hide');
+                }
+              }
+            },
+            error: function (error) {
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            });
+      }
+
+      function initEvents(){
+        $('.uploadPrjFile').click(function(){
+          var sub = $(this).attr('id');
+          uploadPrjFile(sub);
+        });
+      }
+
+      function getCardHtmlTemplate(rowCounter, headingText, bodyText){
+        var baseCardHtml = `<div class="card">
+          <div class="card-header" id="heading${rowCounter}">
+            <h2 class="mb-0">
+              <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse"
+                data-target="#collapse${rowCounter}" aria-expanded="false" aria-controls="collapse${rowCounter}">
+                ${headingText}
+              </button>
+            </h2>
+          </div>
+
+          <div id="collapse${rowCounter}" class="collapse" aria-labelledby="heading${rowCounter}" data-parent="#accordionExample">
+            <div class="card-body">
+              ${bodyText}
+            </div>
+          </div>
+        </div>`;
+        return baseCardHtml;
+      }
+
+      function submitMiniPrjDetails(){
+        var name = $('#main-container').attr('data-fullname')[0].toUpperCase()+$('#main-container').attr('data-fullname').slice(1);
+        $('#prjLeader').val(name);
+
+        var rn = $('#main-container').attr('data-rollno');
+        if(rn != null && rn !=undefined && rn !==""){
+          showSpinnerOverlay();
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getProjectMembersList/" + rn,
+            contentType: 'aaplication/json',
+            async: true,
+            success: function(dataArr) {
+              hideSpinnerOverlay();
+              $('#prjMembers').html('');
+              if(dataArr!=null && dataArr.length>0){
+                $('#prjMembers').html('');
+                $('#prjMembers').append($('<option></option>').attr('disabled',true).attr('id',0).attr('value',0).text('-----SELECT PROJECT MEMBERS-----'))
+                dataArr.forEach(e => {
+                  if(e.rollno !== Number(rn)){
+                    $('#prjMembers').append($('<option></option>').attr('id',e.rollno).attr('value',e.rollno).text(e.fullname + ' ('+e.rollno+')'));
+                  }
+                })
+              }
+              $('#prjMembers').select2({
+                  theme: 'bootstrap4',
+                  width: 'style',
+                  allowClear: Boolean($(this).data('allow-clear')),
+                });
+            },
+            error: function (error) {
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            });
+          }
+      }
+
+      function submitMiniPrjDetailsPostCall(){
+        var jData = new Object();
+
+        var prjGrpId = $('#prjGrpId').val();
+        var prjLeader = $('#prjLeader').val();
+        var prjTitle = $('#prjTitle').val();
+        var prjSubject = $('#prjSubject option:selected').val();
+        var prjMembers = $('#prjMembers').val();
+        var projLeaderRollno = $('#main-container').attr('data-rollno');
+        var sem = $('#main-container').attr('data-semester');
+        if(!$.isEmptyObject(sem) && Number(sem)===5){
+          if($.isEmptyObject(prjGrpId) || !$.isNumeric(prjGrpId) || $.isEmptyObject(prjLeader) || $.isEmptyObject(prjTitle) || $.isEmptyObject(prjSubject) || 
+            prjSubject == 0 || prjSubject =='0' || prjMembers.length != 0 || $.isEmptyObject(projLeaderRollno)){
+            return;
+          }    
+        } else {
+          if($.isEmptyObject(prjGrpId) || !$.isNumeric(prjGrpId) || $.isEmptyObject(prjLeader) || $.isEmptyObject(prjTitle) || $.isEmptyObject(prjSubject) || $.isEmptyObject(prjMembers)
+          || prjSubject == 0 || prjSubject =='0' || prjMembers.length == 0 || $.isEmptyObject(projLeaderRollno)){
+            return;
+          }
+        }
+        
+        
+
+        jData['grpPrjId'] = prjGrpId;
+        jData['projectMemberName'] = prjLeader;
+        jData['prjTitle'] = prjTitle;
+        jData['projectSubject'] = prjSubject;
+        jData['projLeaderRollno'] = projLeaderRollno;
+        jData['projectMemberRollNosList'] = prjMembers;
+
+
+
+        $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8081/submitMiniProjectDetails',
+                contentType: 'application/json',
+                data: JSON.stringify(jData),
+                success: function(data){
+                  $('#sumitMiniPrjModal').modal('hide');
+                  showAlert("Student Micro Project Details Updated Successfully","success");
+                  $('#prjGrpId').val('');
+                  $('#prjTitle').val('');
+                  $('#prjSubject').val('0').trigger('change');
+                  $('#prjMembers').val([]);
+                },
+                error: function(err){
+                    alert(err);
+                }
+            })
+
+
+      }
+
+      function getAttendance(){
+        var rn = $('#main-container').attr('data-rollno');
+        if(rn != null && rn !=undefined && rn !==""){
+          $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://localhost:8081/getAttendanceDetails/" + rn,
+            contentType: 'aaplication/json',
+            success: function(data) {
+              hideLoadingSpinner();
+              $('.attendDetails').html('');
+              var monthMap = {
+                  1: "January",
+                  2: "February",
+                  3: "March",
+                  4: "April",
+                  5: "May",
+                  6: "June",
+                  7: "July",
+                  8: "August",
+                  9: "September",
+                  10: "October",
+                  11: "November",
+                  12: "December"
+              };
+              data.forEach(e => {
+                e.attendanceEntity.forEach(r1 => {
+                  console.log(r1.subject+' '+r1.month+' '+r1.attendancePercent);
+                  var listItemHtml = `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            ${r1.subject}  &nbsp;&nbsp;(${monthMap[r1.month]})
+                            <span class="badge badge-primary badge-pill">${r1.attendancePercent} %</span>
+                          </li>`;
+                  $('.attendDetails').append(listItemHtml);
+                })
+              })
+            },
+            error: function (error) {
+                hideLoadingSpinner();
+                alert("error " + error);
+              }
+            });
+          }
+      }
+
       $('#ediStudentEnrDetailsBtn').click(function(){
+        
         var rn = $('#main-container').attr('data-rollno');
         if(rn != null && rn !=undefined && rn !==""){
           $.ajax({
@@ -1046,6 +1649,9 @@
             contentType: 'aaplication/json',
             success: function(data) {
                 $('#main-container').attr('data-mentorname', data.mentorName);
+                $('#branch').parent('div').hide();
+                $('#semester').parent('div').hide();
+                $('#rollno').parent('div').hide();
                 fillModal(data);
             },
             error: function (error) {
@@ -1059,7 +1665,9 @@
           }
       })
 
+      
       function fillModal(data) {
+        
         if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
           //$('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
             //+data.semester+'</td><td>'+data.branch+'</td><td>'+data.previousSemResult+'</td></tr>');
@@ -1184,8 +1792,6 @@
           contentType: 'application/json',
           data: JSON.stringify(obj),
           success: function(data){
-              console.log(data);
-              
                 //updateAssignmentToNewlyAddedStudents();
               if(data > 0){
                 //alert("updated rollno to user");
@@ -1199,7 +1805,7 @@
               }
           },
           error: function(err){
-              console.log(err);
+              alert(err);
           }
       })
 
@@ -1404,7 +2010,6 @@
                   hideSpinnerOverlay();
                 })
                 .catch(error => {
-                  console.error('Error:', error);
                   $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
                     $("#my-alert").fadeOut(700);
                   });
@@ -1462,7 +2067,6 @@
           })
           .catch(error => {
             hideSpinnerOverlay();
-            console.error('Error:', error);
             $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#my-alert").fadeOut(700);
             });
@@ -1561,8 +2165,6 @@
           url: "http://localhost:8081/getStudentDetails/" + rn,
           contentType: 'aaplication/json',
           success: function(data) {
-            
-              console.log(data);
               fillStudentDetailsTbl(data);
           },
           error: function (error) {
@@ -1594,6 +2196,7 @@
               $('.branchVal').text(data.branch);
               $('.prevSemResultVal').text(data.previousSemResult);
               $('.mentorNameVal').text(data.mentorName);
+              $('#main-container').attr('data-semester',data.semester);
           } else {
             $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#success-alert").slideUp(700);
@@ -1704,7 +2307,7 @@
                   }
                 },
                 error: function(err){
-                    console.log(err);
+                  alert('Error: '+err);
                 }
             })
         } else {

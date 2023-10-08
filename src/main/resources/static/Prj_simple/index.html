@@ -11,13 +11,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+  <!-- select2-bootstrap4-theme -->
+  <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
 
   <!-- Alert box plugin -->
 
   <link rel="stylesheet" href="Alertstyle.css" />
   <script src="cute-alert.js"></script>
 
-  <!--  -->
 
 </head>
 
@@ -661,6 +664,7 @@ body{
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 </body>
 </html>
 
@@ -806,7 +810,6 @@ setTimeout(function(){
         contentType: 'aaplication/json',
         success: function(data) {
           hideSpinnerOverlay();
-            console.log(data);
             if(data.isAuthenticated==true){
 
               //window.location.href = "background.html"; 
@@ -890,7 +893,6 @@ setTimeout(function(){
             data: JSON.stringify(jData),
             success: function(data){
                 hideSpinnerOverlay();
-                console.log(data);
                 if(data != null){
                   
                   
@@ -908,7 +910,7 @@ setTimeout(function(){
             },
             error: function(err){
               hideSpinnerOverlay();
-                console.log(err);
+                alert('Error: '+err);
             }
         })
       } else {

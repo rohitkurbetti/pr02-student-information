@@ -108,11 +108,22 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
 	@Query("select count(sd) from StudentDetails sd where sd.rollno=:rollno")
 	int checkIfRollNoExists(@Param("rollno") Integer rollno);
 
+	@Query("select sd from StudentDetails sd where sd.rollno=:rollno")
+	StudentDetails getStudentDetailsByRollNo(@Param("rollno") Integer rollno);
+
+	@Query("select new com.example.workaholic.repo.CustomClz(sd1.rollno,sd1.fullname) from StudentDetails sd2 inner join StudentDetails sd1 on sd2.semester = sd1.semester "
+			+ " where sd2.rollno=:rollno and sd1.isTeamAssigned = false ")
+	List<CustomClz> getProjectMembersList(@Param("rollno") Integer rollno);
+
 	
+	@Query("select sd from StudentDetails sd where sd.rollno in (:rollnos) ")
+	List<StudentDetails> getStudentDetailsByRollNoMultiple(@Param("rollnos") List<Integer> rollNos);
 
-//	@Query(" select distinct new com.example.workaholic.entity.StudAssignmentDtl(sd.assignment, sd.assignmentName) from StudentDetails sd where assignment is not null and assignment_name is not null ")
-//	void getAssignmentAndName(String barnch, String sem);
-
+	@Transactional
+	@Modifying
+	@Query("update StudentDetails sd set sd.isProjectLeader=:isProjectLeader where sd.rollno = :rollno ")
+	int updateIsPrjectLeaderStatus(Integer rollno, Boolean isProjectLeader);
+	
 	
 
 }

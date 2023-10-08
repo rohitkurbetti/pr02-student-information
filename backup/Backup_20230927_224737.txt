@@ -1,0 +1,18 @@
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('166', 'null', 'null', 'co', '4324234123', '4323423424', NULL, NULL,'Sandhya Kamble', NULL, NULL, 'pass', 837, '2', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('180', 'null', 'null', 'co', '45738572', '2342342342', NULL, NULL,'Anurag Patil', NULL, NULL, 'pass', 2313, '5', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('10', 'asd , sdfsf , asdas , sdfsdf , asds ', 'ASds', 'co', '535345', '423423', NULL, NULL,'Rohit K', NULL, NULL, 'sdghifsdh', 32, '1', NULL);
+
+INSERT INTO public.assignment_details(assignment_details_id, "assignment", assignment_status, branch, code, file_ext, rollno, semester, student_submitted_assignments) VALUES(193, 'asd , sdfsf , asdas , sdfsdf , asds ', 'NOTSUBMITTED', 'co', 9865, NULL, 32, '1', NULL);
+
+
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(1, 'teacher@gmail.com', 'teads', 'teacher', null);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(9, 'abcd@gmail.com', 'abcd', 'abcd', 32);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(165, 'sad@gmail.com', 'sandhya', 'sad', 837);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(179, 'user@gmail.com', 'user', 'user', 2313);
+
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(175, 100.0, 23, 7, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(230, 95.83, 23, 2, 837, 24);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(232, 71.11, 32, 1, 837, 45);
+
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(63, 'co', 'pdf',  NULL, '1_1040_US_Individual_Income_Tax_Return_2020.pdf', '1', 'DSFA');
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(105, 'co', 'pdf',  NULL, 'watermark_paint1.pdf', '1', 'FHT');

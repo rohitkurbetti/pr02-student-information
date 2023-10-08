@@ -21,8 +21,14 @@ public class StudentDetailsRequest {
 	private Integer code;
 	private String title;
 	private String content;
+	private Boolean isProjectLeader = Boolean.FALSE;
 	
-	
+	public Boolean getIsProjectLeader() {
+		return isProjectLeader;
+	}
+	public void setIsProjectLeader(Boolean isProjectLeader) {
+		this.isProjectLeader = isProjectLeader;
+	}
 	public String getTitle() {
 		return title;
 	}

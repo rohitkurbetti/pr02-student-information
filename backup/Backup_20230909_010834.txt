@@ -1,0 +1,43 @@
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('10', 'null', 'null', 'co', '535345', '423423', NULL, NULL,'Rohit K', NULL, NULL, 'sdghifsdh', 32, '1', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('7', 'null', 'null', 'co', '5435345', '234324', NULL, NULL,'Vishwas', NULL, NULL, 'pass', 12, '1', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('166', 'null', 'null', 'co', '4324234123', '4323423424', NULL, NULL,'Sandhya Kamble', NULL, NULL, 'pass', 837, '2', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('180', 'null', 'null', 'co', '45738572', '2342342342', NULL, NULL,'Anurag Patil', NULL, NULL, 'pass', 2313, '5', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('188', 'null', 'null', 'co', '23234234', '423423434', NULL, NULL,'fff', NULL, NULL, 'pass', 777, '1', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('189', 'null', 'null', 'co', '543534535', '423423424', NULL, NULL,'fff', NULL, NULL, 'pass', 13, '1', NULL);
+
+
+
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(1, 'teacher@gmail.com', 'teads', 'teacher', null);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(6, 'asd@gmail.com', 'asd', 'asd', 12);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(9, 'abcd@gmail.com', 'abcd', 'abcd', 32);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(165, 'sad@gmail.com', 'sandhya', 'sad', 837);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(179, 'user@gmail.com', 'user', 'user', 2313);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(184, 'aaa@gmail.com', 'aaa', 'aaa', 777);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(187, 'aaaa@gmail.com', 'asdasda', 'aaa', 13);
+
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(154, 51.11, 23, 1, 12, 45);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(155, 88.46, 23, 2, 12, 26);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(156, 75.0, 12, 2, 12, 16);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(160, 95.45, 21, 3, 32, 22);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(161, 85.19, 23, 2, 32, 27);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(162, 91.67, 22, 4, 32, 24);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(163, 87.88, 29, 2, 32, 33);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(157, 12.32, 23, 1, 32, 26);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(164, 100.0, 23, 1, 32, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(167, 50.0, 12, 2, 837, 24);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(168, 92.0, 23, 2, 837, 25);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(169, 86.67, 26, 2, 837, 30);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(171, 100.0, 23, 3, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(172, 100.0, 23, 3, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(173, 100.0, 23, 3, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(174, 92.0, 23, 4, 837, 25);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(175, 100.0, 23, 7, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(176, 95.65, 22, 8, 837, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(177, 100.0, 23, 5, 32, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(178, 100.0, 23, 6, 32, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(183, 80.0, 4, 3, 2313, 26);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(181, 87.0, 23, 1, 2313, 23);
+INSERT INTO public.attendance_details(attendance_details_id, attendance_percent, lectures_attended, "month", rollno, total_lectures) VALUES(182, 76.0, 23, 2, 2313, 25);
+
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(63, 'co', 'pdf',  NULL, '1_1040_US_Individual_Income_Tax_Return_2020.pdf', '1', 'DSFA');
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(105, 'co', 'pdf',  NULL, 'watermark_paint1.pdf', '1', 'FHT');

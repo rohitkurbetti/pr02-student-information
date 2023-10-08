@@ -1094,7 +1094,7 @@ input::file-selector-button {
 
     <script>
       $(document).ready(function () {
-        debugger;
+        
         var fullname = $("#main-container").attr("data-fullname");
         fullname = fullname == undefined ? "Student" : fullname;
         $(".jumbotron>h1").text("Hello, " + fullname + "!");
@@ -1141,7 +1141,7 @@ input::file-selector-button {
         }
 
         function showAlert(message, type, customClz) {
-          debugger;
+          
           customClz =
             customClz == "" || customClz == undefined ? "" : customClz;
           $(".alert-container-student" + customClz).html("");
@@ -1242,7 +1242,7 @@ input::file-selector-button {
               type: "GET",
               url: "http://localhost:8081/getTestMarksByRollno/" + rollNoTest,
               success: function (data) {
-                debugger;
+                
                 hideSpinnerOverlay();
                 if (data == null || data === "" || data.length == 0) {
                   showAlert("No data found", "warning", "TestMarks");
@@ -1313,7 +1313,7 @@ input::file-selector-button {
               //hideLoadingSpinner();
               hideSpinnerOverlay();
               if (data != null && data.length == 0) {
-                debugger;
+                
                 showAlert("No data found", "warning");
               } else {
                 fillStudentsNotesTable(data);
@@ -1694,7 +1694,7 @@ input::file-selector-button {
         }
 
         function updateAssignmentToNewlyAddedStudents() {
-          debugger;
+          
           $.ajax({
             type: "GET",
             dataType: "json",

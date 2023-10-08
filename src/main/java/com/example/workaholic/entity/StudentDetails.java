@@ -66,6 +66,28 @@ public class StudentDetails {
 	@Transient
 	private String email;
 	
+	@Column(name = "is_team_assigned")
+	private Boolean isTeamAssigned = Boolean.FALSE;
+	
+	@Column(name = "is_project_leader")
+	private Boolean isProjectLeader=Boolean.FALSE;
+	
+	public Boolean getIsProjectLeader() {
+		return isProjectLeader;
+	}
+
+	public void setIsProjectLeader(Boolean isProjectLeader) {
+		this.isProjectLeader = isProjectLeader;
+	}
+
+	public Boolean getIsTeamAssigned() {
+		return isTeamAssigned;
+	}
+
+	public void setIsTeamAssigned(Boolean isTeamAssigned) {
+		this.isTeamAssigned = isTeamAssigned;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -275,7 +297,4 @@ public class StudentDetails {
 		this.studentSubmittedAssignments = studentSubmittedAssignments;
 	}
 
-
-	
-	
 }

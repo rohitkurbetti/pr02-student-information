@@ -19,7 +19,7 @@ public class UserServiceImpl {
 		String passwordDecrypted = decodeFromBase64(userEntity.getPassword());
 		userEntity.setPassword(passwordDecrypted);
 		UserEntity entity = new UserEntity();
-		Integer userExistsCount = userRepository.checkUserExists(userEntity.getEmail(),userEntity.getPassword());
+		Integer userExistsCount = userRepository.checkUserExists(userEntity.getEmail());
 		
 		if(userExistsCount > 0) {
 			entity = new UserEntity();
@@ -86,7 +86,11 @@ public class UserServiceImpl {
 	}
 
 	public UserEntity getUserDetailsByEmail(String email) {
-		return userRepository.getUserDetailsByEmail(email);
+		UserEntity ue = userRepository.getUserDetailsByEmail(email);
+		if(ue.getEmail().equalsIgnoreCase("teacher@gmail.com")) {
+			ue.setPassword(null);
+		}
+		return ue;
 	}
 
 	

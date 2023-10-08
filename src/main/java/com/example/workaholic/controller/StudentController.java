@@ -1,8 +1,14 @@
 package com.example.workaholic.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,11 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.workaholic.entity.AssignmentDetails;
 import com.example.workaholic.entity.AssignmentDetailsDom;
+import com.example.workaholic.entity.MiniProjectDetails;
+import com.example.workaholic.entity.MiniProjectsWrapper;
 import com.example.workaholic.entity.StudAssignmentDtl;
 import com.example.workaholic.entity.StudentDetails;
 import com.example.workaholic.entity.StudentSignUp;
 import com.example.workaholic.entity.UploadNotesEntity;
+import com.example.workaholic.repo.CustomClz;
 import com.example.workaholic.service.AssignmentDetailsServiceImpl;
+import com.example.workaholic.service.MiniProjectDetailsServiceImpl;
 import com.example.workaholic.service.NotesServiceImpl;
 import com.example.workaholic.service.StudentServiceImpl;
 
@@ -39,6 +49,9 @@ public class StudentController {
 	
 	@Autowired
 	private NotesServiceImpl notesServiceImpl;
+	
+	@Autowired
+	private MiniProjectDetailsServiceImpl miniProjectDetailsServiceImpl;
 	
 	@PostMapping("/student_signup")
 	public StudentSignUp createEmployee(@RequestBody StudentSignUp student) {
@@ -173,6 +186,76 @@ public class StudentController {
 	@GetMapping("/deleteStudentBySemesterRollno")
 	public String deleteStudentBySemesterRollno(@RequestParam("semester") String semester,@RequestParam("rollno") Integer rollno) {
 		return studentServiceImpl.deleteStudentBySemesterRollno(semester,rollno);
+	}
+	
+	@GetMapping("/createDataBackup")
+	public byte[] createDataBackup() throws IOException {
+		File responseString = studentServiceImpl.createDataBackup();
+		return Files.readAllBytes(Path.of(responseString.getPath()));
+	}
+	
+	
+	@GetMapping("/asd")
+	public List<CustomClz> asd() {
+		return studentServiceImpl.asd();
+	}
+	
+	@GetMapping("/getAttendanceDetails/{rollno}")
+	public List<CustomClz> getAttendanceDetails(@PathVariable("rollno") Integer rollno) {
+		return studentServiceImpl.getAttendanceDetails(rollno);
+	}
+	
+	@GetMapping("/getProjectMembersList/{rollno}")
+	public List<CustomClz> getProjectMembersList(@PathVariable("rollno") Integer rollno) {
+		return studentServiceImpl.getProjectMembersList(rollno);
+	}
+	
+	
+	@PostMapping("/submitMiniProjectDetails")
+	public List<StudentDetails> submitMiniProjectDetails(@RequestBody MiniProjectDetails miniProjectDetails) {
+		return studentServiceImpl.submitMiniProjectDetails(miniProjectDetails);
+	}
+	
+	@GetMapping("/getMiniProjectDetails/{rollno}")
+	public List<MiniProjectsWrapper> getMiniProjectDetails(@PathVariable("rollno") Integer rollno) {
+		List<MiniProjectsWrapper> miniProjectsWrappers = new ArrayList<>();
+		List<MiniProjectDetails> list =  miniProjectDetailsServiceImpl.getMiniProjectDetails(rollno);
+		
+		
+		Set<Long> prjGrpIds = list.stream().map(i -> i.getGrpPrjId()).collect(Collectors.toSet());
+		
+		for(Long prgGrpId : prjGrpIds) {
+			MiniProjectsWrapper miniProjectsWrapper = new MiniProjectsWrapper();
+			List<MiniProjectDetails> l1 = new ArrayList<>();
+			for(MiniProjectDetails obj : list) {
+				if(prgGrpId.equals(obj.getGrpPrjId())){
+					l1.add(obj);
+				}
+				
+			}
+			miniProjectsWrapper.setMiniProjectDetails(l1);
+			miniProjectsWrappers.add(miniProjectsWrapper);
+			list.removeIf(id -> prgGrpId.equals(id.getGrpPrjId()));
+		}
+		return miniProjectsWrappers;
+		
+	}
+	
+	
+	@PostMapping("/uploadPrjFile")
+	public Integer uploadPrjFile(@RequestPart("file") MultipartFile file, @RequestPart("rollno") String rollno,@RequestPart("subject") String subject) throws IOException {
+		return miniProjectDetailsServiceImpl.uploadPrjFile(file, rollno, subject);
+	}
+	
+	
+	@GetMapping("/getIsProjectLeader/{rollno}")
+	public Object[] getProjectLeader(@PathVariable("rollno") Integer rollno) {
+		return miniProjectDetailsServiceImpl.getIsProjectLeader(rollno);
+	}
+	
+	@PostMapping("/updateIsPrjectLeaderStatus")
+	public int updateIsPrjectLeaderStatus(@RequestBody StudentDetailsRequest studentDetailsRequest) {
+		return studentServiceImpl.updateIsPrjectLeaderStatus(studentDetailsRequest);
 	}
 	
 }

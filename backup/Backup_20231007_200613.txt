@@ -1,0 +1,15 @@
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('311', 'null', 'null', 'co', '5754875748', '5435454534', NULL, NULL,'New One', NULL, NULL, 'pass', 12, '3', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('313', 'null', 'null', 'co', '8659865989', '5347654677', NULL, NULL,'New Two', NULL, NULL, 'pass', 13, '3', NULL);
+INSERT INTO public.student_details(student_details_id, "assignment", assignment_name, branch, contactno, enrollment_id, file_ext, file_notes,fullname, marks_json, mentor_name, previous_sem_result, rollno, semester, student_submitted_assignments) VALUES('315', 'null', 'null', 'co', '6956858585', '6578787123', NULL, NULL,'New Three', NULL, NULL, 'pass', 15, '3', NULL);
+
+INSERT INTO public.assignment_details(assignment_details_id, "assignment", assignment_status, branch, code, file_ext, rollno, semester, student_submitted_assignments) VALUES(193, 'asd , sdfsf , asdas , sdfsdf , asds ', 'NOTSUBMITTED', 'co', 9865, NULL, 32, '1', NULL);
+
+
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(1, 'teacher@gmail.com', 'teads', 'teacher', null);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(310, 'new1@gmail.com', 'new user', 'new1', 12);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(312, 'new2@gmail.com', 'new two', 'new2', 13);
+INSERT INTO public.user_details(user_details_id, email, fullname, "password", user_rollno) VALUES(314, 'new3@gmail.com', 'new three', 'new3', 15);
+
+
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(63, 'co', 'pdf',  NULL, '1_1040_US_Individual_Income_Tax_Return_2020.pdf', '1', 'DSFA');
+INSERT INTO public.note_details(note_details_id, branch, file_ext, file_notes, filename, semester, subject) VALUES(105, 'co', 'pdf',  NULL, 'watermark_paint1.pdf', '1', 'FHT');

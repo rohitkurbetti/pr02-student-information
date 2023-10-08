@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2x2 Tiles Grid</title>
+    <!-- Include Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<style>
+    /* CSS for hover effect */
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        /* Simple box  */
+        transition: all 0.3s ease-in-out, color 0.3s ease;
+    }
+
+    .card:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+        /* Scale up by 10% on hover */
+        color: #4fd135;
+    }
+
+    /* CSS for smooth animation after leaving the card */
+    .card:not(:hover) {
+        transform: scale(1);
+        /* Reset the scale to normal when not hovered */
+        transition: transform 0.3s ease-in-out;
+        /* Add a smooth transition when leaving */
+    }
+
+    .card-text {
+        color: #000;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 rounded" style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 1 -->
+                        <h5 class="card-title"><span><i class='fa fa-id-card' style='color:#44bf22;'></i></span></h5>
+                        <p class="card-text">Tile 1</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile 60Tile 2 -->
+                        <h5 class="card-title"><span><i class='fa fa-check' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 2</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 3 -->
+                        <h5 class="card-title"><span><i class='fa fa-user-circle-o' style='color:#44bf22'></i></span>
+                        </h5>
+                        <p class="card-text">Tile 3</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body database" title="Database">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-database' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-pie-chart' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-sitemap' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-tasks' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-link' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-users' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <h5 class="card-title"><span><i class='fa fa-file-text' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-check' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-check' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align: center;">
+                <div class="card mb-4 " style="width:70%;">
+                    <div class="card-body">
+                        <!-- Tile Tile 4 -->
+                        <h5 class="card-title"><span><i class='fa fa-check' style='color:#44bf22'></i></span></h5>
+                        <p class="card-text">Tile 4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="subContainer">
+
+            </div>
+        </div>
+        <br><br>
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        var counter = 1;
+        var DatabaseHtml;
+        $('.database').click(function () {
+            // $('#subContainer').load("Database.html");
+            fetch("Database.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.text();
+                })
+                .then(fileContent => {
+                    DatabaseHtml = fileContent;
+                    $('#subContainer').html(DatabaseHtml);
+                    loadEvents();
+                    // document.getElementById("file-content").textContent = fileContent;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+                
+        })
+
+        function loadEvents(){
+            $('#cntBtn').click(function(){  
+                $('#cnt').text(counter++);
+            }) 
+        }        
+
+    })
+</script>

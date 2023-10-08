@@ -104,7 +104,7 @@
 
     .floating-div {
       position: fixed;
-      top: 10%;
+      top: 15%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 80%;
@@ -128,6 +128,31 @@
     }
 
 
+    .card {
+    margin-bottom: 15px;
+}
+
+.icon-action {
+    margin-top: 5px;
+    float: right;
+    font-size: 80%;
+}
+
+.list-group-item .title {
+    margin-top: 5px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.gray-border-style{
+    border-radius: 5px; 
+    border: 2px solid rgba(206, 206, 206, 0.54);
+}
+
+.blk{
+  width: 100%;
+  display: contents;
+}
 </style>
 
 
@@ -159,6 +184,12 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#reports">Reports</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#other">Other</a>
+      </li>
     </ul>
 
     
@@ -180,7 +211,7 @@
         <!-- Input Group for Roll Number -->
         <form class="form-inline">    
             <div class="form-group">
-                <label for="rollno" class="form-check-label mr-2">Roll Number: </label>
+                <label for="rollno" class="form-check-label mr-2">Search here: </label>
                 <input type="text" class="form-control" id="rollno" placeholder="Enter your roll number">
             </div>
             <div class="form-group mx-2">
@@ -239,6 +270,7 @@
                 <th scope="col">Semester</th>
                 <th scope="col">Email</th>
                 <th scope="col">PreviousSemResult</th>
+                <th scope="col">Is Project Leader</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -426,11 +458,11 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
           <div class="col">
-            <ol id="questionOlList">
+            <ul id="questionOlList" class="d-flex" style="flex-wrap: wrap;justify-content: flex-start;">
               
-            </ol>
+            </ul>
           </div>
         </div>
         
@@ -657,6 +689,175 @@
         </div>
 
       </div>
+
+
+      <!--Reports Tab  -->
+      <div id="reports" class="tab-pane fade">
+        <h3>Reports</h3>
+        
+        <!-- Your content for Notes tab goes here -->
+        <div class="row">
+          <div class="col">
+            <form class="form-inline" style="justify-content: space-between;">
+              <input type="text" class="form-control" id="rollnoAttendance" placeholder="Enter rollno" />
+              <select name="months" id="months" class="form-control">
+                <option value="0">--SELECT--</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+                <option value="13">Winter 23</option>
+              </select>
+              <select name="subjects" id="subjects" class="form-control">
+                <option value="0">--SELECT--</option>
+                <option value="OOP">OOP</option>
+                <option value="STE">STE</option>
+                <option value="AJP">AJP</option>
+              </select>
+              <input type="text" class="form-control calAttendance" id="lecturesAttended" placeholder="Enter lectures attended count" />
+              <input type="text" class="form-control calAttendance" id="totalLectures" placeholder="Enter total lectures count" />
+              <input type="text" class="form-control" id="presentyPercent" placeholder="Attendance %" readonly disabled />
+              <button type="button" id="submitAttendance" class="btn btn-outline-dark mb-2">Submit</button>
+              <button type="button" id="getAttendanceList" class="btn btn-warning mb-2">Attendance List</button>
+              <button type="button" id="toggleTable" data-toggle="collapse" data-target=".attendanceTblClz" class="btn btn-link mb-2">Show/Hide Table</button>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="attendanceTblClz collapse">
+              <table class="table table-sm table-striped table-fade-in text-center " id="attendanceTbl">
+                <thead>
+                  <tr>
+                    <th scope="col">Roll No</th>
+                    <th scope="col">Month</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Lectures Attended</th>
+                    <th scope="col">Total Lectures</th>
+                    <th scope="col">Attendance Percent</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                <!-- Add more rows as needed -->
+                </tbody>
+              </table>
+              <div class="text-center mt-3" id="loadingSpinner" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center" id="pagination">
+                  <!-- JavaScript will populate this section -->
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="modal fade" id="myModal2">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Student Information</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+          
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <!-- Bootstrap table -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="semTxt">Semester</label>
+                        <input type="text" class="form-control" id="semTxt" placeholder="Enter semester" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subjectTxt" placeholder="Enter subject" />
+                      </div>
+                      
+                      
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="notesFile">File</label>
+                        <input type="file" class="form-control" id="notesFile" />
+                      </div>
+                      
+                      
+                    </div>
+                    
+                  </div>
+                  <div class="row">
+                    <div class="col">
+
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnUpload">Upload</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <div class="mainCont">
+              <div class="card-container">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div id="other" class="tab-pane fade">
+        <h3>Other</h3>
+        
+        <div class="row">
+          <div class="col">
+            <button id="backupBtn" type="button" class="btn btn-info">Backup</button>
+          </div>
+        </div>
+    </div>
+
+
+
+      </div>
+
+
+
     </div>
   </div>
 
@@ -777,6 +978,541 @@
           hideSpinnerOverlay();
         });
 
+        $('#submitAttendance').click(function(){
+          submitAttendance();
+        })
+
+        $('#backupBtn').click(function(){
+          createDataBackup();
+        })
+
+        function createDataBackup(){
+          showSpinnerOverlay();
+          var apiUrl = 'http://localhost:8081/createDataBackup';
+            fetch(apiUrl, {
+            method: 'GET',
+          })
+          .then(response => {
+            hideSpinnerOverlay();
+            if (!response.ok) {
+              throw new Error('Network response was not ok.');
+            }
+            return response.blob();
+          })
+          .then(blob => {
+            hideSpinnerOverlay();
+            showAlert('Data backed up successfully', 'success');
+            // Create a download link and set its attributes
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            
+            // Replace 'filename.ext' with the desired name of the downloaded file
+            var originalDateTime = new Date();
+            var modifiedDateTimeStr = formatDate(originalDateTime);
+            function formatDate(dateTime) {
+              var year = dateTime.getFullYear();
+              var month = String(dateTime.getMonth() + 1).padStart(2, '0');
+              var day = String(dateTime.getDate()).padStart(2, '0');
+              var hours = String(dateTime.getHours()).padStart(2, '0');
+              var minutes = String(dateTime.getMinutes()).padStart(2, '0');
+              var seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+              // Modify the format as needed (e.g., "YYYY-MM-DD HH:mm:ss")
+              return year + '' + month + '' + day + '' + hours + '' + minutes + '' + seconds;
+            }
+
+            downloadLink.download = 'filename_'+modifiedDateTimeStr+'.txt';
+
+
+            // Append the link to the document
+            document.body.appendChild(downloadLink);
+
+            // Simulate a click on the link to trigger the download
+            downloadLink.click();
+
+            // Remove the link from the document after the download is triggered
+            document.body.removeChild(downloadLink);
+          })
+          .catch(error => {
+              hideSpinnerOverlay();
+              alert("error " + error);
+          });
+
+
+
+
+
+        }
+
+        $('#rollno').keyup(function(){
+
+          var rnumber = $('#rollno').val();
+
+          $('#studentDetailsTbl> tbody > tr').filter(function() {      
+            $(this).toggle($(this).text().toLowerCase().indexOf(rnumber) > -1)
+          });
+
+        })
+
+        
+
+        $('#rollnoAttendance').keyup(function(){
+
+        var rnumber = $('#rollnoAttendance').val();
+
+        $('#attendanceTbl> tbody > tr').filter(function() {      
+          $(this).toggle($(this).text().toLowerCase().indexOf(rnumber) > -1)
+        });
+
+        })
+
+        $('#getAttendanceList').click(function(){
+          getAttendanceList();
+          asd();
+        });
+
+        function asd(){
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8081/asd',
+              contentType: 'application/json',
+              success: function(dataArr){
+                // $('.mainCont').html('');
+                $('.card-container').html('');
+                $('.card').remove()
+                hideSpinnerOverlay();
+                var mCounter=0;
+                var subCOunter=0;
+                dataArr.forEach(jTestData => {
+                  
+                  // rollno
+                  // fullname
+                  // attendanceEntity
+
+
+                  //create map na
+                  var masterObj = new Object();
+                  var dataFinal = [];
+                  var rollno = jTestData.rollno;
+                  var fullname = jTestData.fullname;
+                  var attendanceList = jTestData.attendanceEntity;
+
+                  if(attendanceList.length==0){
+                    return;
+                  }
+                  
+                  var oopArr = [];
+                  var steArr = [];
+                  var ajpArr=[];
+                  var overallPerc = 0.0;
+                  attendanceList.forEach(e => {
+                    if(e.subject==='OOP'){
+                      oopArr.push(e);
+                    }
+                    if(e.subject==='AJP'){
+                      ajpArr.push(e);
+                    }
+                    if(e.subject==='STE'){
+                      steArr.push(e);
+                    }
+                  })
+                  var obj = {};
+                  obj['OOP'] = oopArr;
+                  obj['AJP'] = ajpArr;
+                  obj['STE'] = steArr;
+                  
+
+                  masterObj['rollno'] = rollno
+                  masterObj['fullname'] = fullname
+                  masterObj['subjects'] = new Array();
+                  var oopObj = {};
+                  oopObj['OOP'] = oopArr;
+                  var steObj = {};
+                  steObj['STE'] = steArr;
+                  var ajpObj = {};
+                  ajpObj['AJP'] = ajpArr;
+                  oopArr=[];
+                  steArr=[];
+                  ajpArr=[];
+                  masterObj['subjects'].push(oopObj);
+                  masterObj['subjects'].push(steObj);
+                  
+                  masterObj['subjects'].push(ajpObj);
+                  // console.log(masterObj);
+                  var counter =0;
+                  var subjectAttendanceCount = 0;
+                  var sumSubPercent=0.0;
+                  var sumGrandSubPercent=0.0;
+                  // $('.card'+counter).find('#subList').html('');
+                  masterObj['subjects'].forEach(at => {
+                    if(at[Object.keys(at).find(key => at[key])].length==0){
+                      return;
+                    }
+                  var cardHtml = `<!-- card subject -->
+                    <div class="blk">
+                      <div class="col-md-4">
+                          <div class="card card${subCOunter}">
+                              <header class="card-header">
+                                  <a href="#" data-toggle="collapse" data-target="#collapse1_${subCOunter}" aria-expanded="false"
+                                      style="text-decoration: none;">
+                                      <i class="icon-action fa fa-chevron-down"></i>
+                                      <span class="title">${Object.keys(at).find(key => at[key])}<strong class="mx-2"></strong></span>
+                                      <span class="sub_${Object.keys(at).find(key => at[key])}${mCounter} float-right mr-3"> </span>
+                                  </a>
+                              </header>
+                              <div class="collapse" id="collapse1_${subCOunter}">
+                                  <article class="card-body">
+                                      <div class="table-responsive">
+                                        <div id="subList"></div>
+                                      </div>
+                                  </article> <!-- card-body.// -->
+                              </div> <!-- collapse .// -->
+                          </div> <!-- card.// -->
+                      </div>
+                    </div>`;
+
+                    $('.card-container').append(cardHtml);
+                    
+
+
+                    var subList = '';
+                    var subCount=0;
+                    at[Object.keys(at).find(key => at[key])].forEach(i => {
+                      
+                      var monthStr = i.month;
+                      var monthMap = {
+                          1: "January",
+                          2: "February",
+                          3: "March",
+                          4: "April",
+                          5: "May",
+                          6: "June",
+                          7: "July",
+                          8: "August",
+                          9: "September",
+                          10: "October",
+                          11: "November",
+                          12: "December"
+                      };
+                      subList = `<div class="card-header mb-2 gray-border-style">
+                                            <strong>${monthMap[i.month]}</strong> ${i.lecturesAttended} of ${i.totalLectures} <strong><span class="float-right">${i.attendancePercent}%</span> </strong>
+                                        </div>`;
+                      $('.card'+subCOunter).find('#subList').append(subList);
+                      subjectAttendanceCount++;
+                      sumSubPercent += i.attendancePercent;
+                      sumGrandSubPercent += i.attendancePercent;
+                      subList = '';
+                      subCount++;
+                    })
+                    
+                    overallPerc=(sumSubPercent/subjectAttendanceCount).toFixed(2);
+                    counter++;
+                    subCOunter++;
+                    
+                    $('.sub_'+Object.keys(at).find(key => at[key])+mCounter).text(Number(sumGrandSubPercent/subCount).toFixed(2)+' %');
+                    sumGrandSubPercent =0.00;
+                  })
+
+                  var mainStrip = `<!-- card main strip-->
+                    <div class="card">
+                        <header class="card-header">
+                            <a href="#" data-toggle="collapse" data-target="#collapse1${mCounter}" aria-expanded="false"
+                                style="text-decoration: none;">
+                                <i class="icon-action fa fa-chevron-down"></i>
+                                <span class="title">RollNo (${jTestData.rollno})<strong class="mx-2">${jTestData.fullname}</strong></span>
+                                <span class="title float-right mr-3">Overall Attendance (${overallPerc}%) </span>
+                            </a>
+                        </header>
+                        <div class="collapse" id="collapse1${mCounter}">
+                            <article class="card-body">
+                                <div class="d-flex align-items-start flex-wrap">
+                                  ${$('.card-container').html()}
+                                </div>
+
+                            </article> <!-- card-body.// -->
+                        </div> <!-- collapse .// -->
+                    </div> <!-- card.// -->` 
+
+
+                  $('.mainCont').append(mainStrip);
+                  $('.card-container').html('');
+                  mCounter++;
+                  // $('#attendanceTbl>tbody').append('<tr id="'+jTestData.attendanceDetailsId+'"><td id="rollno" data-idno="'+jTestData.attendanceDetailsId+'" data-value="'+jTestData.rollno+'">'+jTestData.rollno+'</td> <td id="month" data-value="'+jTestData.month+'">'+jTestData.month+'</td> <td id="subject" data-value="'+jTestData.subject+'">'+jTestData.subject+'</td> <td id="lecturesAttended" data-value="'+jTestData.lecturesAttended+'">'+jTestData.lecturesAttended+'</td><td id="totalLectures" data-value="'+jTestData.totalLectures+'">'+jTestData.totalLectures+'</td><td id="attendancePercent" data-value="'+jTestData.attendancePercent+'">'+jTestData.attendancePercent+'</td><td>'+submitBtnHtml+' '+ediBtnHtml+' '+closeBtnHtml+'</td></tr>');
+                })
+
+              },
+              error: function(err){
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            })
+        }
+
+        function getAttendanceList(){
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8081/getAttendanceList',
+              contentType: 'application/json',
+              success: function(dataArr){
+                hideSpinnerOverlay();
+                $('#attendanceTbl>tbody').html('');
+                var monthMap = {
+                    1: "January",
+                    2: "February",
+                    3: "March",
+                    4: "April",
+                    5: "May",
+                    6: "June",
+                    7: "July",
+                    8: "August",
+                    9: "September",
+                    10: "October",
+                    11: "November",
+                    12: "December"
+                };
+                dataArr.forEach(jTestData => {
+                  var submitBtnHtml = '<button id="'+jTestData.attendanceDetailsId+'" type="button" class="submitAttendance1 mr-1 close" style="float:none!important;display:inline;"><i class="fa fa-check-circle" style="color:#37b82e; cursor:pointer;"></i></button>';
+
+                  var ediBtnHtml = '<button id="'+jTestData.attendanceDetailsId+'" type="button" class="ediAttendance close" style="float:none!important;display:inline;"><i class="fa fa-edit" style="color:blue; cursor:pointer;"></i></button>';
+                  
+                  var closeBtnHtml = '<button type="button" class="delAttendance close" style="float:none!important;display:inline;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button>';
+                  
+                  $('#attendanceTbl>tbody').append('<tr id="'+jTestData.attendanceDetailsId+'"><td id="rollno" data-idno="'+jTestData.attendanceDetailsId+'" data-value="'+jTestData.rollno+'">'+jTestData.rollno+'</td> <td id="month" data-value="'+jTestData.month+'">'+monthMap[jTestData.month]+'</td> <td id="subject" data-value="'+jTestData.subject+'">'+jTestData.subject+'</td> <td id="lecturesAttended" data-value="'+jTestData.lecturesAttended+'">'+jTestData.lecturesAttended+'</td><td id="totalLectures" data-value="'+jTestData.totalLectures+'">'+jTestData.totalLectures+'</td><td id="attendancePercent" data-value="'+jTestData.attendancePercent+'">'+jTestData.attendancePercent+'</td><td>'+closeBtnHtml+'</td></tr>');
+                })
+                // add remove listerner jquery
+                deleteAttendanceTrListener();
+                submitListener();
+              },
+              error: function(err){
+                hideSpinnerOverlay();
+                alert("error " + error);
+              }
+            })
+        }
+
+        function submitListener(){
+          $('.submitAttendance1').click(function(){
+            var id = $(this).attr('id');
+            var eRollno = $('.edit_rollno_'+id).val();
+            var eMonth = 1;
+            var eSubject = $('.edit_subject_'+id).val();
+            var eLecturesAttended = $('.edit_lecturesAttended_'+id).val();
+            var eTotalLectures = $('.edit_totalLectures_'+id).val();
+            var eAttendancePercent = $('.edit_attendancePercent_'+id).val();
+
+            if(validateFields(id, eRollno, eMonth, eSubject, eLecturesAttended, eTotalLectures, eAttendancePercent)){
+              updateAttendanceById(id, eRollno, eMonth, eSubject, eLecturesAttended, eTotalLectures, eAttendancePercent);
+            } else {
+              showAlert('Please provide valid input');
+            }
+
+            function validateFields(id, eRollno, eMonth, eSubject, eLecturesAttended, eTotalLectures, eAttendancePercent){
+              var isValid = true;
+              if($.isEmptyObject(id) || !$.isNumeric(id)){
+                isValid = false;
+              }
+              if($.isEmptyObject(eRollno) || !$.isNumeric(eRollno)){
+                isValid = false;
+              }
+              // if($.isEmptyObject(eMonth) || eMonth == undefined || eMonth == 0){
+              //   isValid = false;
+              // }
+              if($.isEmptyObject(eSubject) || eSubject == undefined || eSubject == 0){
+                isValid = false;
+              }
+              if($.isEmptyObject(eLecturesAttended) || !$.isNumeric(eLecturesAttended)){
+                isValid = false;
+              }
+              if($.isEmptyObject(eTotalLectures) || !$.isNumeric(eTotalLectures)){
+                isValid = false;
+              }
+              if($.isEmptyObject(eAttendancePercent) || !$.isNumeric(eAttendancePercent) || eAttendancePercent < 0.0 || eAttendancePercent> 100.0){
+                isValid = false;
+              }
+              return isValid;
+            }
+
+
+            function updateAttendanceById(id, eRollno, eMonth, eSubject, eLecturesAttended, eTotalLectures, eAttendancePercent){
+
+              var obj = new Object();
+              obj['attendanceDetailsId'] = id;
+              obj['rollno'] = eRollno;
+              obj['month'] = eMonth;
+              obj['subject'] = eSubject;
+              obj['lecturesAttended'] = eLecturesAttended;
+              obj['totalLectures'] = eTotalLectures;
+              obj['attendancePercent'] = eAttendancePercent;
+              
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8081/saveAttendance',
+                  contentType: 'application/json',
+                  data: JSON.stringify(obj),
+                  success: function(data){
+                    $('#rollnoAttendance').val('');
+                    $('#months').val('0');
+                    $('#lecturesAttended').val('');
+                    $('#totalLectures').val('');
+                    $('#presentyPercent').val('');
+                    $('#presentyPercent').attr('style', '');
+                    getAttendanceList();
+                    asd();
+                  },
+                  error: function(err){
+                      alert('Error: '+err);
+                  }
+                })
+
+            }
+
+          })
+        }
+
+        function deleteAttendanceTrListener(){
+
+          $('.ediAttendance').click(function(){
+            var previousVal = $('#attendanceTbl>tbody>tr').find(':nth-child(1)')[0].innerHTML;
+            var ediHtml = '<input type="text" id="rollnoAttendance" placeholder="Enter rollno">';
+            var id = $(this).attr('id');
+            $('#attendanceTbl>tbody>tr#'+id+'>td').each(function(i,e) {
+              var attr = $(this).attr('id');
+
+              if(attr === 'month'){
+                //dropdown html
+
+              } else if (attr === undefined){
+
+              } else {
+                var str = $(this).html(); 
+                if(str.indexOf('input') == -1){
+                  var ediHtml = '<input type="text" id="'+attr+'" class="edit_'+attr+'_'+id+' text-center" style="width: 20% !important;" placeholder="Enter '+attr+'" value='+str+'>';
+                  $(this).html(ediHtml);
+                } else {
+                  $(this).html($(this).attr('data-value'));
+                }
+                
+              }
+
+            });
+
+          })
+
+          $('.delAttendance').click(function () {
+            
+            var attendanceId= $(this).closest('tr').attr('id');
+            $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8081/delAttendanceById?attendanceId='+attendanceId,
+              contentType: 'application/json',
+              success: function(data){
+                //fillStudentDetailsTbl(data);
+                // fetchStudentMarksByRollNo(testMarksRemoveId);
+                getAttendanceList();
+              },
+              error: function(err){
+                alert("error " + error);
+              }
+            })
+        })
+        }
+        
+        function submitAttendance(){
+
+          var attendanceObj = new Object();
+
+          var rollno = $('#rollnoAttendance').val();
+          var month = $('#months option:selected').val();
+          var subject = $('#subjects option:selected').val();
+          var lecturesAttended = $('#lecturesAttended').val();
+          var totalLectures = $('#totalLectures').val();
+          var attendancePercent = $('#presentyPercent').attr('data-value');
+
+          
+
+          function validateAttendanceFields(rollno, month, subject, lecturesAttended, totalLectures, attendancePercent){
+            var isValid = true;
+            if($.isEmptyObject(rollno) || !$.isNumeric(rollno)){
+              isValid = false;
+            }
+            if($.isEmptyObject(month) || !$.isNumeric(month) || month ==0){
+              isValid = false;
+            }
+            if($.isEmptyObject(subject) || subject==0){
+              isValid = false;
+            }
+            if($.isEmptyObject(lecturesAttended) || !$.isNumeric(lecturesAttended)){
+              isValid = false;
+            }
+            if($.isEmptyObject(totalLectures) || !$.isNumeric(totalLectures)){
+              isValid = false;
+            }
+            if($.isEmptyObject(attendancePercent) || !$.isNumeric(attendancePercent) || attendancePercent > 100.0 || attendancePercent < 0.0){
+              isValid = false;
+            }
+            return isValid;
+          }
+
+
+          if(validateAttendanceFields(rollno, month, subject, lecturesAttended, totalLectures, attendancePercent)){
+            
+          
+
+          attendanceObj['rollno'] = rollno;
+          attendanceObj['month'] = month;
+          attendanceObj['subject'] = subject;
+          attendanceObj['lecturesAttended'] = lecturesAttended;
+          attendanceObj['totalLectures'] = totalLectures;
+          attendanceObj['attendancePercent'] = attendancePercent;
+
+
+          $.ajax({
+              type: 'POST',
+              url: 'http://localhost:8081/saveAttendance',
+              contentType: 'application/json',
+              data: JSON.stringify(attendanceObj),
+              success: function(data){
+                $('#rollnoAttendance').val('');
+                $('#months').val('0');
+                $('#lecturesAttended').val('');
+                $('#totalLectures').val('');
+                $('#presentyPercent').val('');
+                $('#presentyPercent').attr('style', '');
+                getAttendanceList();
+                asd();
+              },
+              error: function(err){
+                  alert('Error: '+err);
+              }
+            })
+          }else {
+            showAlert("Please fill-in valid values", 'danger');
+          }
+
+        }
+
+        $('.calAttendance').blur(function () {
+            var lecAttended = $('#lecturesAttended').val();  var totalLectures = $('#totalLectures').val();
+            if(lecAttended != 0 && totalLectures !=0){
+              var total = lecAttended/totalLectures*100;
+              var totalAttendancePerc = Number(total).toFixed(2);
+
+              if(total < 75 && total >= 50){
+                $('#presentyPercent').attr('style', 'background-color:yellow;color:black;');
+              } else if (total < 50){
+                $('#presentyPercent').attr('style', 'background-color:#FF0000; color:white;');
+              } else if(total > 75 && total <= 100){
+                $('#presentyPercent').attr('style', 'background-color:lightgreen;color:black;');
+              }
+              $('#presentyPercent').val(totalAttendancePerc+' %');
+              $('#presentyPercent').attr('data-value', totalAttendancePerc);
+            } else {
+              $('#presentyPercent').val(Number(0).toFixed(2)+' %');
+              $('#presentyPercent').attr('data-value', Number(0).toFixed(2));
+              $('#presentyPercent').attr('style', '');
+            }
+        })
+
         function fetchStudentMarksByRollNo(testMarksRemoveId){
           var rollNoTest = $('#rollnotest').val();
           if(rollNoTest==undefined){
@@ -814,8 +1550,6 @@
                 url: 'http://localhost:8081/deleteStudMarksById?testRemoveId='+testMarksRemoveId,
                 contentType: 'application/json',
                 success: function(data){
-                  
-                  console.log(data);
                   //fillStudentDetailsTbl(data);
                   fetchStudentMarksByRollNo(testMarksRemoveId);
                 },
@@ -827,11 +1561,13 @@
         }
 
         function getAllStudents(){
+          showSpinnerOverlay();
           $.ajax({
             type: 'GET',
             url: 'http://localhost:8081/getStudentDetails',
             contentType: 'application/json',
             success: function(data){
+              hideSpinnerOverlay();
               if(data.length==0){
                 showAlert("No Student records Found", "danger");
               } else {
@@ -839,6 +1575,7 @@
               }
             },
             error: function(err){
+              hideSpinnerOverlay();
               alert("error " + error);
             }
           })
@@ -912,7 +1649,6 @@
             url: "http://localhost:8081/updateAssignmentsToNewlyAddedStudents",
             contentType: 'aaplication/json',
             success: function(data) {
-                console.log(data);
                 $('#spinnerContainer').addClass('d-none');
               },
               error: function (error) {
@@ -931,7 +1667,6 @@
             url: "http://localhost:8081/getAllNotes?page="+page+"&size=10",
             contentType: 'aaplication/json',
             success: function(data) {
-                console.log(data);
                 hideSpinnerOverlay();
                 if(data.empty==true){
                   showAlert("No Data found","warning");
@@ -1073,7 +1808,7 @@
                   
                 })
                 .catch(error => {
-                  console.error('Error:', error);
+                  alert('Error:', error);
                   $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
                     $("#my-alert").fadeOut(700);
                   });
@@ -1144,7 +1879,7 @@
             document.body.removeChild(downloadLink);
           })
           .catch(error => {
-            console.error('Error:', error);
+            alert('Error:', error);
             $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
               $("#my-alert").fadeOut(700);
             });
@@ -1230,7 +1965,7 @@
               }
             })
             .catch(error => {
-              console.error('Error:', error);
+              alert('Error:', error);
               $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
                 $("#my-alert").fadeOut(700);
               });
@@ -1259,7 +1994,6 @@
               list.push(jTestData);
             }
           })
-          console.log(JSON.stringify(list));
           
           if(list.length <= 0){
             showAlert("Please add marks first", "danger");
@@ -1276,7 +2010,6 @@
               success: function(data){
                 ;
                 list = [];
-                  console.log(data);
                   if(data > 0){
                     resetForm();
                     $('#marksAddedtbl>tbody').html('');
@@ -1292,7 +2025,7 @@
               },
               error: function(err){
                 list = [];
-                  console.log(err);
+                  alert('Error: '+err);
               }
           })
         }
@@ -1326,7 +2059,6 @@
 
             $('.rmRow').click(function(){
               $(this).closest('tr').remove();
-              console.log(JSON.stringify(list));
             })
             
           } else {
@@ -1353,10 +2085,6 @@
             return isValid;
           }
           
-
-          
-          
-          
           function addObject(jTestData){
 
             if (list.filter(x => x.rollNoTest === jTestData.rollNoTest && x.subject === jTestData.subject && x.test === jTestData.test && x.marks === jTestData.marks).length === 0) {
@@ -1365,18 +2093,10 @@
               $('#marksAddedtbl>tbody').append('<tr><td id="rollNoTest">'+jTestData.rollNoTest+'</td><td id="subject">'+jTestData.subject+'</td><td id="test">'+jTestData.test+'</td><td id="marks">'+jTestData.marks+'</td><td>'+closeBtnHtml+'</td></tr>');
             }
             $('.marksAddedJson').html('');
-
-            
-
             // $('.marksAddedJson').text(JSON.stringify(list));
             // console.log(JSON.stringify(list));
           }
-
-          
-          console.log(JSON.stringify(list));
         }
-
-        
 
         function viewAssignments() {
           $('#spinnerContainer').removeClass('d-none');
@@ -1384,9 +2104,6 @@
             getCall();
           // }
           // ,1500);
-
-
-
 
           function getCall(){
             $.ajax({
@@ -1455,8 +2172,6 @@
               contentType: 'aaplication/json',
               success: function(data) {
                 hideSpinnerOverlay();
-                
-                  console.log(data);
                   fillModalStdntSbmttedAssignmnts(data);
                   fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
@@ -1492,8 +2207,6 @@
                 url: "http://localhost:8081/getAssignmentsDetlsByAssgnCode/" + assignmentCode,
                 contentType: 'aaplication/json',
                 success: function(data) {
-                  console.log(data);
-                  
                   fillModalStdntSbmttedAssignmnts(data);
                   // fillUpAssignmentCdDropDwn(data);
                   $('#myModal').modal();
@@ -1603,7 +2316,7 @@
             })
             .catch(error => {
               hideSpinnerOverlay();
-              console.error('Error:', error);
+              alert('Error:', error);
               $("#my-alert").fadeTo(3000, 500).slideUp(500, function(){
                 $("#my-alert").fadeOut(700);
               });
@@ -1635,8 +2348,6 @@
             assignmentObj['semester'] = semester;
             assignmentObj['code'] = code;
             assignmentObj['queList'] = queList;
-            
-            console.log(JSON.stringify(assignmentObj));
 
             $.ajax({
                 type: 'POST',
@@ -1658,7 +2369,7 @@
                   
                 },
                 error: function(err){
-                    console.log(err);
+                    alert('Error: '+err);
                 }
             })
 
@@ -1719,19 +2430,11 @@
         }
         
         function submitAllQuestions () {
-
           var assignmentObj = new Object();
-
           assignmentObj["assignmentName"] = $('#assignment-title').val();
-
           $('#questionOlList>li').each(function(i,e) {
             assignmentObj[i] = $(this).text();
           });
-
-          console.log(assignmentObj.toString());
-
-          
-
         }
 
         $('#addAssignmentBtn').click(function addAssignmentQuestion() {
@@ -1748,7 +2451,7 @@
 
           if(title && title != null && isAlphanumericTitle(title) && question && question != null){
             
-            $('#questionOlList').append('<li>'+question+' <span class="rmItem mx-2"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></span></li>');
+            $('#questionOlList').append('<li class="m-2 list-group-item">'+question+' <span class="rmItem mx-2"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></span></li>');
             // $('#questionOlList').append('<li>'+question+'</li>');
 
             
@@ -1771,7 +2474,7 @@
         
 
         function getStudentDetails() {
-          
+          showSpinnerOverlay();
           var rollno = $('#rollno').val();
           if(rollno !=null && !$.isEmptyObject(rollno) && $.isNumeric(rollno)){
             //valid
@@ -1781,17 +2484,18 @@
                 url: "http://localhost:8081/getStudentDetails/" + rollno,
                 contentType: 'aaplication/json',
                 success: function(data) {
+                    hideSpinnerOverlay();
                     showAlert('Student details found', 'success');
-                    console.log(data);
                     fillStudentDetailsTbl(data);
                 },
                 error: function (error) {
-                    // alert("error " + error);
+                    hideSpinnerOverlay();
                     showAlert('No student details found!', 'danger');
                 }
             });
           } else {
             //validations failed
+            hideSpinnerOverlay();
             showAlert('Please enter valid Roll No', 'warning');
           }
         }
@@ -1802,8 +2506,11 @@
           $('#studentDetailsTbl>tbody').html('');
           dataArr.forEach(data => {
             if(data!=null && data.rollno != null && data.fullname != null && data.semester != null){
+              var checkBoxHtml = '<div class="custom-control custom-checkbox"><input class="custom-control-input isLeaderCheckBox" data-rollno='+data.rollno+' type="checkbox" id="customCheck'+data.rollno+'"><label class="custom-control-label" for="customCheck'+data.rollno+'"></label></div>';
             $('#studentDetailsTbl>tbody').append('<tr><td>'+data.rollno+'</td><td>'+data.fullname+'</td><td>'+data.contactno+'</td><td>'+data.enrollmentId+'</td><td>'
-              +data.semester+'</td><td>'+data.email+'</td><td>'+data.previousSemResult+'</td><td><button data-rollno='+data.rollno+' data-semester='+data.semester+' type="button" class="deleteStudentBySemesterRollno close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button></td></tr>');
+              +data.semester+'</td><td>'+data.email+'</td><td>'+data.previousSemResult+'</td><td>'+checkBoxHtml+'</td><td><button data-rollno='+data.rollno+' data-semester='+data.semester+' type="button" class="deleteStudentBySemesterRollno close" style="float:left;"><i class="fa fa-close" style="color:red; cursor:pointer;"></i></button></td></tr>');
+            var isChecked = data.isProjectLeader!=null && data.isProjectLeader!=undefined ? data.isProjectLeader : false;
+            $('#customCheck'+data.rollno).prop('checked', isChecked);
             } else {
               $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(700);
@@ -1811,9 +2518,15 @@
             }
           })
 
+          $('.isLeaderCheckBox').change(function(){
+            var rollno = $(this).attr('data-rollno');
+            var isChecked = $(this).is(':checked');
+            updateIsPrjectLeaderStatus(rollno, isChecked)
+          })
+
+
+
           $('.deleteStudentBySemesterRollno').click(function () {
-            console.log("called");
-            
             cuteAlert({
               type: "question",
               title: "Delete Student Details",
@@ -1853,4 +2566,27 @@
 
           });
         }
+
+
+        function updateIsPrjectLeaderStatus(rollno, isChecked){
+          var jData = new Object();
+          jData['rollno'] = rollno;
+          jData['isProjectLeader'] = isChecked;
+          showSpinnerOverlay();
+          $.ajax({
+              type: 'POST',
+              url: 'http://localhost:8081/updateIsPrjectLeaderStatus',
+              contentType: 'application/json',
+              data: JSON.stringify(jData),
+              success: function(data){
+                hideSpinnerOverlay();
+                  showAlert('Project Leader Status has been Updated for rollno: '+rollno, 'success');
+              },
+              error: function(err){
+                hideSpinnerOverlay();
+                  showAlert('Project Leader Status Update Failed for rollno: '+rollno, 'danger');
+              }
+          })
+        }
+
   </script>
